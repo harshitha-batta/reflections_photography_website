@@ -4,6 +4,16 @@ const User = require('../models/User'); // Replace with the path to your User mo
 const passport = require('passport');
 const bcrypt = require('bcrypt'); // To hash passwords securely
 
+// Show Register Page
+router.get('/register', (req, res) => {
+  res.render('register', { title: 'Register' }); // Renders the register.ejs view
+});
+
+// Show Login Page
+router.get('/login', (req, res) => {
+  res.render('login', { title: 'Login' }); // Renders the login.ejs view
+});
+
 // Handle Register Form Submission
 router.post('/register', async (req, res) => {
   try {
