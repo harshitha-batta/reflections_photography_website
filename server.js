@@ -69,6 +69,16 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');
 });
+// Make user variable available to all EJS templates
+app.use((req, res, next) => {
+  res.locals.user = req.user || null; // `req.user` is provided by Passport
+  next();
+});
+app.use((req, res, next) => {
+  console.log('Current user:', req.user); // Log the user object
+  res.locals.user = req.user || null;
+  next();
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;
