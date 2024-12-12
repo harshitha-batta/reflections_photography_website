@@ -46,11 +46,26 @@ router.post('/register', async (req, res) => {
 
 
 // Handle Login Form Submission
-router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/auth/login',
-  failureFlash: true, // Enable flash messages for login failure
-}));
+ router.post(
+  '/login',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/auth/login',
+    failureFlash: true,
+  })
+);
 
+
+router.get('/logout', (req, res) => {
+  req.logout(err => {
+    if (err) {
+      console.error('Error during logout:', err.message);
+      req.flash('error', 'An error occurred during logout.');
+      return res.redirect('/');
+    }
+    req.flash('success', 'You have been logged out.');
+    res.redirect('/auth/login');
+  });
+});
 
 module.exports = router;

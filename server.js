@@ -57,6 +57,17 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files (CSS, JS, images)
 app.use(express.static(path.join(__dirname, 'public')));
+const flash = require('connect-flash');
+
+// Initialize flash middleware
+app.use(flash());
+
+// Middleware to pass flash messages to templates
+app.use((req, res, next) => {
+  res.locals.successMessage = req.flash('success');
+  res.locals.errorMessage = req.flash('error');
+  next();
+});
 
 // Make user variable available to all EJS templates
 app.use((req, res, next) => {
@@ -77,17 +88,6 @@ app.use('/auth', authRoutes);
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');
-});
-const flash = require('connect-flash');
-
-// Add flash middleware
-app.use(flash());
-
-// Middleware to make flash messages available to all templates
-app.use((req, res, next) => {
-  res.locals.successMessage = req.flash('success');
-  res.locals.errorMessage = req.flash('error');
-  next();
 });
 
 
