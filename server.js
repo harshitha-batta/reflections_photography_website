@@ -5,14 +5,14 @@ const passport = require('passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const path = require('path');
-const authRoutes = require('./routes/auth'); // Authentication routes
 
+const authRoutes = require('./routes/auth'); // Adjust the path if needed
 const app = express();
 
 // Middleware for parsing JSON and forms
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use('/auth', authRoutes);
 // MongoDB Atlas Connection
 const connectDB = async () => {
   try {
@@ -58,8 +58,6 @@ app.set('views', path.join(__dirname, 'views'));
 // Serve static files (CSS, JS, images)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
-app.use('/auth', authRoutes);
 
 // Define the root route
 app.get('/', (req, res) => {
