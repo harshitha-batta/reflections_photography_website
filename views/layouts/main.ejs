@@ -20,8 +20,17 @@
       </ul>
     </nav>
   </header>
+  
+  <!-- Flash Messages -->
+  <% if (successMessage) { %>
+    <div class="flash success"><%= successMessage %></div>
+  <% } %>
+  <% if (errorMessage) { %>
+    <div class="flash error"><%= errorMessage %></div>
+  <% } %>
+  
   <main>
-    <%- body %>
+    <!-- Each individual page will provide its specific content here -->
   </main>
   <footer>
     <p>&copy; 2024 My App</p>

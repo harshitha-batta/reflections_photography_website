@@ -12,7 +12,7 @@ const app = express();
 // Middleware for parsing JSON and forms
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/auth', authRoutes);
+
 // MongoDB Atlas Connection
 const connectDB = async () => {
   try {
@@ -58,27 +58,38 @@ app.set('views', path.join(__dirname, 'views'));
 // Serve static files (CSS, JS, images)
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Make user variable available to all EJS templates
+app.use((req, res, next) => {
+  console.log('Current user:', req.user); // Log the user object for debugging
+  res.locals.user = req.user || null;
+  next();
+});
 
 // Define the root route
 app.get('/', (req, res) => {
   res.render('index', { title: 'Home Page' }); // Render an EJS view
 });
 
+// Routes
+app.use('/auth', authRoutes);
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');
 });
-// Make user variable available to all EJS templates
+const flash = require('connect-flash');
+
+// Add flash middleware
+app.use(flash());
+
+// Middleware to make flash messages available to all templates
 app.use((req, res, next) => {
-  res.locals.user = req.user || null; // `req.user` is provided by Passport
+  res.locals.successMessage = req.flash('success');
+  res.locals.errorMessage = req.flash('error');
   next();
 });
-app.use((req, res, next) => {
-  console.log('Current user:', req.user); // Log the user object
-  res.locals.user = req.user || null;
-  next();
-});
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;

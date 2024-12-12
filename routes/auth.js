@@ -19,31 +19,38 @@ router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if the user already exists
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return res.status(400).send('User already exists.');
+    // Validate input
+    if (!name || !email || !password) {
+      req.flash('error', 'All fields are required.');
+      return res.redirect('/auth/register');
     }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      req.flash('error', 'User already exists.');
+      return res.redirect('/auth/register');
+    }
 
-    // Create a new user with the hashed password
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
 
-    res.redirect('/auth/login'); // Redirect to login page after successful registration
+    req.flash('success', 'Registration successful! Please log in.');
+    res.redirect('/auth/login');
   } catch (err) {
     console.error('Error during registration:', err.message);
-    res.status(500).send('Internal Server Error');
+    req.flash('error', 'An error occurred. Please try again.');
+    res.redirect('/auth/register');
   }
 });
 
+
 // Handle Login Form Submission
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/', // Redirect to the home page after successful login
-  failureRedirect: '/auth/login', // Redirect back to login page on failure
-  failureFlash: false, // Set to true if you're using flash messages
+  successRedirect: '/',
+  failureRedirect: '/auth/login',
+  failureFlash: true, // Enable flash messages for login failure
 }));
+
 
 module.exports = router;
