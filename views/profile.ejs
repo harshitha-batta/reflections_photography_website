@@ -1,0 +1,6 @@
+<%- include('./layouts/main', { title: 'Profile' }) %>
+<div class="profile-page">
+  <h1>Welcome, <%= user.name %>!</h1>
+  <p>Email: <%= user.email %></p>
+  <a href="/auth/logout">Logout</a>
+</div>
