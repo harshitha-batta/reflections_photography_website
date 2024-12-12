@@ -4,8 +4,9 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const authRoutes = require('./routes/auth'); // Authentication routes
 const path = require('path');
+const authRoutes = require('./routes/auth'); // Authentication routes
+
 const app = express();
 
 // Middleware for parsing JSON and forms
@@ -13,22 +14,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // MongoDB Atlas Connection
-mongoose.connect(
-  `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}/${process.env.DATABASE}?retryWrites=true&w=majority`,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
-  (err) => {
-    if (!err) {
-      console.log('MongoDB Connection Succeeded.');
-    } else {
-      console.error('Error in DB connection:', err);
-    }
+const connectDB = async () => {
+  try {
+    await mongoose.connect(
+      `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}/${process.env.DATABASE}?retryWrites=true&w=majority`,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
+    );
+    console.log('MongoDB Atlas connected successfully.');
+  } catch (err) {
+    console.error('MongoDB connection error:', err.message);
+    process.exit(1); // Exit process with failure
   }
-);
+};
 
-module.exports = mongoose;
+connectDB(); // Call the async function
 
 // Session configuration
 app.use(
@@ -47,9 +49,7 @@ require('./config/passport'); // Passport configuration
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
-app.use('/auth', authRoutes);
-// Set EJS as templating engine
+// Set EJS as the templating engine
 app.set('view engine', 'ejs');
 
 // Set the views directory
@@ -58,6 +58,21 @@ app.set('views', path.join(__dirname, 'views'));
 // Serve static files (CSS, JS, images)
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Routes
+app.use('/auth', authRoutes);
+
+// Define the root route
+app.get('/', (req, res) => {
+  res.render('index', { title: 'Home Page' }); // Render an EJS view
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
+
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -1,16 +1,17 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const User = require('../models/User'); // Adjust the path to your User model
+const User = require('../models/User'); // Replace with the path to your User model
+const bcrypt = require('bcrypt');
 
-// Define the Local Strategy
+// Configure Local Strategy
 passport.use(
   new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
     try {
       const user = await User.findOne({ email });
-      if (!user) return done(null, false, { message: 'No user found' });
+      if (!user) return done(null, false, { message: 'No user found.' });
 
-      const isMatch = await user.validatePassword(password);
-      if (!isMatch) return done(null, false, { message: 'Incorrect password' });
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) return done(null, false, { message: 'Incorrect password.' });
 
       return done(null, user);
     } catch (err) {
@@ -19,14 +20,14 @@ passport.use(
   })
 );
 
-// Serialize and deserialize users
+// Serialize and deserialize user
 passport.serializeUser((user, done) => {
-  done(null, user.id); // Store the user ID in the session
+  done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.findById(id); // Retrieve user from the database
+    const user = await User.findById(id);
     done(null, user);
   } catch (err) {
     done(err);

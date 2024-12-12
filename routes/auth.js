@@ -1,61 +1,39 @@
 const express = require('express');
-const passport = require('passport');
-const User = require('../models/User');
 const router = express.Router();
-router.get('/register', (req, res) => {
-  res.render('auth/register');
-});
+const User = require('../models/User'); // Replace with the path to your User model
+const passport = require('passport');
+const bcrypt = require('bcrypt'); // To hash passwords securely
 
-router.get('/login', (req, res) => {
-  res.render('auth/login');
-});
-
-router.get('/profile', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.render('profile', { user: req.user });
-  } else {
-    res.redirect('/auth/login');
-  }
-});
-
-// Registration
+// Handle Register Form Submission
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if user already exists
+    // Check if the user already exists
     const userExists = await User.findOne({ email });
-    if (userExists) return res.status(400).send('User already exists.');
+    if (userExists) {
+      return res.status(400).send('User already exists.');
+    }
 
-    // Create a new user
-    const newUser = new User({ name, email, password });
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user with the hashed password
+    const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
-    res.status(201).send('User registered successfully.');
+
+    res.redirect('/auth/login'); // Redirect to login page after successful registration
   } catch (err) {
-    res.status(500).send('Error: ' + err.message);
+    console.error('Error during registration:', err.message);
+    res.status(500).send('Internal Server Error');
   }
 });
 
-// Login
-router.post('/login', passport.authenticate('local'), (req, res) => {
-  res.send('Logged in successfully');
-});
-
-// Logout
-router.get('/logout', (req, res) => {
-  req.logout((err) => {
-    if (err) return res.status(500).send(err.message);
-    res.send('Logged out successfully');
-  });
-});
-
-// Protected route
-router.get('/profile', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.send(`Welcome ${req.user.name}`);
-  } else {
-    res.status(401).send('Unauthorized');
-  }
-});
+// Handle Login Form Submission
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/', // Redirect to the home page after successful login
+  failureRedirect: '/auth/login', // Redirect back to login page on failure
+  failureFlash: false, // Set to true if you're using flash messages
+}));
 
 module.exports = router;
