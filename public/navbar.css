@@ -97,6 +97,16 @@
   flex: 1; /* Allow content to expand */
 }
 
+
+/* Sticky Footer for Short Content */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 /* Footer Styles */
 footer {
   text-align: center;
@@ -107,13 +117,4 @@ footer {
   position: relative; /* Prevent footer overlap */
   bottom: 0;
   width: 100%;
-}
-
-/* Sticky Footer for Short Content */
-body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 }

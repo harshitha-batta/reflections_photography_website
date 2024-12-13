@@ -10,16 +10,11 @@
 <body>
 <header>
   <nav class="navbar">
-    <!-- Logo -->
     <div class="logo">
-      <a href="/">My App</a>
+      <a href="/">Reflections</a>
     </div>
-    <!-- Navigation Links -->
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
-      <li><a href="/videos">Videos</a></li>
-      <li><a href="/leaderboard">Leaderboard</a></li>
-      <li><a href="/challenges">Challenges</a></li>
       <% if (!user) { %>
         <li><a href="/auth/login">Login</a></li>
         <li><a href="/auth/register">Register</a></li>
@@ -28,7 +23,6 @@
         <li><a href="/auth/logout">Logout</a></li>
       <% } %>
     </ul>
-    <!-- Hamburger Menu -->
     <div class="hamburger">
       <span></span>
       <span></span>
@@ -36,7 +30,6 @@
     </div>
   </nav>
 </header>
-
 
   
   <!-- Flash Messages -->
@@ -50,8 +43,8 @@
   <main>
     <!-- Each individual page will provide its specific content here -->
   </main>
-  <footer>
+<!--   <footer>
     <p>&copy; 2024 My App</p>
-  </footer>
+  </footer> -->
 </body>
 </html>
