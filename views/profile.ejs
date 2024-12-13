@@ -2,5 +2,24 @@
 <div class="profile-page">
   <h1>Welcome, <%= user.name %>!</h1>
   <p>Email: <%= user.email %></p>
+
+  <% if (user.role === 'admin') { %>
+    <h2>Admin Actions</h2>
+    <ul>
+      <li><a href="/admin/dashboard">View Dashboard</a></li>
+      <li><a href="/admin/manage-users">Manage Users</a></li>
+      <li><a href="/admin/manage-photos">Manage Photos</a></li>
+      <li><a href="/admin/manage-comments">Moderate Comments</a></li>
+    </ul>
+  <% } else { %>
+    <h2>User Actions</h2>
+    <ul>
+      <li><a href="/gallery">Browse Galleries</a></li>
+      <li><a href="/profile/photos">Your Uploaded Photos</a></li>
+      <li><a href="/profile/likes">Your Liked Photos</a></li>
+      <li><a href="/profile/comments">Your Comments</a></li>
+    </ul>
+  <% } %>
+
   <a href="/auth/logout">Logout</a>
 </div>

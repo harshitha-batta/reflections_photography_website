@@ -11,11 +11,14 @@ const userSchema = new mongoose.Schema({
 
 
 // Hash the password before saving
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
-});
+userSchema.methods.validatePassword = async function (password) {
+  console.log('Provided Password:', password); // Log the provided password
+  console.log('Stored Hash:', this.password); // Log the stored hash
+  const isMatch = await bcrypt.compare(password, this.password);
+  console.log('Password Match:', isMatch); // Log whether the passwords match
+  return isMatch;
+};
+
 
 // Validate password
 userSchema.methods.validatePassword = async function (password) {
