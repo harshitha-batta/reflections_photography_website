@@ -8,6 +8,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   font-family: Arial, sans-serif;
   position: relative;
+  z-index: 10; /* Ensure navbar stays on top */
 }
 
 /* Logo */
@@ -20,11 +21,15 @@
 
 /* Navigation Links */
 .navbar .nav-links {
+  list-style: none;
   display: flex;
   gap: 20px;
-  list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.navbar .nav-links li {
+  display: inline;
 }
 
 .navbar .nav-links li a {
@@ -32,7 +37,7 @@
   font-size: 1em;
   font-weight: bold;
   color: #000; /* Black text for links */
-  padding: 5px 10px; /* Add some padding */
+  padding: 5px 10px; /* Add padding for hover area */
   border-radius: 5px; /* Rounded corners */
   transition: background-color 0.3s, color 0.3s;
 }
@@ -70,6 +75,7 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Dropdown shadow */
+    z-index: 100;
   }
 
   /* Show nav links when active */
@@ -83,36 +89,16 @@
   }
 }
 
-/* Optional: Search Bar */
-.search-bar {
-  display: flex;
-  align-items: center;
-  background-color: #f0f0f0; /* Light gray background */
-  border-radius: 5px;
-  overflow: hidden;
-  padding: 5px;
-  margin-left: 20px; /* Adjust spacing */
+/* Main Content Layout (Prevent Overlap with Navbar) */
+.main-content {
+  margin-top: 100px; /* Push content below navbar */
 }
 
-.search-bar input {
-  border: none;
-  outline: none;
-  padding: 10px;
-  font-size: 1em;
-  width: 200px; /* Adjust width */
-}
-
-.search-bar button {
-  border: none;
-  outline: none;
-  background-color: #0073e6; /* Blue button */
-  color: white;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s;
-}
-
-.search-bar button:hover {
-  background-color: #005bb5; /* Darker blue hover effect */
+/* Footer Styles */
+footer {
+  text-align: center;
+  margin-top: auto;
+  padding: 10px 0;
+  background-color: #f9f9f9; /* Light background for footer */
+  color: #333; /* Darker text */
 }

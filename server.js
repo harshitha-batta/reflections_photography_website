@@ -7,6 +7,7 @@ const MongoStore = require('connect-mongo');
 const path = require('path');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
+
 const authRoutes = require('./routes/auth'); // Authentication routes
 const { isAuthenticated, isAdmin } = require('./middlewares/roles'); // Role-based middleware
 
@@ -16,13 +17,17 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 // MongoDB Atlas Connection
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(
+      `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}/${process.env.DATABASE}?retryWrites=true&w=majority`,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
+    );
     console.log('MongoDB Atlas connected successfully.');
   } catch (err) {
     console.error('MongoDB connection error:', err.message);
@@ -42,7 +47,7 @@ if (!process.env.SESSION_SECRET) {
 }
 
 const sessionStore = MongoStore.create({
-  mongoUrl: process.env.MONGO_URI,
+  mongoUrl: `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}/${process.env.DATABASE}`,
 });
 
 app.use(
@@ -85,15 +90,19 @@ app.use((req, res, next) => {
 
 // Middleware to make user and role available to all templates
 app.use((req, res, next) => {
+  console.log('Session Data:', req.session); // Debugging log
+  console.log('Cookies:', req.cookies); // Debugging log
+  console.log('Authenticated User:', req.isAuthenticated() ? req.user : 'None'); // Debugging log
+
   if (req.isAuthenticated()) {
     res.locals.user = req.user;
-    console.log(`Authenticated User: ${req.user.email}, Role: ${req.user.role}`);
+    console.log('User Role:', req.user.role); // Log user role for debugging
   } else {
     res.locals.user = null;
-    console.log('No authenticated user.');
   }
   next();
 });
+
 
 // Define the root route
 app.get('/', (req, res) => {
@@ -110,8 +119,8 @@ app.use('/auth', authRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err.stack || err.message || err);
-  res.status(err.status || 500).send('Something went wrong!');
+  console.error('Error occurred:', err.stack);
+  res.status(500).send('Something went wrong!');
 });
 
 // Start the server
