@@ -5,6 +5,7 @@ const passport = require('passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const path = require('path');
+const flash = require('connect-flash');
 
 const authRoutes = require('./routes/auth'); // Adjust the path if needed
 const app = express();
@@ -35,7 +36,7 @@ connectDB(); // Call the async function
 // Session configuration
 app.use(
   session({
-    secret: 'your_secret_key', // Change this to something secure
+    secret: process.env.SESSION_SECRET || 'your_secret_key', // Change this to something secure
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
@@ -57,7 +58,6 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files (CSS, JS, images)
 app.use(express.static(path.join(__dirname, 'public')));
-const flash = require('connect-flash');
 
 // Initialize flash middleware
 app.use(flash());
@@ -69,10 +69,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// Make user variable available to all EJS templates
+// Middleware to make user available to all EJS templates
 app.use((req, res, next) => {
-  console.log('Current user:', req.user); // Log the user object for debugging
-  res.locals.user = req.user || null;
+  if (req.isAuthenticated()) {
+    res.locals.user = req.user;
+  } else {
+    res.locals.user = null;
+  }
+  console.log('Current user:', res.locals.user); // Debugging log
   next();
 });
 
@@ -89,7 +93,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');
 });
-
 
 // Start the server
 const PORT = process.env.PORT || 3000;

@@ -17,31 +17,42 @@ router.get('/login', (req, res) => {
 // Handle Register Form Submission
 router.post('/register', async (req, res) => {
   try {
+    console.log('Registration Body:', req.body); // Log registration data
     const { name, email, password } = req.body;
 
-    // Validate inputs
     if (!name || !email || !password) {
       req.flash('error', 'All fields are required.');
       return res.redirect('/auth/register');
     }
 
-    // Check if the user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
       req.flash('error', 'Email is already registered.');
       return res.redirect('/auth/register');
     }
 
-    // Save new user
     const newUser = new User({ name, email, password });
     await newUser.save();
 
+    console.log('New user created:', newUser); // Debug user creation
     req.flash('success', 'Registration successful! Please log in.');
     res.redirect('/auth/login');
   } catch (err) {
     console.error('Registration Error:', err.message);
     req.flash('error', 'An error occurred during registration.');
     res.redirect('/auth/register');
+  }
+});
+//Get profile
+router.get('/profile', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.render('profile', {
+      title: 'Your Profile',
+      user: req.user, // Pass the authenticated user to the view
+    });
+  } else {
+    req.flash('error', 'Please log in to view this page.');
+    res.redirect('/auth/login');
   }
 });
 
@@ -51,15 +62,14 @@ router.post('/register', async (req, res) => {
 router.post(
   '/login',
   passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/auth/profile',
     failureRedirect: '/auth/login',
     failureFlash: true,
   }),
   (req, res) => {
-    console.log('Login Successful:', req.user); // Debugging log
+    console.log('Authenticated User:', req.user); // Debug user object
   }
 );
-
 
 
 router.get('/logout', (req, res) => {
