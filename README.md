@@ -1,44 +1,58 @@
-# Hello Node!
+# Reflections - A Photography Website
 
-This project includes a Node.js server script and a web page that connects to it. The front-end page presents a form the visitor can use to submit a color name, sending the submitted value to the back-end API running on the server. The server returns info to the page that allows it to update the display with the chosen color. 🎨
+## **Description**
 
-[Node.js](https://nodejs.org/en/about/) is a popular runtime that lets you run server-side JavaScript. This project uses the [Fastify](https://www.fastify.io/) framework and explores basic templating with [Handlebars](https://handlebarsjs.com/).
+Reflections is a photography website designed to showcase stunning photo galleries, enable photographers to share their portfolios, and foster a vibrant community for photography enthusiasts. The platform caters to both **guest users** and **admin users (photographers)**, offering unique features and an intuitive interface tailored to their needs.
 
-_Last updated: 14 August 2023_
+### **Features**
+- **Guest Users**:
+  - Browse categorized photo galleries by genres (e.g., Landscapes, Portraits).
+  - Like and comment on photos.
+  - Search functionality to discover specific photos or photographers.
+  
+- **Admin Users (Photographers)**:
+  - Upload and manage their photos.
+  - Create and organize galleries.
+  - Maintain personalized profile pages and portfolios.
+  - Write and publish blog posts to share tips and foster discussions.
 
-## Prerequisites
+### **Blog Section**
+Photographers can contribute articles, share photography tips, and engage in meaningful discussions within the community. This feature aims to strengthen connections and encourage knowledge sharing.
 
-You'll get best use out of this project if you're familiar with basic JavaScript. If you've written JavaScript for client-side web pages this is a little different because it uses server-side JS, but the syntax is the same!
+### **Data Management (CRUD Operations)**
+- **Admin Users**:
+  - **Create**: Upload photos, create galleries, and write blog posts.
+  - **Read**: View galleries, comments, and community contributions.
+  - **Update**: Edit profile details, galleries, and blog posts.
+  - **Delete**: Remove unwanted content from their portfolio.
 
-## What's in this project?
+- **Guest Users**:
+  - Can browse, like, and comment on content but cannot upload or manage entries.
 
-← `README.md`: That’s this file, where you can tell people what your cool website does and how you built it.
+### **Backend System**
+The backend manages user authentication, photo uploads, and content moderation. Security and seamless data management are prioritized to ensure a smooth experience for all users.
 
-← `public/style.css`: The styling rules for the pages in your site.
+---
 
-← `server.js`: The **Node.js** server script for your new site. The JavaScript defines the endpoints in the site back-end, one to return the homepage and one to update with the submitted color. Each one sends data to a Handlebars template which builds these parameter values into the web page the visitor sees.
+## **Group Members**
+1. **Anusha Shiva Kumar** – ANS797  
+2. **Harshita Batta** – HAB213  
+3. **Neha Navarkar** – NEN28
 
-← `package.json`: The NPM packages for your project's dependencies.
+---
 
-← `src/`: This folder holds the site template along with some basic data files.
+## **Technologies Used**
+- **Frontend**: HTML, CSS, JavaScript, EJS Templates
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB Atlas
+- **Authentication**: JWT, Passport.js
+- **Cloud Storage**: AWS S3 (for photo uploads)
+- **Deployment**: Glitch / Heroku
 
-← `src/pages/index.hbs`: This is the main page template for your site. The template receives parameters from the server script, which it includes in the page HTML. The page sends the user submitted color value in the body of a request, or as a query parameter to choose a random color.
+---
 
-← `src/colors.json`: A collection of CSS color names. We use this in the server script to pick a random color, and to match searches against color names.
-
-← `src/seo.json`: When you're ready to share your new site or add a custom domain, change SEO/meta settings in here.
-
-## Try this next 🏗️
-
-Take a look in `TODO.md` for next steps you can try out in your new site!
-
-___Want a minimal version of this project to build your own Node.js app? Check out [Blank Node](https://glitch.com/edit/#!/remix/glitch-blank-node)!___
-
-![Glitch](https://cdn.glitch.com/a9975ea6-8949-4bab-addb-8a95021dc2da%2FLogo_Color.svg?v=1602781328576)
-
-## You built this with Glitch!
-
-[Glitch](https://glitch.com) is a friendly community where millions of people come together to build web apps and websites.
-
-- Need more help? [Check out our Help Center](https://help.glitch.com/) for answers to any common questions.
-- Ready to make it official? [Become a paid Glitch member](https://glitch.com/pricing) to boost your app with private sharing, more storage and memory, domains and more.
+## **How to Run the Project**
+1. Clone the repository:
+   ```bash
+   git clone <repository-link>
+   cd reflections
