@@ -74,6 +74,7 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
       sameSite: 'lax', // Prevent CSRF
       maxAge: 3600000, // 1 hour
     });
+    console.log('JWT Cookie Set:', res.getHeader('Set-Cookie')); // Debugging log
     res.redirect('/auth/profile');
   } catch (err) {
     console.error('Login Error:', err.message);
@@ -82,9 +83,16 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
   }
 });
 
+
 // Get Profile Page
-router.get('/profile', isAuthenticated, (req, res) => {
+router.get('/profile', (req, res) => {
+  console.log('Incoming Cookies:', req.cookies); // Debugging log
+
   const token = req.cookies.jwt;
+  if (!token) {
+    req.flash('error', 'Unauthorized. Please log in.');
+    return res.redirect('/auth/login');
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
@@ -96,6 +104,7 @@ router.get('/profile', isAuthenticated, (req, res) => {
     res.redirect('/auth/login');
   }
 });
+
 
 // Admin Dashboard
 router.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
