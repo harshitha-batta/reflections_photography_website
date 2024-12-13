@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User'); // Replace with the path to your User model
+const User = require('../models/User');
 const passport = require('passport');
-const bcrypt = require('bcrypt'); // To hash passwords securely
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const path = require('path');
+const Photo = require('../models/Photo');
 const { isAdmin, isAuthenticated } = require('../middlewares/roles');
 
 // JWT Generation Function
@@ -53,7 +56,6 @@ router.post('/register', async (req, res) => {
     });
 
     await newUser.save();
-    console.log('New User Registered:', newUser); // Debugging log
     req.flash('success', 'Registration successful! Please log in.');
     res.redirect('/auth/login');
   } catch (err) {
@@ -66,14 +68,13 @@ router.post('/register', async (req, res) => {
 // Handle Login Form Submission
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
   try {
-    if (!req.user) {
+    const user = req.user;
+    if (!user) {
       req.flash('error', 'Authentication failed.');
       return res.redirect('/auth/login');
     }
 
-    const token = generateToken(req.user);
-    console.log('Generated JWT:', token); // Debugging log
-
+    const token = generateToken(user);
     res.cookie('jwt', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -88,35 +89,25 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
   }
 });
 
-
-
 // Get Profile Page
 router.get('/profile', isAuthenticated, async (req, res) => {
-  console.log('Authenticated User:', req.user); // Debugging log
+  try {
+    const user = req.user;
+    const photos = await Photo.find({ uploadedBy: user.id });
 
-  if (!req.user) {
-    req.flash('error', 'Session error. Please log in again.');
-    return res.redirect('/auth/login');
+    res.render('profile', {
+      title: 'Your Profile',
+      user,
+      photos,
+    });
+  } catch (err) {
+    console.error('Error loading profile:', err.message);
+    req.flash('error', 'An error occurred while loading your profile.');
+    res.redirect('/auth/login');
   }
-
-  // Fetch user-specific data
-  const photos = await Photo.find({ uploadedBy: req.user.id });
-
-  res.render('profile', {
-    title: 'Your Profile',
-    user: req.user,
-    photos,
-  });
 });
 
-
-
-
-const multer = require('multer'); // For handling file uploads
-const path = require('path');
-const Photo = require('../models/Photo'); // Assuming Photo model is defined
-
-// Multer configuration for storing uploaded files
+// Multer configuration for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.join(__dirname, '../public/uploads'));
@@ -128,6 +119,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// Photo Upload Route
 router.post('/profile/upload-photo', isAuthenticated, upload.single('photo'), async (req, res) => {
   try {
     if (!req.file) {
@@ -151,22 +143,18 @@ router.post('/profile/upload-photo', isAuthenticated, upload.single('photo'), as
   }
 });
 
-
 // Admin Dashboard
-router.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
-  const token = req.cookies.jwt;
-
+router.get('/admin/dashboard', isAuthenticated, isAdmin, async (req, res) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
-    res.render('admin/dashboard', { title: 'Admin Dashboard', user: decoded });
+    res.render('admin/dashboard', { title: 'Admin Dashboard', user: req.user });
   } catch (err) {
-    console.error('Admin Route Error:', err.message);
-    req.flash('error', 'Session expired. Please log in again.');
+    console.error('Admin Dashboard Error:', err.message);
+    req.flash('error', 'Unable to load the admin dashboard.');
     res.redirect('/auth/login');
   }
 });
 
-// Admin Account Creation (Only for Admins)
+// Admin Account Creation
 router.post('/admin/create', isAuthenticated, isAdmin, async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -185,7 +173,7 @@ router.post('/admin/create', isAuthenticated, isAdmin, async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: 'admin', // Explicitly set role to admin
+      role: 'admin',
     });
 
     await newAdmin.save();

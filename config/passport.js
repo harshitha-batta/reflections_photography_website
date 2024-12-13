@@ -9,32 +9,29 @@ passport.use(
     try {
       const user = await User.findOne({ email });
       if (!user) {
-        console.log('No user found for email:', email);
+        console.log(`Authentication failed. No user found with email: ${email}`);
         return done(null, false, { message: 'Invalid email or password.' });
       }
 
       const isMatch = await user.validatePassword(password);
       if (!isMatch) {
-        console.log('Incorrect password for email:', email);
+        console.log(`Authentication failed. Incorrect password for email: ${email}`);
         return done(null, false, { message: 'Invalid email or password.' });
       }
 
-      console.log('User authenticated successfully:', user);
-      return done(null, user); // Pass the user to req.user
+      console.log(`User authenticated successfully: ${user.email}`);
+      return done(null, user); // Pass the user object to `req.user`
     } catch (err) {
-      console.error('Error during authentication:', err.message);
+      console.error(`Error during authentication for email: ${email}`, err.message);
       return done(err);
     }
   })
 );
 
-
-
-// JWT Generation for Stateless Authentication
+// JWT Generation Function
 const generateToken = (user) => {
   if (!process.env.JWT_SECRET) {
-    console.error('JWT_SECRET is not set in the environment.');
-    throw new Error('JWT_SECRET must be defined for secure token generation.');
+    throw new Error('JWT_SECRET must be defined in environment variables.');
   }
 
   const payload = {
@@ -44,19 +41,22 @@ const generateToken = (user) => {
     role: user.role, // Include role for role-based access control
   };
 
-  console.log('Generating JWT for user:', payload.email);
+  console.log(`Generating JWT for user: ${payload.email}`);
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
 // Serialize user into the session
 passport.serializeUser((user, done) => {
+  if (!user || !user.id) {
+    console.error('Cannot serialize user. Missing user or user ID.');
+    return done(new Error('Cannot serialize user.'));
+  }
   console.log(`Serializing user with ID: ${user.id}`);
   done(null, user.id);
 });
 
 // Deserialize user from the session
 passport.deserializeUser(async (id, done) => {
-  console.log(`Attempting to deserialize user with ID: ${id}`);
   try {
     const user = await User.findById(id);
     if (!user) {
@@ -66,7 +66,7 @@ passport.deserializeUser(async (id, done) => {
     console.log(`User successfully deserialized: ${user.email}`);
     done(null, user);
   } catch (err) {
-    console.error('Error during deserialization:', err.message);
+    console.error(`Error during deserialization for ID: ${id}`, err.message);
     done(err, null);
   }
 });

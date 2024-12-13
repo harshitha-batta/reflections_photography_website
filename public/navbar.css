@@ -1,47 +1,50 @@
-/* Navbar Styles (already in place) */
+/* Navbar Container */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
-  padding: 10px 20px;
-  color: white;
+  background-color: #fff; /* White background */
+  padding: 15px 30px; /* Adjust spacing */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   font-family: Arial, sans-serif;
+  position: relative;
 }
 
+/* Logo */
 .navbar .logo a {
-  color: white;
   text-decoration: none;
-  font-size: 1.5em;
+  font-size: 1.8em;
   font-weight: bold;
+  color: #000; /* Black color for logo text */
 }
 
+/* Navigation Links */
 .navbar .nav-links {
-  list-style: none;
   display: flex;
-  gap: 15px;
+  gap: 20px;
+  list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.navbar .nav-links li {
-  display: inline;
-}
-
-.navbar .nav-links a {
-  color: white;
+.navbar .nav-links li a {
   text-decoration: none;
   font-size: 1em;
+  font-weight: bold;
+  color: #000; /* Black text for links */
+  padding: 5px 10px; /* Add some padding */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.navbar .nav-links a:hover {
-  text-decoration: underline;
-  color: #f0a500;
+.navbar .nav-links li a:hover {
+  background-color: #f0f0f0; /* Light gray hover effect */
+  color: #0073e6; /* Blue hover text */
 }
 
 /* Hamburger Menu for Mobile */
 .navbar .hamburger {
-  display: none;
+  display: none; /* Hidden on larger screens */
   flex-direction: column;
   cursor: pointer;
 }
@@ -49,30 +52,67 @@
 .navbar .hamburger span {
   width: 25px;
   height: 3px;
-  background: white;
-  margin: 3px 0;
+  background-color: #000; /* Black lines */
+  margin: 4px 0;
   transition: all 0.3s ease;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  /* Hide nav links by default */
   .navbar .nav-links {
     display: none;
     flex-direction: column;
-    background: #333;
     position: absolute;
     top: 60px;
-    right: 0;
-    width: 200px;
+    right: 20px;
+    background-color: #fff;
     padding: 20px;
     border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Dropdown shadow */
   }
 
+  /* Show nav links when active */
   .navbar .nav-links.active {
     display: flex;
   }
 
+  /* Show hamburger menu */
   .navbar .hamburger {
     display: flex;
   }
+}
+
+/* Optional: Search Bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0; /* Light gray background */
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 5px;
+  margin-left: 20px; /* Adjust spacing */
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 1em;
+  width: 200px; /* Adjust width */
+}
+
+.search-bar button {
+  border: none;
+  outline: none;
+  background-color: #0073e6; /* Blue button */
+  color: white;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+.search-bar button:hover {
+  background-color: #005bb5; /* Darker blue hover effect */
 }
