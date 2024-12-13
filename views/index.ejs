@@ -4,10 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
+  <link rel="stylesheet" href="/styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
-  <h1>Welcome to the Home Page</h1>
-  <p><a href="/auth/register">Register</a></p>
-  <p><a href="/auth/login">Login</a></p>
+  <div class="container">
+    <!-- Left Panel -->
+    <div class="left-panel">
+      <div class="content">
+        <h1>Create and Sell Extraordinary Products</h1>
+        <p>Adopt the peace of nature!</p>
+        <a href="/auth/register" class="btn">Sign Up</a>
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+      <div class="form-container">
+        <img src="/path-to-logo/logo.png" alt="Logo" class="logo">
+        <h2>Welcome Back!</h2>
+        <form action="/auth/login" method="POST">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter Username" required>
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter Password" required>
+          <button type="submit">Login</button>
+        </form>
+        <a href="/auth/reset-password" class="forgot-link">Forgot your password? Click Here</a>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
