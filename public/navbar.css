@@ -1,16 +1,21 @@
 /* Navbar Container */
+
 .navbar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-between; /* Ensure space between logo and links */
+  align-items: center; /* Align vertically */
   background-color: #fff; /* White background */
   padding: 15px 30px; /* Adjust spacing */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   font-family: Arial, sans-serif;
-  position: sticky; /* Make navbar sticky */
-  top: 0; /* Stick to the top of the viewport */
+ /* Stick navbar at the top */
+  top: 0;
+  left: 0;
+  right: 0; /* Make sure navbar spans full width */
+
   z-index: 10; /* Ensure navbar stays on top */
 }
+
 
 /* Logo */
 .navbar .logo a {
@@ -90,31 +95,12 @@
   }
 }
 
-/* Main Content Layout (Prevent Overlap with Navbar) */
-.main-content {
-  margin-top: 80px; /* Adjust margin to align content below navbar */
-  padding: 0 20px; /* Add padding for smaller screens */
-  flex: 1; /* Allow content to expand */
-}
-
-
-/* Sticky Footer for Short Content */
+/* Main Content Layout */
 body {
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 }
 
-/* Footer Styles */
-footer {
-  text-align: center;
-  margin-top: auto;
-  padding: 10px 0;
-  background-color: #f9f9f9; /* Light background for footer */
-  color: #333; /* Darker text */
-  position: relative; /* Prevent footer overlap */
-  bottom: 0;
-  width: 100%;
+.main-content {
+  margin-top: 80px; /* Adjust to offset navbar height */
 }
