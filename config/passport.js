@@ -9,23 +9,25 @@ passport.use(
     try {
       const user = await User.findOne({ email });
       if (!user) {
-        console.log(`Authentication failed. No user found for email: ${email}`);
-        return done(null, false, { message: 'No account found with this email.' });
+        console.log('No user found for email:', email);
+        return done(null, false, { message: 'Invalid email or password.' });
       }
-      console.log(`Found User: ${user.email}`);
+
       const isMatch = await user.validatePassword(password);
-      console.log(`Password Validation for ${email}:`, isMatch);
       if (!isMatch) {
-        console.log(`Authentication failed. Incorrect password for email: ${email}`);
-        return done(null, false, { message: 'Incorrect password.' });
+        console.log('Incorrect password for email:', email);
+        return done(null, false, { message: 'Invalid email or password.' });
       }
-      return done(null, user);
+
+      console.log('User authenticated successfully:', user);
+      return done(null, user); // Pass the user to req.user
     } catch (err) {
       console.error('Error during authentication:', err.message);
       return done(err);
     }
   })
 );
+
 
 
 // JWT Generation for Stateless Authentication
@@ -61,7 +63,6 @@ passport.deserializeUser(async (id, done) => {
       console.log(`Deserialization failed. No user found with ID: ${id}`);
       return done(null, false, { message: 'Session user not found.' });
     }
-
     console.log(`User successfully deserialized: ${user.email}`);
     done(null, user);
   } catch (err) {

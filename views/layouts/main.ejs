@@ -3,26 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>  
-  <link rel="stylesheet" href="/styles.css">
+ 
+    <link rel="stylesheet" href="/navbar.css">
     
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <% if (!user) { %>
-          <li><a href="/auth/login">Login</a></li>
-          <li><a href="/auth/register">Register</a></li>
-          <li><a href="/auth/profile">Profile</a></li>
-        <% } else { %>
-          <li><a href="/auth/profile">Profile</a></li>
-          <li><a href="/auth/logout">Logout</a></li>
-        <% } %>
-      </ul>
-    </nav>
-  </header>
+<header>
+  <nav class="navbar">
+    <!-- Logo -->
+    <div class="logo">
+      <a href="/">My App</a>
+    </div>
+    <!-- Navigation Links -->
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/videos">Videos</a></li>
+      <li><a href="/leaderboard">Leaderboard</a></li>
+      <li><a href="/challenges">Challenges</a></li>
+      <% if (!user) { %>
+        <li><a href="/auth/login">Login</a></li>
+        <li><a href="/auth/register">Register</a></li>
+      <% } else { %>
+        <li><a href="/auth/profile">Profile</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+      <% } %>
+    </ul>
+    <!-- Hamburger Menu -->
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>
+
+
   
   <!-- Flash Messages -->
   <% if (successMessage) { %>

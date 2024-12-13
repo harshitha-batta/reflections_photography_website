@@ -66,14 +66,20 @@ router.post('/register', async (req, res) => {
 // Handle Login Form Submission
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
   try {
+    if (!req.user) {
+      req.flash('error', 'Authentication failed.');
+      return res.redirect('/auth/login');
+    }
+
     const token = generateToken(req.user);
     console.log('Generated JWT:', token); // Debugging log
+
     res.cookie('jwt', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 3600000, // 1 hour
     });
-    console.log('JWT Cookie Set:', res.getHeader('Set-Cookie')); // Debugging log
+
     res.redirect('/auth/profile');
   } catch (err) {
     console.error('Login Error:', err.message);
@@ -83,26 +89,26 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
 });
 
 
+
 // Get Profile Page
 router.get('/profile', isAuthenticated, async (req, res) => {
-  try {
-    console.log('Authenticated User:', req.user); // Debugging log
+  console.log('Authenticated User:', req.user); // Debugging log
 
-    // Fetch additional data related to the user, like photos
-    const photos = await Photo.find({ uploadedBy: req.user.id });
-
-    // Render the profile page with user and additional data
-    res.render('profile', {
-      title: 'Your Profile',
-      user: req.user, // User is available from the `isAuthenticated` middleware
-      photos,
-    });
-  } catch (err) {
-    console.error('Error loading profile:', err.message);
-    req.flash('error', 'An error occurred while loading your profile.');
-    res.redirect('/auth/login');
+  if (!req.user) {
+    req.flash('error', 'Session error. Please log in again.');
+    return res.redirect('/auth/login');
   }
+
+  // Fetch user-specific data
+  const photos = await Photo.find({ uploadedBy: req.user.id });
+
+  res.render('profile', {
+    title: 'Your Profile',
+    user: req.user,
+    photos,
+  });
 });
+
 
 
 
