@@ -76,6 +76,7 @@ app.use((req, res, next) => {
   } else {
     res.locals.user = null;
   }
+   console.log('Session:', req.session); // Debugging log
   console.log('Current user:', res.locals.user); // Debugging log
   next();
 });

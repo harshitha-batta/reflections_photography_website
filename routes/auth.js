@@ -46,15 +46,13 @@ router.post('/register', async (req, res) => {
 //Get profile
 router.get('/profile', (req, res) => {
   if (req.isAuthenticated()) {
-    res.render('profile', {
-      title: 'Your Profile',
-      user: req.user, // Pass the authenticated user to the view
-    });
+    res.render('profile', { user: req.user });
   } else {
     req.flash('error', 'Please log in to view this page.');
     res.redirect('/auth/login');
   }
 });
+
 
 
 
@@ -67,9 +65,10 @@ router.post(
     failureFlash: true,
   }),
   (req, res) => {
-    console.log('Authenticated User:', req.user); // Debug user object
+    console.log('Logged-in user:', req.user); // Debugging log
   }
 );
+
 
 
 router.get('/logout', (req, res) => {
