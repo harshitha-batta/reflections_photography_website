@@ -11,6 +11,7 @@ function generateToken(user) {
     id: user._id,
     email: user.email,
     name: user.name,
+    role: user.role, // Include role in the token
   };
 
   return jwt.sign(payload, process.env.JWT_SECRET || 'your_jwt_secret', { expiresIn: '1h' });
@@ -29,15 +30,13 @@ router.get('/login', (req, res) => {
 // Handle Register Form Submission
 router.post('/register', async (req, res) => {
   try {
-    console.log('Registration Body:', req.body);
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     if (!name || !email || !password) {
       req.flash('error', 'All fields are required.');
       return res.redirect('/auth/register');
     }
 
-    console.log('Checking if user exists for email:', email);
     const userExists = await User.findOne({ email });
     if (userExists) {
       req.flash('error', 'Email is already registered.');
@@ -45,10 +44,15 @@ router.post('/register', async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPassword });
-    await newUser.save();
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role: role || 'user', // Default role
+    });
 
-    console.log('New user created:', newUser);
+    await newUser.save();
+    console.log('New User Registered:', newUser); // Debugging log
     req.flash('success', 'Registration successful! Please log in.');
     res.redirect('/auth/login');
   } catch (err) {
@@ -60,18 +64,23 @@ router.post('/register', async (req, res) => {
 
 // Handle Login Form Submission
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
-  const token = generateToken(req.user);
-  console.log('Generated JWT:', token); // Debugging log
-  res.cookie('jwt', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // Set to `true` for production (HTTPS on Glitch)
-    sameSite: 'lax', // Compatible with most browsers and prevents CSRF
-    maxAge: 3600000, // 1 hour
-  });
-  console.log('JWT Cookie Set:', res.getHeader('Set-Cookie')); // Debugging log
-  res.redirect('/auth/profile');
+  try {
+    const token = generateToken(req.user);
+    console.log('Generated JWT:', token); // Debugging log
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Enable in production
+      sameSite: 'lax', // Prevent CSRF
+      maxAge: 3600000, // 1 hour
+    });
+    console.log('JWT Cookie Set:', res.getHeader('Set-Cookie')); // Debugging log
+    res.redirect('/auth/profile');
+  } catch (err) {
+    console.error('Login Error:', err.message);
+    req.flash('error', 'An error occurred during login.');
+    res.redirect('/auth/login');
+  }
 });
-
 
 // Get Profile Page
 router.get('/profile', (req, res) => {
@@ -94,6 +103,29 @@ router.get('/profile', (req, res) => {
   }
 });
 
+// Admin-Only Route Example
+router.get('/admin/dashboard', (req, res) => {
+  const token = req.cookies.jwt;
+
+  if (!token) {
+    req.flash('error', 'Unauthorized. Please log in.');
+    return res.redirect('/auth/login');
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+    if (decoded.role !== 'admin') {
+      req.flash('error', 'Access denied. Admins only.');
+      return res.redirect('/');
+    }
+
+    res.render('admin/dashboard', { title: 'Admin Dashboard', user: decoded });
+  } catch (err) {
+    console.error('Admin Route Error:', err.message);
+    req.flash('error', 'Session expired. Please log in again.');
+    res.redirect('/auth/login');
+  }
+});
 
 // Handle Logout
 router.get('/logout', (req, res) => {

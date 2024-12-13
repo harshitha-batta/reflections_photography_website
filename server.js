@@ -8,7 +8,9 @@ const path = require('path');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 
-const authRoutes = require('./routes/auth'); // Adjust the path if needed
+const authRoutes = require('./routes/auth'); // Authentication routes
+const { isAuthenticated, isAdmin } = require('./middlewares/roles'); // Role-based middleware
+
 const app = express();
 
 // Middleware for parsing JSON and forms
@@ -32,7 +34,7 @@ const connectDB = async () => {
   }
 };
 
-connectDB(); // Call the async function
+connectDB(); // Connect to MongoDB
 
 // Initialize cookie-parser middleware
 app.use(cookieParser());
@@ -85,7 +87,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware to make user available to all EJS templates
+// Middleware to make user and role available to all templates
 app.use((req, res, next) => {
   console.log('Session Data:', req.session); // Debugging log
   console.log('Cookies:', req.cookies); // Debugging log
@@ -93,6 +95,7 @@ app.use((req, res, next) => {
 
   if (req.isAuthenticated()) {
     res.locals.user = req.user;
+    console.log('User Role:', req.user.role); // Log user role for debugging
   } else {
     res.locals.user = null;
   }
@@ -102,6 +105,11 @@ app.use((req, res, next) => {
 // Define the root route
 app.get('/', (req, res) => {
   res.render('index', { title: 'Home Page' }); // Render an EJS view
+});
+
+// Admin-only route for the admin dashboard
+app.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
+  res.render('admin/dashboard', { title: 'Admin Dashboard', user: req.user });
 });
 
 // Routes
