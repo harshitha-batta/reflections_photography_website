@@ -9,34 +9,48 @@
 </head>
 <body>
   <!-- Navbar -->
-  <%- include('layouts/main') %>
-<div class="login-container">
-  <!-- Left Panel -->
-  <div class="left-panel">
-    <div class="content">
-      <h1>Create And Sell Extraordinary Products</h1>
-      <p>Adopt the peace of nature!</p>
-      <a href="/auth/register" class="btn-signup">Sign Up</a>
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/">Reflections</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/auth/login">Login</a></li>
+        <li><a href="/auth/register">Register</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Login Page Container -->
+  <div class="login-page-container">
+    <!-- Left Panel -->
+    <div class="left-panel">
+      <div class="content">
+        <h1>Create And Sell Extraordinary Products</h1>
+        <p>Adopt the peace of nature!</p>
+        <div class="bottom-text">
+          <p>Don't have an account?</p>
+          <a href="/auth/register" class="btn">Sign Up</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+      <div class="form-container">
+        <img src="https://your-logo-url.png" alt="Reflections Logo" class="logo">
+        <h2>Welcome Back!</h2>
+        <form action="/auth/login" method="POST">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter Username" required>
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter Password" required>
+          <button type="submit" class="btn-login">Login</button>
+        </form>
+        <a href="/auth/reset-password" class="forgot-link">Forgot your password? Click Here</a>
+      </div>
     </div>
   </div>
-  
-  <!-- Right Panel -->
-  <div class="right-panel">
-    <div class="form-container">
-      <img src="logo.png" alt="Reflections Logo" class="logo">
-      <h2>Welcome Back!</h2>
-      <form action="/auth/login" method="POST">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter Username" required>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter Password" required>
-        <button type="submit" class="btn-login">Login</button>
-      </form>
-      <a href="/auth/reset-password" class="forgot-password">Forgot your password? Click Here</a>
-    </div>
-  </div>
-</div>
-
-
 </body>
 </html>
