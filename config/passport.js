@@ -7,22 +7,18 @@ const User = require('../models/User'); // Import User model
 passport.use(
   new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
     try {
-      console.log(`Authenticating user: ${email}`);
       const user = await User.findOne({ email });
-
       if (!user) {
         console.log(`Authentication failed. No user found for email: ${email}`);
         return done(null, false, { message: 'No account found with this email.' });
       }
-
-      // Validate the password using the model method
+      console.log(`Found User: ${user.email}`);
       const isMatch = await user.validatePassword(password);
+      console.log(`Password Validation for ${email}:`, isMatch);
       if (!isMatch) {
         console.log(`Authentication failed. Incorrect password for email: ${email}`);
         return done(null, false, { message: 'Incorrect password.' });
       }
-
-      console.log(`User authenticated successfully: ${user.email}`);
       return done(null, user);
     } catch (err) {
       console.error('Error during authentication:', err.message);
@@ -30,6 +26,7 @@ passport.use(
     }
   })
 );
+
 
 // JWT Generation for Stateless Authentication
 const generateToken = (user) => {

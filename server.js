@@ -102,6 +102,7 @@ app.use((req, res, next) => {
   next();
 });
 
+
 // Define the root route
 app.get('/', (req, res) => {
   res.render('index', { title: 'Home Page' }); // Render an EJS view

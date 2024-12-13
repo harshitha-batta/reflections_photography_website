@@ -19,7 +19,11 @@ userSchema.pre('save', async function (next) {
 
 // Validate password
 userSchema.methods.validatePassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
+  console.log('Provided Password:', password); // Log the input password
+  console.log('Stored Hash:', this.password); // Log the stored hash
+  const isMatch = await bcrypt.compare(password, this.password);
+  console.log('Password Match:', isMatch); // Log the result
+  return isMatch;
 };
 
 module.exports = mongoose.model('User', userSchema);
