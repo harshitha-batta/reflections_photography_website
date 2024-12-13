@@ -4,43 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/navbar.css"> <!-- Include Navbar styles -->
+  <link rel="stylesheet" href="/login.css"> <!-- Include Login styles -->
 </head>
 <body>
   <!-- Navbar -->
-  <header>
-    <nav class="navbar">
-      <div class="logo">Reflections</div>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/auth/login">Login</a></li>
-        <li><a href="/auth/register">Register</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!-- Main Content -->
-  <div class="container">
-    <!-- Left Panel -->
-    <div class="left-panel">
+  <%- include('layouts/main') %>
+<div class="login-container">
+  <!-- Left Panel -->
+  <div class="left-panel">
+    <div class="content">
       <h1>Create And Sell Extraordinary Products</h1>
       <p>Adopt the peace of nature!</p>
-      <a href="/auth/register">Sign Up</a>
+      <a href="/auth/register" class="btn-signup">Sign Up</a>
     </div>
-
-    <!-- Right Panel -->
-    <div class="right-panel">
-      <img src="https://cdn.glitch.global/94b02b90-c4c0-4d86-a9ff-d495a773f14b/thumbnails%2FReflections.png" alt="Logo" class="logo">
+  </div>
+  
+  <!-- Right Panel -->
+  <div class="right-panel">
+    <div class="form-container">
+      <img src="logo.png" alt="Reflections Logo" class="logo">
       <h2>Welcome Back!</h2>
       <form action="/auth/login" method="POST">
         <label for="username">Username</label>
         <input type="text" id="username" name="username" placeholder="Enter Username" required>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Enter Password" required>
-        <button type="submit">Login</button>
+        <button type="submit" class="btn-login">Login</button>
       </form>
-      <a href="/auth/reset-password" class="forgot-link">Forgot your password? Click Here</a>
+      <a href="/auth/reset-password" class="forgot-password">Forgot your password? Click Here</a>
     </div>
   </div>
+</div>
+
+
 </body>
 </html>

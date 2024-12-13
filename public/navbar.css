@@ -8,11 +8,9 @@
   padding: 15px 30px; /* Adjust spacing */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   font-family: Arial, sans-serif;
- /* Stick navbar at the top */
   top: 0;
   left: 0;
   right: 0; /* Make sure navbar spans full width */
-
   z-index: 10; /* Ensure navbar stays on top */
 }
 
