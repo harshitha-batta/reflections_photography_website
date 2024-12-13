@@ -2,60 +2,39 @@ const mongoose = require('mongoose');
 const Photo = require('./models/Photo'); // Path to your Photo model
 const User = require('./models/User');  // Path to your User model
 
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/photoGallery', {
+// Connect to your MongoDB database
+mongoose.connect('mongodb://localhost:27017/yourDatabaseName', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch(err => console.error(err));
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('Failed to connect to MongoDB', err));
 
-async function seedDatabase() {
+// Array of photos to insert
+const seedPhotos = [
+  {
+    url: 'https://cdn.glitch.global/94b02b90-c4c0-4d86-a9ff-d495a773f14b/dog.jpg?v=1734124999253',
+    caption: 'Cute Dog',
+    uploadedBy: '64b5c1a9e7f2b2b12e8f1234', // Replace with valid User ID
+    createdAt: new Date(),
+  },
+];
+
+// Seed the database
+const seedDatabase = async () => {
   try {
-    // Example users (ensure these users exist in the database)
-    const user1 = await User.findOne({ name: 'User 1' });
-    const user2 = await User.findOne({ name: 'User 2' });
-
-    if (!user1 || !user2) {
-      console.log('Please ensure the users exist in the database before running this script.');
-      return;
-    }
-
-    // Sample photo data
-    const photos = [
-      {
-        url: 'https://cdn.glitch.global/dc604644-5d05-44f1-ab42-b5ead1bd10e0/dog.jpg?v=1734122850023',
-        caption: 'Cute Dog',
-        uploadedBy: user1._id,
-      }
-      // {
-      //   url: '/uploads/photo2.jpg',
-      //   caption: 'A serene lake surrounded by lush greenery',
-      //   uploadedBy: user2._id,
-      // },
-      // {
-      //   url: '/uploads/photo3.jpg',
-      //   caption: 'A bustling cityscape at night',
-      //   uploadedBy: user1._id,
-      // },
-    ];
-
     // Clear existing photos
-    await Photo.deleteMany();
+    await Photo.deleteMany({});
     console.log('Existing photos cleared.');
 
     // Insert new photos
-    await Photo.insertMany(photos);
-    console.log('Sample photos inserted.');
-
-    // Close connection
-    mongoose.connection.close();
-    console.log('Database connection closed.');
-  } catch (error) {
-    console.error('Error seeding database:', error);
+    await Photo.insertMany(seedPhotos);
+    console.log('Photos seeded successfully.');
+  } catch (err) {
+    console.error('Error seeding photos:', err);
+  } finally {
     mongoose.connection.close();
   }
-}
+};
 
-// Run the script
 seedDatabase();

@@ -7,7 +7,8 @@
   padding: 15px 30px; /* Adjust spacing */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   font-family: Arial, sans-serif;
-  position: relative;
+  position: sticky; /* Make navbar sticky */
+  top: 0; /* Stick to the top of the viewport */
   z-index: 10; /* Ensure navbar stays on top */
 }
 
@@ -91,7 +92,9 @@
 
 /* Main Content Layout (Prevent Overlap with Navbar) */
 .main-content {
-  margin-top: 100px; /* Push content below navbar */
+  margin-top: 80px; /* Adjust margin to align content below navbar */
+  padding: 0 20px; /* Add padding for smaller screens */
+  flex: 1; /* Allow content to expand */
 }
 
 /* Footer Styles */
@@ -101,4 +104,16 @@ footer {
   padding: 10px 0;
   background-color: #f9f9f9; /* Light background for footer */
   color: #333; /* Darker text */
+  position: relative; /* Prevent footer overlap */
+  bottom: 0;
+  width: 100%;
+}
+
+/* Sticky Footer for Short Content */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
