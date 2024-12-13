@@ -84,25 +84,28 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
 
 
 // Get Profile Page
-router.get('/profile', (req, res) => {
-  console.log('Cookies:', req.cookies); // Debugging log
-  const token = req.cookies.jwt;
-
-  if (!token) {
-    req.flash('error', 'Unauthorized. Please log in.');
-    return res.redirect('/auth/login');
-  }
-
+router.get('/profile', isAuthenticated, async (req, res) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
-    console.log('Decoded JWT:', decoded); // Debugging log
-    res.render('profile', { title: 'Your Profile', user: decoded });
+    console.log('Authenticated User:', req.user); // Debugging log
+
+    // Fetch additional data related to the user, like photos
+    const photos = await Photo.find({ uploadedBy: req.user.id });
+
+    // Render the profile page with user and additional data
+    res.render('profile', {
+      title: 'Your Profile',
+      user: req.user, // User is available from the `isAuthenticated` middleware
+      photos,
+    });
   } catch (err) {
-    console.error('JWT verification error:', err.message);
-    req.flash('error', 'Session expired. Please log in again.');
+    console.error('Error loading profile:', err.message);
+    req.flash('error', 'An error occurred while loading your profile.');
     res.redirect('/auth/login');
   }
 });
+
+
+
 const multer = require('multer'); // For handling file uploads
 const path = require('path');
 const Photo = require('../models/Photo'); // Assuming Photo model is defined
