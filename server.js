@@ -106,7 +106,7 @@ app.use((req, res, next) => {
 
 // Define the root route
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Home Page' }); // Render an EJS view
+  res.render('gallery', { title: 'Home Page' }); // Render an EJS view
 });
 
 // Admin-only route for the admin dashboard

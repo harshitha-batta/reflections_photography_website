@@ -103,6 +103,44 @@ router.get('/profile', (req, res) => {
     res.redirect('/auth/login');
   }
 });
+const multer = require('multer'); // For handling file uploads
+const path = require('path');
+const Photo = require('../models/Photo'); // Assuming Photo model is defined
+
+// Multer configuration for storing uploaded files
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, '../public/uploads'));
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
+
+router.post('/profile/upload-photo', isAuthenticated, upload.single('photo'), async (req, res) => {
+  try {
+    if (!req.file) {
+      req.flash('error', 'No file uploaded.');
+      return res.redirect('/auth/profile');
+    }
+
+    const photo = new Photo({
+      url: `/uploads/${req.file.filename}`,
+      uploadedBy: req.user.id,
+      caption: req.body.caption || '',
+    });
+
+    await photo.save();
+    req.flash('success', 'Photo uploaded successfully!');
+    res.redirect('/auth/profile');
+  } catch (err) {
+    console.error('Error uploading photo:', err.message);
+    req.flash('error', 'An error occurred while uploading the photo.');
+    res.redirect('/auth/profile');
+  }
+});
 
 
 // Admin Dashboard

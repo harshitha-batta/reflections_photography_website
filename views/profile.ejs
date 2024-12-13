@@ -21,5 +21,28 @@
     </ul>
   <% } %>
 
+  <h2>Upload a Photo</h2>
+  <form action="/auth/profile/upload-photo" method="POST" enctype="multipart/form-data">
+    <label for="photo">Choose a photo:</label>
+    <input type="file" name="photo" id="photo" required>
+    <label for="caption">Caption:</label>
+    <input type="text" name="caption" id="caption" placeholder="Add a caption (optional)">
+    <button type="submit">Upload</button>
+  </form>
+
+  <h2>Your Uploaded Photos</h2>
+  <% if (photos && photos.length > 0) { %>
+    <div class="photo-gallery">
+      <% photos.forEach(photo => { %>
+        <div class="photo-item">
+          <img src="<%= photo.url %>" alt="Uploaded Photo">
+          <p><%= photo.caption %></p>
+        </div>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <p>No photos uploaded yet.</p>
+  <% } %>
+
   <a href="/auth/logout">Logout</a>
 </div>
