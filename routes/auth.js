@@ -4,6 +4,7 @@ const User = require('../models/User'); // Replace with the path to your User mo
 const passport = require('passport');
 const bcrypt = require('bcrypt'); // To hash passwords securely
 const jwt = require('jsonwebtoken');
+const { isAdmin, isAuthenticated } = require('../middlewares/roles');
 
 // JWT Generation Function
 function generateToken(user) {
@@ -73,7 +74,6 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
       sameSite: 'lax', // Prevent CSRF
       maxAge: 3600000, // 1 hour
     });
-    console.log('JWT Cookie Set:', res.getHeader('Set-Cookie')); // Debugging log
     res.redirect('/auth/profile');
   } catch (err) {
     console.error('Login Error:', err.message);
@@ -83,14 +83,8 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
 });
 
 // Get Profile Page
-router.get('/profile', (req, res) => {
-  console.log('Incoming Cookies:', req.cookies); // Debugging log
-
+router.get('/profile', isAuthenticated, (req, res) => {
   const token = req.cookies.jwt;
-  if (!token) {
-    req.flash('error', 'Unauthorized. Please log in.');
-    return res.redirect('/auth/login');
-  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
@@ -103,27 +97,47 @@ router.get('/profile', (req, res) => {
   }
 });
 
-// Admin-Only Route Example
-router.get('/admin/dashboard', (req, res) => {
+// Admin Dashboard
+router.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
   const token = req.cookies.jwt;
-
-  if (!token) {
-    req.flash('error', 'Unauthorized. Please log in.');
-    return res.redirect('/auth/login');
-  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
-    if (decoded.role !== 'admin') {
-      req.flash('error', 'Access denied. Admins only.');
-      return res.redirect('/');
-    }
-
     res.render('admin/dashboard', { title: 'Admin Dashboard', user: decoded });
   } catch (err) {
     console.error('Admin Route Error:', err.message);
     req.flash('error', 'Session expired. Please log in again.');
     res.redirect('/auth/login');
+  }
+});
+
+// Admin Account Creation (Only for Admins)
+router.post('/admin/create', isAuthenticated, isAdmin, async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: 'All fields are required.' });
+    }
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ error: 'Email is already registered.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newAdmin = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role: 'admin', // Explicitly set role to admin
+    });
+
+    await newAdmin.save();
+    res.status(201).json({ message: 'Admin account created successfully.', admin: newAdmin });
+  } catch (err) {
+    console.error('Error creating admin account:', err.message);
+    res.status(500).json({ error: 'An error occurred while creating the admin account.' });
   }
 });
 
