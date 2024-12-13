@@ -5,8 +5,6 @@ const passport = require('passport');
 const bcrypt = require('bcrypt'); // To hash passwords securely
 const jwt = require('jsonwebtoken');
 const { isAdmin, isAuthenticated } = require('../middlewares/roles');
-const Photo = require('../models/Photo'); // Assuming Photo model for user content
-const Comment = require('../models/Comment'); // Assuming Comment model
 
 // JWT Generation Function
 function generateToken(user) {
@@ -55,6 +53,7 @@ router.post('/register', async (req, res) => {
     });
 
     await newUser.save();
+    console.log('New User Registered:', newUser); // Debugging log
     req.flash('success', 'Registration successful! Please log in.');
     res.redirect('/auth/login');
   } catch (err) {
@@ -68,11 +67,13 @@ router.post('/register', async (req, res) => {
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
   try {
     const token = generateToken(req.user);
+    console.log('Generated JWT:', token); // Debugging log
     res.cookie('jwt', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 3600000, // 1 hour
     });
+    console.log('JWT Cookie Set:', res.getHeader('Set-Cookie')); // Debugging log
     res.redirect('/auth/profile');
   } catch (err) {
     console.error('Login Error:', err.message);
@@ -81,72 +82,70 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
   }
 });
 
-// Get Profile Page
-router.get('/profile', isAuthenticated, async (req, res) => {
-  try {
-    const token = req.cookies.jwt;
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
 
-    if (decoded.role === 'admin') {
-      // Admin-specific data (optional statistics, user activity)
-      const users = await User.find().select('name email role');
-      res.render('profile/admin', { title: 'Admin Dashboard', user: decoded, users });
-    } else {
-      // User-specific data (photos, likes, comments)
-      const photos = await Photo.find({ uploadedBy: decoded.id });
-      const comments = await Comment.find({ userId: decoded.id });
-      res.render('profile/user', { title: 'Your Profile', user: decoded, photos, comments });
-    }
+// Get Profile Page
+router.get('/profile', (req, res) => {
+  console.log('Cookies:', req.cookies); // Debugging log
+  const token = req.cookies.jwt;
+
+  if (!token) {
+    req.flash('error', 'Unauthorized. Please log in.');
+    return res.redirect('/auth/login');
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+    console.log('Decoded JWT:', decoded); // Debugging log
+    res.render('profile', { title: 'Your Profile', user: decoded });
   } catch (err) {
-    console.error('Profile Error:', err.message);
+    console.error('JWT verification error:', err.message);
     req.flash('error', 'Session expired. Please log in again.');
     res.redirect('/auth/login');
   }
 });
 
-// Admin-Specific Routes
-router.get('/admin/manage-galleries', isAuthenticated, isAdmin, async (req, res) => {
+
+// Admin Dashboard
+router.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
+  const token = req.cookies.jwt;
+
   try {
-    const galleries = await Photo.find(); // Replace with Gallery model if available
-    res.render('admin/manage-galleries', { title: 'Manage Galleries', galleries });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+    res.render('admin/dashboard', { title: 'Admin Dashboard', user: decoded });
   } catch (err) {
-    console.error('Error fetching galleries:', err.message);
-    req.flash('error', 'Unable to fetch galleries.');
-    res.redirect('/auth/profile');
+    console.error('Admin Route Error:', err.message);
+    req.flash('error', 'Session expired. Please log in again.');
+    res.redirect('/auth/login');
   }
 });
 
-router.get('/admin/manage-comments', isAuthenticated, isAdmin, async (req, res) => {
+// Admin Account Creation (Only for Admins)
+router.post('/admin/create', isAuthenticated, isAdmin, async (req, res) => {
   try {
-    const comments = await Comment.find();
-    res.render('admin/manage-comments', { title: 'Moderate Comments', comments });
-  } catch (err) {
-    console.error('Error fetching comments:', err.message);
-    req.flash('error', 'Unable to fetch comments.');
-    res.redirect('/auth/profile');
-  }
-});
+    const { name, email, password } = req.body;
 
-// User Content Routes
-router.get('/profile/photos', isAuthenticated, async (req, res) => {
-  try {
-    const photos = await Photo.find({ uploadedBy: req.user.id });
-    res.render('profile/photos', { title: 'Your Photos', photos });
-  } catch (err) {
-    console.error('Error fetching photos:', err.message);
-    req.flash('error', 'Unable to fetch photos.');
-    res.redirect('/auth/profile');
-  }
-});
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: 'All fields are required.' });
+    }
 
-router.get('/profile/comments', isAuthenticated, async (req, res) => {
-  try {
-    const comments = await Comment.find({ userId: req.user.id });
-    res.render('profile/comments', { title: 'Your Comments', comments });
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ error: 'Email is already registered.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newAdmin = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role: 'admin', // Explicitly set role to admin
+    });
+
+    await newAdmin.save();
+    res.status(201).json({ message: 'Admin account created successfully.', admin: newAdmin });
   } catch (err) {
-    console.error('Error fetching comments:', err.message);
-    req.flash('error', 'Unable to fetch comments.');
-    res.redirect('/auth/profile');
+    console.error('Error creating admin account:', err.message);
+    res.status(500).json({ error: 'An error occurred while creating the admin account.' });
   }
 });
 
