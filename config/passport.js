@@ -1,6 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const jwt = require('jsonwebtoken'); // Import jsonwebtoken for JWT handling
+const jwt = require('jsonwebtoken');
 const User = require('../models/User'); // Import User model
 
 // Define the Local Strategy
@@ -15,6 +15,7 @@ passport.use(
         return done(null, false, { message: 'No account found with this email.' });
       }
 
+      // Validate the password using the model method
       const isMatch = await user.validatePassword(password);
       if (!isMatch) {
         console.log(`Authentication failed. Incorrect password for email: ${email}`);
@@ -41,6 +42,7 @@ const generateToken = (user) => {
     id: user._id,
     email: user.email,
     name: user.name,
+    role: user.role, // Include role for role-based access control
   };
 
   console.log('Generating JWT for user:', payload.email);

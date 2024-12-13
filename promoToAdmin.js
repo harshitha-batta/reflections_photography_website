@@ -12,7 +12,7 @@ require('dotenv').config();
       }
     );
 
-    const userEmail = 'user@example.com'; // The email of the user to promote
+    const userEmail = 'user3@example.com'; // The email of the user to promote
     const updatedUser = await User.findOneAndUpdate(
       { email: userEmail },
       { role: 'admin' },

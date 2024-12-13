@@ -14,6 +14,13 @@ require('dotenv').config();
       }
     );
 
+    // Check if the admin already exists
+    const existingAdmin = await User.findOne({ email: 'admin@example.com' });
+    if (existingAdmin) {
+      console.log('Admin user already exists:', existingAdmin);
+      process.exit();
+    }
+
     // Hash the password
     const hashedPassword = await bcrypt.hash('adminpassword', 10);
 
@@ -21,12 +28,12 @@ require('dotenv').config();
     const adminUser = new User({
       name: 'Admin',
       email: 'admin@example.com',
-      password: hashedPassword,
+      password: hashedPassword, // Store the hashed password
       role: 'admin', // Set role to admin
     });
 
     await adminUser.save();
-    console.log('Admin user created:', adminUser);
+    console.log('Admin user created successfully:', adminUser);
     process.exit();
   } catch (err) {
     console.error('Error creating admin user:', err.message);
