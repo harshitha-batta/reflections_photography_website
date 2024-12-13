@@ -38,16 +38,26 @@ connectDB(); // Call the async function
 app.use(cookieParser());
 
 // Session configuration
+if (!process.env.SESSION_SECRET) {
+  console.error('SESSION_SECRET is not set in the environment variables.');
+  process.exit(1);
+}
+
 const sessionStore = MongoStore.create({
   mongoUrl: `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}/${process.env.DATABASE}`,
 });
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || 'your_secret_key',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: sessionStore, // Use the session store
+    cookie: {
+      maxAge: 3600000, // 1 hour
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+    },
   })
 );
 
@@ -77,14 +87,15 @@ app.use((req, res, next) => {
 
 // Middleware to make user available to all EJS templates
 app.use((req, res, next) => {
+  console.log('Session Data:', req.session); // Debugging log
+  console.log('Cookies:', req.cookies); // Debugging log
+  console.log('Authenticated User:', req.isAuthenticated() ? req.user : 'None'); // Debugging log
+
   if (req.isAuthenticated()) {
     res.locals.user = req.user;
   } else {
     res.locals.user = null;
   }
-  console.log('Session Data:', req.session); // Debugging log
-  console.log('Cookies:', req.cookies); // Debugging log
-  console.log('Current user:', res.locals.user); // Debugging log
   next();
 });
 
@@ -98,7 +109,7 @@ app.use('/auth', authRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('Error occurred:', err.stack);
   res.status(500).send('Something went wrong!');
 });
 

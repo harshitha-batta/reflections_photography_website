@@ -63,8 +63,9 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
   const token = generateToken(req.user);
   console.log('Generated JWT:', token); // Debugging log
   res.cookie('jwt', token, {
-    httpOnly: true, // Prevent access via JavaScript
-    secure: process.env.NODE_ENV === 'production', // Enable for HTTPS
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // Set to `true` for production (HTTPS on Glitch)
+    sameSite: 'lax', // Compatible with most browsers and prevents CSRF
     maxAge: 3600000, // 1 hour
   });
   console.log('JWT Cookie Set:', res.getHeader('Set-Cookie')); // Debugging log
@@ -74,6 +75,8 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
 
 // Get Profile Page
 router.get('/profile', (req, res) => {
+  console.log('Incoming Cookies:', req.cookies); // Debugging log
+
   const token = req.cookies.jwt;
   if (!token) {
     req.flash('error', 'Unauthorized. Please log in.');
