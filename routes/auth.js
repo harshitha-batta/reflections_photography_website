@@ -3,6 +3,18 @@ const router = express.Router();
 const User = require('../models/User'); // Replace with the path to your User model
 const passport = require('passport');
 const bcrypt = require('bcrypt'); // To hash passwords securely
+const jwt = require('jsonwebtoken');
+
+// JWT Generation Function
+function generateToken(user) {
+  const payload = {
+    id: user._id,
+    email: user.email,
+    name: user.name,
+  };
+
+  return jwt.sign(payload, process.env.JWT_SECRET || 'your_jwt_secret', { expiresIn: '1h' });
+}
 
 // Show Register Page
 router.get('/register', (req, res) => {
@@ -31,7 +43,8 @@ router.post('/register', async (req, res) => {
       return res.redirect('/auth/register');
     }
 
-    const newUser = new User({ name, email, password });
+    const hashedPassword = await bcrypt.hash(password, 10); // Ensure password is hashed
+    const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
 
     console.log('New user created:', newUser); // Debug user creation
@@ -43,44 +56,42 @@ router.post('/register', async (req, res) => {
     res.redirect('/auth/register');
   }
 });
-//Get profile
+
+// Handle Login Form Submission
+router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
+  const token = generateToken(req.user);
+  res.cookie('jwt', token, {
+    httpOnly: true, // Prevent access via JavaScript
+    secure: process.env.NODE_ENV === 'production', // Enable for HTTPS
+    maxAge: 3600000, // 1 hour
+  });
+  res.redirect('/auth/profile'); // Redirect to profile
+});
+
+// Get Profile Page
 router.get('/profile', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.render('profile', { user: req.user });
-  } else {
-    req.flash('error', 'Please log in to view this page.');
+  const token = req.cookies.jwt;
+
+  if (!token) {
+    req.flash('error', 'Unauthorized. Please log in.');
+    return res.redirect('/auth/login');
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+    res.render('profile', { title: 'Your Profile', user: decoded });
+  } catch (err) {
+    console.error('JWT verification error:', err.message);
+    req.flash('error', 'Session expired. Please log in again.');
     res.redirect('/auth/login');
   }
 });
 
-
-
-
-// Handle Login Form Submission
-router.post(
-  '/login',
-  passport.authenticate('local', {
-    successRedirect: '/auth/profile',
-    failureRedirect: '/auth/login',
-    failureFlash: true,
-  }),
-  (req, res) => {
-    console.log('Logged-in user:', req.user); // Debugging log
-  }
-);
-
-
-
+// Handle Logout
 router.get('/logout', (req, res) => {
-  req.logout(err => {
-    if (err) {
-      console.error('Error during logout:', err.message);
-      req.flash('error', 'An error occurred during logout.');
-      return res.redirect('/');
-    }
-    req.flash('success', 'You have been logged out.');
-    res.redirect('/auth/login');
-  });
+  res.clearCookie('jwt'); // Clear the JWT cookie
+  req.flash('success', 'You have been logged out.');
+  res.redirect('/auth/login');
 });
 
 module.exports = router;

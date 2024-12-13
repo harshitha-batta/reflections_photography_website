@@ -34,16 +34,19 @@ const connectDB = async () => {
 connectDB(); // Call the async function
 
 // Session configuration
+const sessionStore = MongoStore.create({
+  mongoUrl: `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}/${process.env.DATABASE}`,
+});
+
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || 'your_secret_key', // Change this to something secure
+    secret: process.env.SESSION_SECRET || 'your_secret_key',
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}/${process.env.DATABASE}`,
-    }),
+    store: sessionStore, // Use the session store
   })
 );
+
 
 // Initialize Passport
 require('./config/passport'); // Passport configuration
