@@ -1,100 +1,61 @@
-/* Reset body styling */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
-}
-
-/* Navbar Container */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.navbar .logo a {
-  text-decoration: none;
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #333;
-}
-
-.navbar .nav-links {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-  margin: 0;
-}
-
-.navbar .nav-links a {
-  text-decoration: none;
-  color: #333;
-  padding: 5px 10px;
-  font-weight: bold;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.navbar .nav-links a:hover {
-  color: #007bff;
-}
-
-/* Login Page Container */
+/* Container for the login page */
 .login-page-container {
   display: flex;
-  align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 60px); /* Adjust height minus navbar */
-  gap: 40px;
+
+  min-height: 100vh;
+  background-color: #f5f5f5;
   padding: 20px;
-  background-color: #f8f9fa;
+  gap: 20px;
 }
 
 /* Left Panel */
 .left-panel {
   flex: 1;
   background: url('https://your-image-url.jpg') no-repeat center center/cover;
-  color: white;
-  border-radius: 15px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 40px;
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  padding: 30px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  height: 80%;
+  color: white;
+  text-align: center;
 }
 
 .left-panel h1 {
   font-size: 2.5em;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 10px; /* Add spacing */
 }
 
 .left-panel p {
   font-size: 1.2em;
+  margin-bottom: 20px; /* Add spacing */
 }
 
-.left-panel .bottom-text {
-  margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .left-panel .btn {
+  padding: 12px 24px;
   background-color: #28a745;
-  padding: 10px 20px;
   color: white;
+  border: none;
   border-radius: 20px;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: bold;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.left-panel .btn:hover {
+  background-color: #218838;
+}
+
+
+.left-panel .info {
+  font-size: 1em;
+  margin-bottom: 10px; /* Add spacing */
 }
 
 .left-panel .btn:hover {
@@ -104,10 +65,10 @@ body {
 /* Right Panel */
 .right-panel {
   flex: 1;
-  background-color: white;
-  border-radius: 15px;
-  padding: 40px;
+  background-color: #fff;
+  border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 40px 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -116,58 +77,61 @@ body {
 .right-panel .logo {
   display: block;
   margin: 0 auto 20px;
-  width: 70px;
+  width: 60px;
+  height: 60px;
 }
 
 .right-panel h2 {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 1.8em;
+  font-size: 2em;
   font-weight: bold;
 }
 
-form {
+.right-panel form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
 
-form label {
-  font-size: 1em;
+.right-panel form label {
+  margin-bottom: 5px;
   font-weight: bold;
-}
-
-form input {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
   font-size: 1em;
 }
 
-form .btn-login {
+.right-panel form input {
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1em;
+}
+
+.right-panel form button {
+  padding: 12px;
   background-color: #28a745;
   color: white;
-  padding: 10px;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
+  font-size: 1.2em;
   cursor: pointer;
-  font-size: 1em;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-form .btn-login:hover {
+.right-panel form button:hover {
   background-color: #218838;
+  transform: translateY(-2px);
 }
 
-.forgot-link {
+.right-panel .forgot-link {
+  margin-top: 15px;
   text-align: center;
-  margin-top: 10px;
-  font-size: 0.9em;
   color: #007bff;
   text-decoration: none;
+  font-size: 1em;
 }
 
-.forgot-link:hover {
+.right-panel .forgot-link:hover {
   text-decoration: underline;
 }
