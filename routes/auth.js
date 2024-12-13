@@ -18,18 +18,18 @@ function generateToken(user) {
 
 // Show Register Page
 router.get('/register', (req, res) => {
-  res.render('register', { title: 'Register' }); // Renders the register.ejs view
+  res.render('register', { title: 'Register' });
 });
 
 // Show Login Page
 router.get('/login', (req, res) => {
-  res.render('login', { title: 'Login' }); // Renders the login.ejs view
+  res.render('login', { title: 'Login' });
 });
 
 // Handle Register Form Submission
 router.post('/register', async (req, res) => {
   try {
-    console.log('Registration Body:', req.body); // Log registration data
+    console.log('Registration Body:', req.body);
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
@@ -37,17 +37,18 @@ router.post('/register', async (req, res) => {
       return res.redirect('/auth/register');
     }
 
+    console.log('Checking if user exists for email:', email);
     const userExists = await User.findOne({ email });
     if (userExists) {
       req.flash('error', 'Email is already registered.');
       return res.redirect('/auth/register');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10); // Ensure password is hashed
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
 
-    console.log('New user created:', newUser); // Debug user creation
+    console.log('New user created:', newUser);
     req.flash('success', 'Registration successful! Please log in.');
     res.redirect('/auth/login');
   } catch (err) {
@@ -60,18 +61,20 @@ router.post('/register', async (req, res) => {
 // Handle Login Form Submission
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
   const token = generateToken(req.user);
+  console.log('Generated JWT:', token); // Debugging log
   res.cookie('jwt', token, {
     httpOnly: true, // Prevent access via JavaScript
     secure: process.env.NODE_ENV === 'production', // Enable for HTTPS
     maxAge: 3600000, // 1 hour
   });
-  res.redirect('/auth/profile'); // Redirect to profile
+  console.log('JWT Cookie Set:', res.getHeader('Set-Cookie')); // Debugging log
+  res.redirect('/auth/profile');
 });
+
 
 // Get Profile Page
 router.get('/profile', (req, res) => {
   const token = req.cookies.jwt;
-
   if (!token) {
     req.flash('error', 'Unauthorized. Please log in.');
     return res.redirect('/auth/login');
@@ -79,6 +82,7 @@ router.get('/profile', (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+    console.log('Decoded JWT:', decoded); // Debugging log
     res.render('profile', { title: 'Your Profile', user: decoded });
   } catch (err) {
     console.error('JWT verification error:', err.message);
@@ -87,9 +91,10 @@ router.get('/profile', (req, res) => {
   }
 });
 
+
 // Handle Logout
 router.get('/logout', (req, res) => {
-  res.clearCookie('jwt'); // Clear the JWT cookie
+  res.clearCookie('jwt');
   req.flash('success', 'You have been logged out.');
   res.redirect('/auth/login');
 });

@@ -6,6 +6,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const path = require('path');
 const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
 
 const authRoutes = require('./routes/auth'); // Adjust the path if needed
 const app = express();
@@ -33,6 +34,9 @@ const connectDB = async () => {
 
 connectDB(); // Call the async function
 
+// Initialize cookie-parser middleware
+app.use(cookieParser());
+
 // Session configuration
 const sessionStore = MongoStore.create({
   mongoUrl: `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}/${process.env.DATABASE}`,
@@ -46,7 +50,6 @@ app.use(
     store: sessionStore, // Use the session store
   })
 );
-
 
 // Initialize Passport
 require('./config/passport'); // Passport configuration
@@ -79,7 +82,8 @@ app.use((req, res, next) => {
   } else {
     res.locals.user = null;
   }
-   console.log('Session:', req.session); // Debugging log
+  console.log('Session Data:', req.session); // Debugging log
+  console.log('Cookies:', req.cookies); // Debugging log
   console.log('Current user:', res.locals.user); // Debugging log
   next();
 });
