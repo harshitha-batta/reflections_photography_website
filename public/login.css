@@ -6,13 +6,34 @@
   background-color: #fff; /* White Background */
   padding: 20px;
   gap: 20px;
- font-family: "Montez", cursive;
+  font-family: "Montez", cursive; /* Uniform font for the page */
+}
+
+/* Consistent Styling for Buttons */
+.btn {
+  padding: 12px 30px; /* Uniform padding for all buttons */
+  background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+  color: #62445E; /* Theme color */
+  border: none;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 1.2em;
+  font-weight: bold;
+  font-family: "Montez", cursive; /* Matching font across panels */
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+  background-color: #62445E; /* Theme color for hover */
+  color: white;
+  transform: translateY(-2px); /* Slight hover effect */
 }
 
 /* Left Panel */
 .left-panel {
   flex: 1;
-  background: url('https://images.pexels.com/photos/1379640/pexels-photo-1379640.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center/cover;
+  background: url('https://images.pexels.com/photos/2102901/pexels-photo-2102901.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center/cover;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -23,8 +44,6 @@
   color: white;
   text-align: center;
 }
-
-
 
 .left-panel .content {
   background-color: rgba(98, 68, 94, 0.4); /* Semi-transparent theme color */
@@ -49,21 +68,11 @@
   font-size: 1em;
   margin-bottom: 15px;
 }
+
 .left-panel .btn {
-  padding: 12px 30px; /* Adjust consistent padding */
-  background-color: rgba(255, 255, 255, 0.9); /* White button with slight transparency */
-  color: #62445E; /* Consistent theme color for text */
-  border: none;
-  border-radius: 20px;
-  text-decoration: none;
-  font-size: 1.2em;
-  font-weight: bold;
- font-family: "Montez", cursive;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #62445E;
 }
-
-
 
 .left-panel .btn:hover {
   background-color: #62445E;
@@ -85,8 +94,6 @@
 .right-panel .logo {
   display: block;
   margin: 0 auto 20px;
-/*   width: 120px;  */
-/*   height: 120px; */
 }
 
 .right-panel h2 {
@@ -122,39 +129,16 @@
   border: 2px solid #62445E; /* Theme focus */
 }
 
-.right-panel .content {
-  background-color: rgba(98, 68, 94, 0.4); /* Semi-transparent theme color */
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
 .right-panel .btn {
-  padding: 12px 30px; /* Adjust consistent padding */
-  background-color: #62445E; /* White button with slight transparency */
-  color: rgba(255, 255, 255, 0.9); ; /* Consistent theme color for text */
-  border: none;
-  border-radius: 20px;
-  text-decoration: none;
-  font-size: 1.2em;
-  font-weight: bold;
- font-family: "Montez", cursive;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: #62445E;
+  color: rgba(255, 255, 255, 0.9);
 }
-
 
 .right-panel .btn:hover {
   background-color: white;
   color: #62445E;
 }
 
-/* .right-panel form button:hover {
-  background-color: #8b6186;
-  transform: translateY(-2px);
-}
- */
 .right-panel .forgot-link {
   margin-top: 15px;
   text-align: center;
