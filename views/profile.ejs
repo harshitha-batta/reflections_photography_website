@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/profile.css">
   <link rel="stylesheet" href="/navbar.css">
 </head>
+
 <body>
   <%- include('./layouts/main', { title: 'Your Profile' }) %>
 
@@ -14,15 +15,12 @@
     <!-- Profile Header -->
     <div class="profile-header">
       <div class="profile-photo-container">
-        <% if (user.profilePhoto) { %>
-          <img
-            src="/profile/profile-photo/<%= encodeURIComponent(user.profilePhoto) %>"
-            alt="Profile Photo"
-            class="profile-photo"
-          />
+          <% if (user.profilePhoto) { %>
+          <img src="/profile/profile-photo/<%= encodeURIComponent(user.profilePhoto) %>" alt="Profile Photo" class="profile-photo" />
         <% } else { %>
           <p class="no-photo">No profile photo uploaded yet.</p>
         <% } %>
+
         <form action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data" class="upload-photo-form">
           <label for="profilePhoto">Change Profile Photo:</label>
           <input type="file" name="profilePhoto" id="profilePhoto" required />
@@ -40,28 +38,24 @@
     </div>
 
     <!-- Uploaded Photos Section -->
-    <div class="uploaded-photos-section">
-      <h2>Your Photos</h2>
-      <% if (photos && photos.length > 0) { %>
-        <div class="photos-grid">
-          <% photos.forEach(photo => { %>
-            <div class="photo-card">
-              <img
-                src="/profile/photo/<%= encodeURIComponent(photo.imagePath) %>"
-                alt="<%= photo.title %>"
-                class="uploaded-photo"
-              />
-              <h3><%= photo.title %></h3>
-              <p><%= photo.description %></p>
-              <p><strong>Category:</strong> <%= photo.category %></p>
-            </div>
-          <% }) %>
+<div class="uploaded-photos-section">
+  <h2>Your Photos</h2>
+  <% if (photos && photos.length > 0) { %>
+    <div class="photos-grid">
+      <% photos.forEach(photo => { %>
+        <div class="photo-card">
+          <img src="/profile/photo/<%= encodeURIComponent(photo.imagePath) %>" alt="<%= photo.title %>" class="uploaded-photo" />
+          <h3><%= photo.title %></h3>
+          <p><%= photo.description %></p>
+          <p><strong>Category:</strong> <%= photo.category %></p>
         </div>
-      <% } else { %>
-        <p>No photos uploaded yet.</p>
-      <% } %>
-      <a href="/profile/upload" class="btn">Upload New Photo</a>
+      <% }) %>
     </div>
+  <% } else { %>
+    <p>No photos uploaded yet.</p>
+  <% } %>
+</div>
+
 
     <div class="logout">
       <a href="/auth/logout" class="btn">Logout</a>

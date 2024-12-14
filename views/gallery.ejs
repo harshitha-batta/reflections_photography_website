@@ -19,7 +19,35 @@
     <!-- Hero Section -->
     <section class="hero">
       <h1>Discover the Beauty of Reflections</h1>
-      <p>Explore breathtaking photos and unleash your creativity.</p>
+      <div class="hero-dropdown">
+       
+        <select id="explore-dropdown" name="explore-dropdown">
+          <option value="" disabled selected>Explore</option>
+          <option value="trees">Trees</option>
+          <option value="blur">Blur</option>
+          <option value="beautiful">Beautiful</option>
+          <option value="love">Love</option>
+          <option value="daylight">Daylight</option>
+          <option value="wood">Wood</option>
+          <option value="leaf">Leaf</option>
+          <option value="flower">Flower</option>
+          <option value="fall">Fall</option>
+          <option value="city">City</option>
+          <option value="beach">Beach</option>
+          <option value="rain">Rain</option>
+          <option value="autumn">Autumn</option>
+          <option value="mountains">Mountains</option>
+          <option value="nature">Nature</option>
+          <option value="desert">Desert</option>
+          <option value="winter">Winter</option>
+          <option value="travel">Travel</option>
+          <option value="summer">Summer</option>
+          <option value="hd-wallpapers">HD Wallpapers</option>
+          <option value="forest">Forest</option>
+          <option value="spring">Spring</option>
+        </select>
+         <label for="explore-dropdown"> breathtaking photos and unleash your creativity.</label>
+      </div>
     </section>
 
     <!-- Categories Section -->
@@ -84,51 +112,40 @@
   </main>
 
   <script>
+    // Scroll Functionality for Categories Section
     const categoryContainer = document.querySelector('.category-buttons');
     const scrollLeftButton = document.querySelector('.scroll-left');
     const scrollRightButton = document.querySelector('.scroll-right');
 
-    // Function to update button visibility
     function updateScrollButtons() {
       const scrollLeft = categoryContainer.scrollLeft;
       const scrollWidth = categoryContainer.scrollWidth;
       const clientWidth = categoryContainer.clientWidth;
 
-      // Toggle visibility of left button
-      if (scrollLeft > 0) {
-        scrollLeftButton.style.display = 'block';
-      } else {
-        scrollLeftButton.style.display = 'none';
-      }
-
-      // Toggle visibility of right button
-      if (scrollLeft + clientWidth < scrollWidth) {
-        scrollRightButton.style.display = 'block';
-      } else {
-        scrollRightButton.style.display = 'none';
-      }
+      scrollLeftButton.style.display = scrollLeft > 0 ? 'block' : 'none';
+      scrollRightButton.style.display = scrollLeft + clientWidth < scrollWidth ? 'block' : 'none';
     }
 
-    // Event listeners to handle scrolling and resizing
     categoryContainer.addEventListener('scroll', updateScrollButtons);
     window.addEventListener('resize', updateScrollButtons);
 
-    // Initial visibility update
     updateScrollButtons();
 
-    // Scroll behavior for buttons
     scrollLeftButton.addEventListener('click', () => {
-      categoryContainer.scrollBy({
-        left: -200, // Scroll left
-        behavior: 'smooth',
-      });
+      categoryContainer.scrollBy({ left: -200, behavior: 'smooth' });
     });
 
     scrollRightButton.addEventListener('click', () => {
-      categoryContainer.scrollBy({
-        left: 200, // Scroll right
-        behavior: 'smooth',
-      });
+      categoryContainer.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+
+    // Dropdown Navigation
+    const dropdown = document.getElementById('explore-dropdown');
+    dropdown.addEventListener('change', (event) => {
+      const selectedValue = event.target.value;
+      if (selectedValue) {
+        window.location.href = `/category/${selectedValue}`;
+      }
     });
   </script>
 </body>
