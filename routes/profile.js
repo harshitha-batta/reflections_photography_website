@@ -31,16 +31,26 @@ mongoose.connection.once('open', () => {
 // Update user bio
 router.post('/update-bio', isAuthenticated, async (req, res) => {
   const { bio } = req.body;
+
   try {
-    await User.findByIdAndUpdate(req.user._id, { bio });
+    // Debug log
+    console.log('User ID:', req.user._id, 'Bio:', bio);
+
+    // Update user bio
+    const user = await User.findByIdAndUpdate(req.user._id, { bio }, { new: true });
+
+    // Debug updated user
+    console.log('Updated User:', user);
+
     req.flash('success', 'Bio updated successfully.');
-    res.redirect('/profile');
+    res.redirect('/auth/profile');
   } catch (err) {
     console.error('Error updating bio:', err);
     req.flash('error', 'Failed to update bio.');
-    res.redirect('/profile');
+    res.redirect('/auth/profile');
   }
 });
+
 
 // Upload profile photo
 router.post('/upload-profile-photo', isAuthenticated, upload.single('profilePhoto'), async (req, res) => {
@@ -98,6 +108,7 @@ router.get('/photo/:filename', async (req, res) => {
     if (!file || file.length === 0) {
       return res.status(404).send('Photo not found');
     }
+    console.log("HERE:", file)
 
     const readStream = gridfsBucket.openDownloadStreamByName(req.params.filename);
     res.set('Content-Type', file[0].contentType);
@@ -111,7 +122,7 @@ router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req
   try {
     if (!req.file) {
       req.flash('error', 'No file uploaded.');
-      return res.redirect('/profile');
+      return res.redirect('/auth/profile');
     }
 
     const { title, description, category, tags } = req.body;
@@ -133,11 +144,11 @@ router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req
     });
 
     req.flash('success', 'Photo uploaded successfully.');
-    res.redirect('/profile');
+    res.redirect('/auth/profile');
   } catch (err) {
     console.error('Error uploading photo:', err);
     req.flash('error', 'Failed to upload photo.');
-    res.redirect('/profile');
+    res.redirect('/auth/profile');
   }
 });
 

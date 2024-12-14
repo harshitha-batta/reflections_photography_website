@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { isAdmin, isAuthenticated } = require('../middlewares/roles');
 const Photo = require('../models/Photo');
+const { galleryHome } = require('./gallery');
 
 // JWT Generation Function
 function generateToken(user) {
@@ -75,7 +76,7 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
       maxAge: 3600000,
     });
     console.log('JWT Cookie Set:', res.getHeader('Set-Cookie'));
-    res.redirect('/');
+    res.redirect('/gallery');
   } catch (err) {
     console.error('Login Error:', err.message);
     req.flash('error', 'An error occurred during login.');

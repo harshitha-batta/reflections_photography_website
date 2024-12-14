@@ -45,8 +45,8 @@
         <div class="photos-grid">
           <% photos.forEach(photo => { %>
             <div class="photo-card">
-              <img src="/profile/photo/<%= encodeURIComponent(photo.imagePath) %>" alt="<%= photo.title %>" class="uploaded-photo" />
-              <h3><%= photo.title %></h3>
+              <img src="/profile/photo/<%= photo.imagePath %>" alt="<%= photo.title %>" class="uploaded-photo" />
+
               <p><%= photo.description %></p>
               <p><strong>Category:</strong> <%= photo.category %></p>
             </div>

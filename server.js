@@ -20,7 +20,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // MongoDB Atlas Connection
 let gridfsBucket; // Variable to hold GridFSBucket instance
 const connectDB = async () => {
@@ -114,10 +114,11 @@ app.use((req, res, next) => {
   }
   next();
 });
-// app.use('/gallery', galleryRoutes); // Mount the gallery route at /gallery
+
 // Profile routes
 app.use('/profile', profileRoutes);
 app.use('/', galleryRoutes); // Gallery route
+app.use('/gallery', galleryRoutes); // Gallery route
 // app.use('/readerPost', readerPostRoutes); // readerPost route
 
 // Admin-only route for the admin dashboard

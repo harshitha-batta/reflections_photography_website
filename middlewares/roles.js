@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
-function isAuthenticated(req, res, next) {
+const User = require('../models/User');
+
+// Middleware to verify authentication
+async function isAuthenticated(req, res, next) {
   const token = req.cookies.jwt;
 
   if (!token) {
@@ -9,7 +12,15 @@ function isAuthenticated(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
-    req.user = { id: decoded.id, email: decoded.email, name: decoded.name }; // Attach user data from JWT
+
+    // Fetch full user data from the database
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      req.flash('error', 'User not found. Please log in again.');
+      return res.redirect('/auth/login');
+    }
+
+    req.user = user; // Attach full user object to `req.user`
     next();
   } catch (err) {
     console.error('JWT verification error:', err.message);
