@@ -100,16 +100,23 @@ router.get('/image/:filename', async (req, res) => {
 });
 router.get('/profile-photo/:filename', async (req, res) => {
   try {
+    console.log('Requested Filename:', req.params.filename);
+
     const file = await gfs.files.findOne({ filename: req.params.filename });
 
     if (!file || file.length === 0) {
+      console.log('File not found in GridFS.');
       return res.status(404).send('Profile photo not found');
     }
+
+    console.log('File Found:', file);
+    console.log('File MIME Type:', file.contentType);
 
     if (file.contentType.includes('image')) {
       const readStream = gfs.createReadStream(file.filename);
       readStream.pipe(res);
     } else {
+      console.log('Invalid content type:', file.contentType);
       res.status(400).send('Not a valid image file');
     }
   } catch (err) {
@@ -117,6 +124,7 @@ router.get('/profile-photo/:filename', async (req, res) => {
     res.status(500).send('Error fetching profile photo');
   }
 });
+
 
 
 module.exports = router;
