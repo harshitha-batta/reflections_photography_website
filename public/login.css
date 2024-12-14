@@ -23,6 +23,14 @@
   text-align: center; /* Align text to the center */
 }
 
+.left-panel .content {
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with 50% transparency */
+  padding: 20px;
+  border-radius: 10px; /* Rounded corners */
+  text-align: center; /* Center text inside the box */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a slight shadow */
+}
+
 .left-panel h1 {
   font-size: 2.5em;
   font-weight: bold;
@@ -40,7 +48,7 @@
 }
 
 .left-panel .btn {
-  padding: 12px 384px;
+  padding: 12px 25px;
   background-color: #28a745;
   color: white;
   border: none;
@@ -52,10 +60,10 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-
 .left-panel .btn:hover {
   background-color: #218838;
 }
+
 
 
 /* Right Panel */

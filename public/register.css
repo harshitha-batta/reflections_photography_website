@@ -48,7 +48,7 @@
 }
 
 .left-panel form button {
-  padding: 12px;
+  padding: 12px 24px;
   background-color: #28a745;
   color: white;
   border: none;
@@ -76,18 +76,26 @@
   text-decoration: underline;
 }
 
-/* Right Panel */
 .right-panel {
   flex: 1;
   background: url('https://images.pexels.com/photos/1187079/pexels-photo-1187079.jpeg?auto=compress&cs=tinysrgb&w=800') no-repeat center center/cover;
   border-radius: 10px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: white;
   text-align: center;
-  padding: 30px;
+  padding: 40px;
+}
+
+.right-panel .content {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  padding: 20px;
+  border-radius: 10px; /* Rounded corners */
+  text-align: center; /* Center text inside the box */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a slight shadow */
 }
 
 .right-panel h1 {
@@ -100,21 +108,20 @@
   font-size: 1.2em;
   margin-bottom: 20px;
 }
-/* Login Button */
-.left-panel .login-button {
-  display: inline-block;
-  margin-top: 15px;
+
+.right-panel .btn {
   padding: 12px 24px;
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
-  text-decoration: none;
+  border: none;
   border-radius: 20px;
+  text-decoration: none;
   font-size: 1.1em;
   font-weight: bold;
-  text-align: center;
   transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.left-panel .login-button:hover {
-  background-color: #0056b3;
+.right-panel .btn:hover {
+  background-color: #218838;
 }
