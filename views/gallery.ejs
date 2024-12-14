@@ -37,6 +37,21 @@
         <button>Spring</button>
       </div>
     </section>
+    
+      <section class="featured">
+        <h2>Featured Collections</h2>
+        <div class="gallery">
+          <% photos.forEach(photo => { %>
+            <div class="gallery-item">
+              <img src="<%= photo.imagePath %>" alt="Placeholder">
+              <h3><%= photo.title %></h3>
+              <p><%= photo.description %></p>
+              <p>Category: <%= photo.category %></p>
+              <p>Likes: <%= photo.likes.length %></p>
+            </div>
+          <% }) %>
+        </div>
+    </section>
 
     <section class="featured">
       <h2>Featured Collections</h2>

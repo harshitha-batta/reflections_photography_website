@@ -11,6 +11,7 @@ const Grid = require('gridfs-stream');
 
 const authRoutes = require('./routes/auth'); // Authentication routes
 const profileRoutes = require('./routes/profile'); // Profile routes
+const galleryRoutes = require('./routes/gallery'); 
 const { isAuthenticated, isAdmin } = require('./middlewares/roles'); // Role-based middleware
 
 const app = express();
@@ -120,10 +121,10 @@ app.use((req, res, next) => {
 // Profile routes
 app.use('/profile', profileRoutes);
 
-// Define the root route
-app.get('/', (req, res) => {
-  res.render('gallery', { title: 'Home Page' }); // Render an EJS view
-});
+// // Define the root route
+// app.get('/', (req, res) => {
+//   res.render('gallery', { title: 'Home Page' }); // Render an EJS view
+// });
 
 // Admin-only route for the admin dashboard
 app.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
@@ -132,6 +133,9 @@ app.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
 
 // Routes
 app.use('/auth', authRoutes);
+
+// Use the gallery route
+app.use('/', galleryRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
