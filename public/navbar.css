@@ -6,7 +6,7 @@
   background-color: #fff; /* White background */
   padding: 15px 30px; /* Adjust spacing */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  font-family: Arial, sans-serif;
+  font-family: "Lavishly Yours", cursive;
   position: fixed;
   top: 0;
   left: 0;
@@ -19,7 +19,7 @@
   text-decoration: none;
   font-size: 1.8em;
   font-weight: bold;
-  color: #000;
+  color: #4E475F;
 }
 
 /* Navigation Links */
@@ -144,7 +144,7 @@ body {
 .dropdown-icon {
   margin-left: 5px;
   font-size: 0.8em;
-  color: #333; /* Adjust color */
+  color: #4E475F; /* Adjust color */
   vertical-align: middle;
 }
 
