@@ -13,9 +13,10 @@
 
   <!-- Register Page -->
   <div class="register-page-container">
-    <!-- Left Panel -->
-    <div class="left-panel">
-      <h2>Create Your Account</h2>
+    <div class="content-panel">
+      <h1>Create Your Account</h1>
+      <p>Create And Sell Extraordinary Products</p>
+      <p>Adopt the peace of nature!</p>
       <form action="/auth/register" method="POST">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" placeholder="Enter Your Email" required>
@@ -23,22 +24,10 @@
         <input type="text" id="username" name="username" placeholder="Enter Username" required>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Enter Password" required>
-        <button type="submit">Register</button>
-        <a href="/auth/login" class="login-link">Already have an account? Login Here</a>
+        <button type="submit" class="btn">Register</button>
       </form>
+      <a href="/auth/login" class="login-link">Already have an account? Login Here</a>
     </div>
-
-    <!-- Right Panel -->
-<div class="right-panel">
-  <div class="content">
-    <h1>Create And Sell Extraordinary Products</h1>
-    <p>Adopt the peace of nature!</p>
-    <a href="/auth/login" class="btn">Login</a>
-  </div>
-</div>
-
   </div>
 </body>
 </html>
-
-
