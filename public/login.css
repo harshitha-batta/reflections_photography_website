@@ -6,28 +6,7 @@
   background-color: #fff; /* White Background */
   padding: 20px;
   gap: 20px;
-  font-family: "Montez", cursive; /* Uniform font for the page */
-}
-
-/* Consistent Styling for Buttons */
-.btn {
-  padding: 12px 30px; /* Uniform padding for all buttons */
-  background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
-  color: #62445E; /* Theme color */
-  border: none;
-  border-radius: 20px;
-  text-decoration: none;
-  font-size: 1.2em;
-  font-weight: bold;
-  font-family: "Montez", cursive; /* Matching font across panels */
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.btn:hover {
-  background-color: #62445E; /* Theme color for hover */
-  color: white;
-  transform: translateY(-2px); /* Slight hover effect */
+  font-family: "Montez", cursive;
 }
 
 /* Left Panel */
@@ -39,7 +18,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px;
+  padding: 40px 30px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: white;
   text-align: center;
@@ -69,12 +48,23 @@
   margin-bottom: 15px;
 }
 
-.left-panel .btn {
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #62445E;
+.left-panel .btn,
+.right-panel form .btn {
+  padding: 12px 30px; /* Adjust consistent padding */
+  background-color: rgba(255, 255, 255, 0.9); /* White button with slight transparency */
+  color: #62445E; /* Consistent theme color for text */
+  border: none;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 1.2em;
+  font-weight: bold;
+  font-family: "Montez", cursive;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.left-panel .btn:hover {
+.left-panel .btn:hover,
+.right-panel form .btn:hover {
   background-color: #62445E;
   color: white;
 }
@@ -89,11 +79,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-.right-panel .logo {
-  display: block;
-  margin: 0 auto 20px;
 }
 
 .right-panel h2 {
@@ -129,16 +114,6 @@
   border: 2px solid #62445E; /* Theme focus */
 }
 
-.right-panel .btn {
-  background-color: #62445E;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.right-panel .btn:hover {
-  background-color: white;
-  color: #62445E;
-}
-
 .right-panel .forgot-link {
   margin-top: 15px;
   text-align: center;
@@ -149,12 +124,4 @@
 
 .right-panel .forgot-link:hover {
   text-decoration: underline;
-}
-
-.right-panel .content {
-  background-color: rgba(98, 68, 94, 0.4); /* Semi-transparent theme color */
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
