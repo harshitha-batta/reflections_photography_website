@@ -75,7 +75,7 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
       maxAge: 3600000,
     });
     console.log('JWT Cookie Set:', res.getHeader('Set-Cookie'));
-    res.redirect('/gallery');
+    res.redirect('/');
   } catch (err) {
     console.error('Login Error:', err.message);
     req.flash('error', 'An error occurred during login.');
