@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="/profile.css">
   <link rel="stylesheet" href="/navbar.css">
 </head>
-
 <body>
   <%- include('./layouts/main', { title: 'Your Profile' }) %>
 
@@ -15,22 +14,24 @@
     <!-- Profile Header -->
     <div class="profile-header">
       <div class="profile-photo-container">
-          <% if (user.profilePhoto) { %>
+        <% if (user.profilePhoto) { %>
           <img src="/profile/profile-photo/<%= encodeURIComponent(user.profilePhoto) %>" alt="Profile Photo" class="profile-photo" />
         <% } else { %>
           <p class="no-photo">No profile photo uploaded yet.</p>
         <% } %>
-
-        <form action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data" class="upload-photo-form">
-          <label for="profilePhoto">Change Profile Photo:</label>
+        <button class="btn" onclick="toggleForm('profilePhotoForm')">Change Profile Photo</button>
+        <form id="profilePhotoForm" action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data" class="upload-photo-form hidden">
+          <label for="profilePhoto">Upload New Profile Photo:</label>
           <input type="file" name="profilePhoto" id="profilePhoto" required />
           <button type="submit" class="btn">Upload</button>
         </form>
       </div>
+
       <div class="profile-info">
         <h1><%= user.firstName || user.name %> <%= user.lastName || '' %></h1>
         <p><%= user.bio || 'No bio yet. Add one below!' %></p>
-        <form action="/profile/update-bio" method="POST" class="edit-bio-form">
+        <button class="btn" onclick="toggleForm('bioForm')">Edit Bio</button>
+        <form id="bioForm" action="/profile/update-bio" method="POST" class="edit-bio-form hidden">
           <textarea id="bio" name="bio" placeholder="Write a short bio..."><%= user.bio || '' %></textarea>
           <button type="submit" class="btn">Save Bio</button>
         </form>
@@ -38,28 +39,95 @@
     </div>
 
     <!-- Uploaded Photos Section -->
-<div class="uploaded-photos-section">
-  <h2>Your Photos</h2>
-  <% if (photos && photos.length > 0) { %>
-    <div class="photos-grid">
-      <% photos.forEach(photo => { %>
-        <div class="photo-card">
-          <img src="/profile/photo/<%= encodeURIComponent(photo.imagePath) %>" alt="<%= photo.title %>" class="uploaded-photo" />
-          <h3><%= photo.title %></h3>
-          <p><%= photo.description %></p>
-          <p><strong>Category:</strong> <%= photo.category %></p>
+    <div class="uploaded-photos-section">
+      <h2>Your Photos</h2>
+      <% if (photos && photos.length > 0) { %>
+        <div class="photos-grid">
+          <% photos.forEach(photo => { %>
+            <div class="photo-card">
+              <img src="/profile/photo/<%= encodeURIComponent(photo.imagePath) %>" alt="<%= photo.title %>" class="uploaded-photo" />
+              <h3><%= photo.title %></h3>
+              <p><%= photo.description %></p>
+              <p><strong>Category:</strong> <%= photo.category %></p>
+            </div>
+          <% }) %>
         </div>
-      <% }) %>
+      <% } else { %>
+        <p>No photos uploaded yet.</p>
+      <% } %>
+      <button class="btn" onclick="toggleForm('uploadPhotoForm')">Upload New Photo</button>
+      <form id="uploadPhotoForm" action="/profile/upload-photo" method="POST" enctype="multipart/form-data" class="upload-photo-form hidden">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" name="title" id="title" placeholder="Enter a title for the photo" required />
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea name="description" id="description" placeholder="Enter a brief description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select name="category" id="category" required>
+            <option value="Landscapes">Landscapes</option>
+            <option value="Portraits">Portraits</option>
+            <option value="Abstract">Abstract</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="tags">Tags (comma-separated)</label>
+          <input type="text" name="tags" id="tags" placeholder="e.g., nature, travel, photography" />
+        </div>
+        <div class="form-group">
+          <label for="photo">Upload Photo</label>
+          <input type="file" name="photo" id="photo" required onchange="previewImage(event)" />
+        </div>
+        <!-- Image Preview -->
+        <div class="form-group">
+          <img id="photo-preview" alt="Preview" style="max-width: 100%; display: none; margin-top: 10px;" />
+        </div>
+        <button type="submit" class="btn">Upload Photo</button>
+      </form>
     </div>
-  <% } else { %>
-    <p>No photos uploaded yet.</p>
-  <% } %>
-</div>
-
 
     <div class="logout">
       <a href="/auth/logout" class="btn">Logout</a>
     </div>
   </div>
+
+  <!-- JavaScript for Form Toggle -->
+  <script>
+    function toggleForm(formId) {
+      const form = document.getElementById(formId);
+      if (form.classList.contains('hidden')) {
+        form.classList.remove('hidden');
+      } else {
+        form.classList.add('hidden');
+      }
+    }
+
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (!file.type.startsWith('image/')) {
+        alert('Please select a valid image file.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function () {
+        const output = document.getElementById('photo-preview');
+        output.src = reader.result;
+        output.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  </script>
+
+  <!-- Hidden Class CSS -->
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
 </body>
 </html>

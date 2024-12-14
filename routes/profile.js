@@ -11,15 +11,9 @@ const router = express.Router();
 let gridfsBucket;
 router.get('/', isAuthenticated, async (req, res) => {
   try {
-    const photos = await Photo.find({ uploader: req.user._id }); // Fetch user-uploaded photos
-    console.log('User Data:', req.user); // Debug logged-in user
-    console.log('Photos:', photos); // Debug fetched photos
-
-    res.render('profile', {
-      title: 'Your Profile',
-      user: req.user, // Pass user data to the view
-      photos, // Pass photos to the view
-    });
+    const photos = await Photo.find({ uploader: req.user._id }); // Fetch photos by the user
+    console.log('Fetched Photos:', photos); // Debug logs
+    res.render('profile', { title: 'Your Profile', user: req.user, photos });
   } catch (err) {
     console.error('Error fetching profile data:', err);
     res.status(500).send('Error fetching profile data');
@@ -29,10 +23,10 @@ router.get('/', isAuthenticated, async (req, res) => {
 // Initialize GridFSBucket after MongoDB connection
 mongoose.connection.once('open', () => {
   gridfsBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-    bucketName: 'photos', // Same bucket name as in the multer config
+    bucketName: 'photos',
   });
-  console.log('GridFSBucket initialized successfully.');
 });
+
 
 // Update user bio
 router.post('/update-bio', isAuthenticated, async (req, res) => {
@@ -115,29 +109,33 @@ router.get('/photo/:filename', async (req, res) => {
 });
 router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req, res) => {
   try {
+    const { title, description, category, tags } = req.body;
+
     if (!req.file) {
       req.flash('error', 'No file uploaded.');
-      return res.redirect('/profile/upload');
+      return res.redirect('/profile');
     }
 
-    const { title, description, category, tags } = req.body;
+    // Debug `req.user` and `req.file`
+    console.log('Uploaded File:', req.file);
+    console.log('User:', req.user);
 
     const newPhoto = new Photo({
       title,
       description,
       category,
-      tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
-      imagePath: req.file.filename, // Filename saved in GridFS
-      uploader: req.user._id, // Reference to the logged-in user
+      tags: tags ? tags.split(',').map((tag) => tag.trim()) : [],
+      imagePath: req.file.filename, // Ensure this matches the uploaded file name
+      uploader: req.user._id, // Ensure the user ID is correctly set
     });
 
-    await newPhoto.save(); // Save photo metadata to the database
+    await newPhoto.save();
     req.flash('success', 'Photo uploaded successfully.');
     res.redirect('/profile');
   } catch (err) {
     console.error('Error uploading photo:', err);
     req.flash('error', 'Failed to upload photo.');
-    res.redirect('/profile/upload');
+    res.redirect('/profile');
   }
 });
 
