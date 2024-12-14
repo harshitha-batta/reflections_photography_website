@@ -16,7 +16,7 @@ const app = express();
 // Middleware for parsing JSON and forms
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.static('public'));
 
 // MongoDB Atlas Connection
 const connectDB = async () => {

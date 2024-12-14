@@ -1,12 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const User = require('../models/User'); // Replace with the path to your User model
 const passport = require('passport');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt'); // To hash passwords securely
 const jwt = require('jsonwebtoken');
-const multer = require('multer');
-const path = require('path');
-const Photo = require('../models/Photo');
 const { isAdmin, isAuthenticated } = require('../middlewares/roles');
 
 // JWT Generation Function
@@ -56,6 +53,7 @@ router.post('/register', async (req, res) => {
     });
 
     await newUser.save();
+    console.log('New User Registered:', newUser); // Debugging log
     req.flash('success', 'Registration successful! Please log in.');
     res.redirect('/auth/login');
   } catch (err) {
@@ -68,19 +66,14 @@ router.post('/register', async (req, res) => {
 // Handle Login Form Submission
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
   try {
-    const user = req.user;
-    if (!user) {
-      req.flash('error', 'Authentication failed.');
-      return res.redirect('/auth/login');
-    }
-
-    const token = generateToken(user);
+    const token = generateToken(req.user);
+    console.log('Generated JWT:', token); // Debugging log
     res.cookie('jwt', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 3600000, // 1 hour
     });
-
+    console.log('JWT Cookie Set:', res.getHeader('Set-Cookie')); // Debugging log
     res.redirect('/auth/profile');
   } catch (err) {
     console.error('Login Error:', err.message);
@@ -89,72 +82,44 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
   }
 });
 
-// Get Profile Page
-router.get('/profile', isAuthenticated, async (req, res) => {
-  try {
-    const user = req.user;
-    const photos = await Photo.find({ uploadedBy: user.id });
 
-    res.render('profile', {
-      title: 'Your Profile',
-      user,
-      photos,
-    });
+// Get Profile Page
+router.get('/profile', (req, res) => {
+  console.log('Cookies:', req.cookies); // Debugging log
+  const token = req.cookies.jwt;
+
+  if (!token) {
+    req.flash('error', 'Unauthorized. Please log in.');
+    return res.redirect('/auth/login');
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+    console.log('Decoded JWT:', decoded); // Debugging log
+    res.render('profile', { title: 'Your Profile', user: decoded });
   } catch (err) {
-    console.error('Error loading profile:', err.message);
-    req.flash('error', 'An error occurred while loading your profile.');
+    console.error('JWT verification error:', err.message);
+    req.flash('error', 'Session expired. Please log in again.');
     res.redirect('/auth/login');
   }
 });
 
-// Multer configuration for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../public/uploads'));
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
-
-const upload = multer({ storage });
-
-// Photo Upload Route
-router.post('/profile/upload-photo', isAuthenticated, upload.single('photo'), async (req, res) => {
-  try {
-    if (!req.file) {
-      req.flash('error', 'No file uploaded.');
-      return res.redirect('/auth/profile');
-    }
-
-    const photo = new Photo({
-      url: `/uploads/${req.file.filename}`,
-      uploadedBy: req.user.id,
-      caption: req.body.caption || '',
-    });
-
-    await photo.save();
-    req.flash('success', 'Photo uploaded successfully!');
-    res.redirect('/auth/profile');
-  } catch (err) {
-    console.error('Error uploading photo:', err.message);
-    req.flash('error', 'An error occurred while uploading the photo.');
-    res.redirect('/auth/profile');
-  }
-});
 
 // Admin Dashboard
-router.get('/admin/dashboard', isAuthenticated, isAdmin, async (req, res) => {
+router.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
+  const token = req.cookies.jwt;
+
   try {
-    res.render('admin/dashboard', { title: 'Admin Dashboard', user: req.user });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+    res.render('admin/dashboard', { title: 'Admin Dashboard', user: decoded });
   } catch (err) {
-    console.error('Admin Dashboard Error:', err.message);
-    req.flash('error', 'Unable to load the admin dashboard.');
+    console.error('Admin Route Error:', err.message);
+    req.flash('error', 'Session expired. Please log in again.');
     res.redirect('/auth/login');
   }
 });
 
-// Admin Account Creation
+// Admin Account Creation (Only for Admins)
 router.post('/admin/create', isAuthenticated, isAdmin, async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -173,7 +138,7 @@ router.post('/admin/create', isAuthenticated, isAdmin, async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: 'admin',
+      role: 'admin', // Explicitly set role to admin
     });
 
     await newAdmin.save();
