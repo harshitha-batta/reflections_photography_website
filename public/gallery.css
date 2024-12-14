@@ -46,33 +46,17 @@ body {
 .category-buttons {
   display: flex;
   gap: 10px;
-  overflow-x: auto; /* Horizontal scrolling */
+  overflow-x: auto;
   padding: 10px;
-  scrollbar-width: none; /* Hide scrollbar in Firefox */
-  scroll-behavior: smooth; /* Smooth scrolling for navigation */
+  scrollbar-width: none;
+  scroll-behavior: smooth;
   flex-grow: 1;
-  position: relative;
-
-  /* Add a gradient mask to create blur near arrows */
-  mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.1),
-    rgba(0, 0, 0, 1) 10%,
-    rgba(0, 0, 0, 1) 90%,
-    rgba(0, 0, 0, 0.1)
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.1),
-    rgba(0, 0, 0, 1) 10%,
-    rgba(0, 0, 0, 1) 90%,
-    rgba(0, 0, 0, 0.1)
-  );
 }
 
 .category-buttons::-webkit-scrollbar {
-  display: none; /* Hide scrollbar in Chrome */
+  display: none;
 }
+
 
 .category-buttons button {
   padding: 12px 30px;
@@ -94,6 +78,7 @@ body {
 /* Scroll Buttons */
 .scroll-left,
 .scroll-right {
+  display: none; /* Initially hide the buttons */
   background-color: rgba(255, 255, 255, 0.8);
   color: #62445E;
   border: none;
@@ -115,12 +100,13 @@ body {
 }
 
 .scroll-left {
-  left: 10px; /* Position on the left */
+  left: 10px;
 }
 
 .scroll-right {
-  right: 10px; /* Position on the right */
+  right: 10px;
 }
+
 
 /* Featured Section */
 .featured {

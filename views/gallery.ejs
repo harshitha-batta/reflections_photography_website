@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/gallery.css"> <!-- Home Page styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montez&family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montez&family=Pacifico&family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Navbar -->
@@ -84,15 +84,48 @@
   </main>
 
   <script>
-    document.querySelector('.scroll-left').addEventListener('click', () => {
-      document.querySelector('.category-buttons').scrollBy({
+    const categoryContainer = document.querySelector('.category-buttons');
+    const scrollLeftButton = document.querySelector('.scroll-left');
+    const scrollRightButton = document.querySelector('.scroll-right');
+
+    // Function to update button visibility
+    function updateScrollButtons() {
+      const scrollLeft = categoryContainer.scrollLeft;
+      const scrollWidth = categoryContainer.scrollWidth;
+      const clientWidth = categoryContainer.clientWidth;
+
+      // Toggle visibility of left button
+      if (scrollLeft > 0) {
+        scrollLeftButton.style.display = 'block';
+      } else {
+        scrollLeftButton.style.display = 'none';
+      }
+
+      // Toggle visibility of right button
+      if (scrollLeft + clientWidth < scrollWidth) {
+        scrollRightButton.style.display = 'block';
+      } else {
+        scrollRightButton.style.display = 'none';
+      }
+    }
+
+    // Event listeners to handle scrolling and resizing
+    categoryContainer.addEventListener('scroll', updateScrollButtons);
+    window.addEventListener('resize', updateScrollButtons);
+
+    // Initial visibility update
+    updateScrollButtons();
+
+    // Scroll behavior for buttons
+    scrollLeftButton.addEventListener('click', () => {
+      categoryContainer.scrollBy({
         left: -200, // Scroll left
         behavior: 'smooth',
       });
     });
 
-    document.querySelector('.scroll-right').addEventListener('click', () => {
-      document.querySelector('.category-buttons').scrollBy({
+    scrollRightButton.addEventListener('click', () => {
+      categoryContainer.scrollBy({
         left: 200, // Scroll right
         behavior: 'smooth',
       });
