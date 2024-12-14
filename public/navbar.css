@@ -138,3 +138,23 @@ body {
 .main-content {
   margin-top: 80px; /* Adjust to offset navbar height */
 }
+
+
+/* Dropdown Menu Icon */
+.dropdown-icon {
+  margin-left: 5px;
+  font-size: 0.8em;
+  color: #333; /* Adjust color */
+  vertical-align: middle;
+}
+
+
+.nav-links .dropdown:hover .dropdown-icon {
+  color: #e91e63; /* Color change on hover */
+}
+
+/* Ensure dropdown icon is visible */
+.dropdown .dropdown-icon {
+  display: inline; /* Ensure icon is always visible */
+  transition: color 0.3s ease; /* Smooth hover effect */
+}
