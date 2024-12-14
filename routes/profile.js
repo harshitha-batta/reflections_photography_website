@@ -46,35 +46,38 @@ router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req
   const { title, description, category, tags } = req.body;
 
   try {
-    // Create a new photo document
     const newPhoto = new Photo({
       title,
       description,
       category,
       tags: tags ? tags.split(',').map((tag) => tag.trim()) : [],
-      imagePath: req.file.filename, // Store the GridFS filename
-      uploader: req.user._id,
+      imagePath: req.file.filename, // Store the GridFS filename or file path
+      uploader: req.user._id, // Assign the logged-in user's ID
     });
 
     await newPhoto.save();
     req.flash('success', 'Photo uploaded successfully.');
-    res.redirect('/auth/profile');
+    res.redirect('/profile');
   } catch (err) {
     console.error('Error uploading photo:', err);
     req.flash('error', 'Failed to upload photo.');
-    res.redirect('/auth/profile');
+    res.redirect('/profile');
   }
 });
+
 const Grid = require('gridfs-stream');
 const mongoose = require('mongoose');
 const path = require('path');
 
 let gfs;
+let gridfsBucket;
 
-// Initialize GridFS
+// Initialize GridFSBucket after MongoDB connection
 mongoose.connection.once('open', () => {
-  gfs = Grid(mongoose.connection.db, mongoose.mongo);
-  gfs.collection('photos'); // Same bucket name as used in multer storage
+  gridfsBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+    bucketName: 'photos', // Same bucket name as in the multer config
+  });
+  console.log('GridFSBucket initialized successfully.');
 });
 
 // Route to display an image
@@ -100,30 +103,24 @@ router.get('/image/:filename', async (req, res) => {
 });
 router.get('/profile-photo/:filename', async (req, res) => {
   try {
-    console.log('Requested Filename:', req.params.filename);
+    const file = await mongoose.connection.db
+      .collection('photos.files')
+      .findOne({ filename: req.params.filename });
 
-    const file = await gfs.files.findOne({ filename: req.params.filename });
-
-    if (!file || file.length === 0) {
-      console.log('File not found in GridFS.');
+    if (!file) {
       return res.status(404).send('Profile photo not found');
     }
 
-    console.log('File Found:', file);
-    console.log('File MIME Type:', file.contentType);
-
-    if (file.contentType.includes('image')) {
-      const readStream = gfs.createReadStream(file.filename);
-      readStream.pipe(res);
-    } else {
-      console.log('Invalid content type:', file.contentType);
-      res.status(400).send('Not a valid image file');
-    }
+    // Stream the file from GridFSBucket
+    const readStream = gridfsBucket.openDownloadStreamByName(req.params.filename);
+    res.set('Content-Type', file.contentType); // Set the content type of the response
+    readStream.pipe(res);
   } catch (err) {
     console.error('Error fetching profile photo:', err);
     res.status(500).send('Error fetching profile photo');
   }
 });
+
 
 
 

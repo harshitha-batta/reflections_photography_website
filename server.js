@@ -7,8 +7,10 @@ const MongoStore = require('connect-mongo');
 const path = require('path');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
+const Grid = require('gridfs-stream');
 
 const authRoutes = require('./routes/auth'); // Authentication routes
+const profileRoutes = require('./routes/profile'); // Profile routes
 const { isAuthenticated, isAdmin } = require('./middlewares/roles'); // Role-based middleware
 
 const app = express();
@@ -19,9 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // MongoDB Atlas Connection
+let gfs; // Variable to hold GridFS instance
 const connectDB = async () => {
   try {
-    await mongoose.connect(
+    const conn = await mongoose.connect(
       `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}/${process.env.DATABASE}?retryWrites=true&w=majority`,
       {
         useNewUrlParser: true,
@@ -29,6 +32,11 @@ const connectDB = async () => {
       }
     );
     console.log('MongoDB Atlas connected successfully.');
+
+    // Initialize GridFS
+    gfs = Grid(conn.connection.db, mongoose.mongo);
+    gfs.collection('photos'); // Set the bucket name (same as in multer)
+    console.log('GridFS initialized successfully.');
   } catch (err) {
     console.error('MongoDB connection error:', err.message);
     process.exit(1); // Exit process with failure
@@ -36,6 +44,12 @@ const connectDB = async () => {
 };
 
 connectDB(); // Connect to MongoDB
+
+// Make GridFS instance globally available
+app.use((req, res, next) => {
+  req.gfs = gfs; // Attach GridFS instance to the request object
+  next();
+});
 
 // Initialize cookie-parser middleware
 app.use(cookieParser());
@@ -102,7 +116,8 @@ app.use((req, res, next) => {
   }
   next();
 });
-const profileRoutes = require('./routes/profile');
+
+// Profile routes
 app.use('/profile', profileRoutes);
 
 // Define the root route
