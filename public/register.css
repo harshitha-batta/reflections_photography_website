@@ -48,7 +48,7 @@
 }
 
 .left-panel form button {
-  padding: 12px 24px;
+  padding: 12px;
   background-color: #28a745;
   color: white;
   border: none;
@@ -110,7 +110,7 @@
 }
 
 .right-panel .btn {
-  padding: 12px 24px;
+  padding: 12px 325px;
   background-color: #28a745;
   color: white;
   border: none;
