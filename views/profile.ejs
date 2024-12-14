@@ -5,106 +5,129 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile Settings</title>
   <link rel="stylesheet" href="/profile.css">
+   <link rel="stylesheet" href="/navbar.css">
 </head>
 <body>
   <%- include('./layouts/main', { title: 'Profile Settings' }) %>
-  <div class="profile-container">
-    <h1 class="title">Profile Settings</h1>
 
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab active">Profile</button>
-      <button class="tab">Notifications</button>
-    </div>
-
-    <!-- Profile Photo Section -->
-    <div class="profile-photo-section">
-      <div class="photo-container">
-        <% if (user.profilePhoto) { %>
-          <img src="/profile/profile-photo/<%= encodeURIComponent(user.profilePhoto) %>" alt="Profile Photo" class="profile-photo" />
-        <% } else { %>
-          <img src="/path/to/default-profile.jpg" alt="Default Profile" class="profile-photo" />
-          <p class="no-photo">No profile photo uploaded yet.</p>
-        <% } %>
-      </div>
-      <form action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data" class="upload-photo-form">
-        <label for="profilePhoto">Change Image</label>
-        <input type="file" name="profilePhoto" id="profilePhoto" required />
-        <button type="submit" class="btn">Upload</button>
-      </form>
-    </div>
-
-    <!-- Profile Info Section -->
-    <div class="profile-info">
-      <h2>Basic Information</h2>
-      <form action="/profile/update-info" method="POST">
-        <div class="form-group">
-          <label for="firstName">First Name *</label>
-          <input type="text" id="firstName" name="firstName" value="<%= user.firstName || '' %>" required />
-        </div>
-        <div class="form-group">
-          <label for="lastName">Last Name *</label>
-          <input type="text" id="lastName" name="lastName" value="<%= user.lastName || '' %>" required />
-        </div>
-        <div class="form-group">
-          <label for="email">Email *</label>
-          <input type="email" id="email" name="email" value="<%= user.email %>" required />
-        </div>
-        <div class="form-group">
-          <label for="paypal">Paypal Email for Donations</label>
-          <input type="email" id="paypal" name="paypal" value="<%= user.paypalEmail || '' %>" />
-        </div>
-        <button type="submit" class="btn">Save Profile</button>
-      </form>
-    </div>
-
-    <!-- About You Section -->
-    <div class="about-you">
-      <h2>About You</h2>
-      <form action="/profile/update-bio" method="POST">
-        <textarea id="bio" name="bio" placeholder="Write a short bio..."><%= user.bio || '' %></textarea>
-        <div class="social-links">
-          <input type="text" placeholder="Location" value="<%= user.location || '' %>" />
-          <input type="text" placeholder="Website" value="<%= user.website || '' %>" />
-          <input type="text" placeholder="Instagram" value="<%= user.instagram || '' %>" />
-          <input type="text" placeholder="YouTube" value="<%= user.youtube || '' %>" />
-        </div>
-        <button type="submit" class="btn">Save Links</button>
-      </form>
-    </div>
-
-    <!-- Upload Photos Section -->
-    <div class="upload-photo-section">
-      <h2>Upload Photos</h2>
-      <form action="/profile/upload-photo" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" id="title" name="title" required />
-        </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <input type="text" id="description" name="description" />
-        </div>
-        <div class="form-group">
-          <label for="category">Category</label>
-          <select name="category" id="category">
-            <option value="Landscapes">Landscapes</option>
-            <option value="Portraits">Portraits</option>
-            <option value="Abstract">Abstract</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="tags">Tags (comma-separated)</label>
-          <input type="text" id="tags" name="tags" />
-        </div>
-        <div class="form-group">
-          <label for="photo">Upload Photo</label>
-          <input type="file" id="photo" name="photo" required />
-        </div>
-        <button type="submit" class="btn">Upload</button>
-      </form>
-    </div>
+<div class="profile-container">
+  <div class="title">Profile Settings</div>
+  
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active">Profile</button>
+    <button class="tab">Notifications</button>
   </div>
+  
+  <!-- Profile Photo Section -->
+  <div class="profile-photo-section">
+    <div class="photo-container">
+      <% if (user.profilePhoto) { %>
+        <img
+          src="/profile/profile-photo/<%= encodeURIComponent(user.profilePhoto) %>"
+          alt="Profile Photo"
+          class="profile-photo"
+        />
+      <% } else { %>
+        <p class="no-photo">No profile photo uploaded yet.</p>
+      <% } %>
+    </div>
+    <form action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data" class="upload-photo-form">
+      <label for="profilePhoto">Change Image:</label>
+      <input type="file" name="profilePhoto" id="profilePhoto" required />
+      <button type="submit" class="btn">Upload</button>
+    </form>
+  </div>
+  
+  <!-- Basic Information Form -->
+  <div class="section">
+    <h2>Basic Information</h2>
+    <form action="/profile/update-info" method="POST">
+      <div class="form-group">
+        <label for="firstName">First Name *</label>
+        <input type="text" name="firstName" id="firstName" value="<%= user.firstName %>" required />
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name *</label>
+        <input type="text" name="lastName" id="lastName" value="<%= user.lastName %>" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input type="email" name="email" id="email" value="<%= user.email %>" required />
+      </div>
+      <div class="form-group">
+        <label for="paypalEmail">Paypal Email for Donations</label>
+        <input type="email" name="paypalEmail" id="paypalEmail" value="<%= user.paypalEmail %>" />
+      </div>
+      <button type="submit" class="btn">Save Profile</button>
+    </form>
+  </div>
+
+  <!-- About You Section -->
+  <div class="section">
+    <h2>About You</h2>
+    <form action="/profile/update-bio" method="POST">
+      <div class="form-group">
+        <label for="bio">Short Bio</label>
+        <textarea id="bio" name="bio" placeholder="Write a short bio..."><%= user.bio || '' %></textarea>
+      </div>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" value="<%= user.location || '' %>" />
+      </div>
+      <div class="form-group">
+        <label for="website">Website</label>
+        <input type="url" id="website" name="website" value="<%= user.website || '' %>" />
+      </div>
+      <div class="form-group">
+        <label for="instagram">Instagram</label>
+        <input type="url" id="instagram" name="instagram" value="<%= user.instagram || '' %>" />
+      </div>
+      <div class="form-group">
+        <label for="youtube">YouTube</label>
+        <input type="url" id="youtube" name="youtube" value="<%= user.youtube || '' %>" />
+      </div>
+      <button type="submit" class="btn">Save Links</button>
+    </form>
+  </div>
+
+  <!-- Upload Photos Section -->
+  <div class="section">
+    <h2>Upload Photos</h2>
+    <form action="/profile/upload-photo" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" required />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea name="description" id="description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select name="category" id="category" required>
+          <option value="Landscapes">Landscapes</option>
+          <option value="Portraits">Portraits</option>
+          <option value="Abstract">Abstract</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="tags">Tags (comma-separated)</label>
+        <input type="text" name="tags" id="tags" />
+      </div>
+      <div class="form-group">
+        <label for="photo">Upload Photo</label>
+        <input type="file" name="photo" id="photo" required />
+      </div>
+      <button type="submit" class="btn">Upload</button>
+    </form>
+  </div>
+
+  <div class="logout">
+    <a href="/auth/logout" class="btn">Logout</a>
+  </div>
+</div>
+
 </body>
 </html>

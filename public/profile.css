@@ -116,3 +116,8 @@ form select {
 .btn:hover {
   background-color: #c2185b;
 }
+
+.logout {
+  text-align: center;
+  margin-top: 20px;
+}
