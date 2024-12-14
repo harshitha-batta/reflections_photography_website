@@ -24,12 +24,15 @@ require('dotenv').config();
     // Hash the password
     const hashedPassword = await bcrypt.hash('adminpassword', 10);
 
-    // Create the admin user
+    // Create the admin user with the updated schema
     const adminUser = new User({
       name: 'Admin',
       email: 'admin@example.com',
       password: hashedPassword, // Store the hashed password
       role: 'admin', // Set role to admin
+      bio: 'Administrator account', // Default bio for admin
+      profilePhoto: '', // Default profile photo (empty for now)
+      uploadedPhotos: [], // No uploaded photos initially
     });
 
     await adminUser.save();
