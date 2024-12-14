@@ -33,40 +33,59 @@
 }
 
 .left-panel h1 {
-  font-size: 2.5em;
+  font-size: 3em;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
 .left-panel p {
-  font-size: 1.2em;
+  font-size: 1.5em;
   margin-bottom: 20px;
 }
 
 .left-panel .info {
-  font-size: 1em;
+  font-size: 1.2em;
   margin-bottom: 15px;
 }
 
+/* Consistent Button Styles for Both Panels */
 .left-panel .btn,
 .right-panel form .btn {
   padding: 12px 30px; /* Adjust consistent padding */
-  background-color: rgba(255, 255, 255, 0.9); /* White button with slight transparency */
-  color: #62445E; /* Consistent theme color for text */
+  width: fit-content; /* Make the button's width fit the content */
+  margin: 0 auto; /* Center the button horizontally */
   border: none;
   border-radius: 20px;
   text-decoration: none;
   font-size: 1.2em;
   font-weight: bold;
-  font-family: "Montez", cursive;
+  font-family: "Montez", cursive; /* Ensure consistent font */
   transition: all 0.3s ease;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.left-panel .btn:hover,
-.right-panel form .btn:hover {
+.left-panel .btn{
+  background-color: rgba(255, 255, 255, 0.9); /* White button with slight transparency */
+  color: #62445E; /* Consistent theme color for text */
+
+}
+
+.right-panel .btn{
+  background-color: #62445E; /* White button with slight transparency */
+  color: rgba(255, 255, 255, 0.9); /* Consistent theme color for text */
+
+}
+
+
+
+.left-panel .btn:hover {
   background-color: #62445E;
   color: white;
+}
+
+.right-panel form .btn:hover {
+  background-color: white;
+  color: #62445E;
 }
 
 /* Right Panel */
@@ -84,7 +103,7 @@
 .right-panel h2 {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 2.2em;
+  font-size:3em;
   font-weight: bold;
   color: #62445E; /* Theme color */
 }
@@ -97,7 +116,7 @@
 .right-panel form label {
   margin-bottom: 5px;
   font-weight: bold;
-  font-size: 1em;
+  font-size: 1.5em;
   color: #62445E;
 }
 
@@ -119,7 +138,7 @@
   text-align: center;
   color: #62445E;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 1.2em;
 }
 
 .right-panel .forgot-link:hover {
