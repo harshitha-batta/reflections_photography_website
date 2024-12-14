@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User'); // Replace with the path to your User model
+const User = require('../models/User');
 const passport = require('passport');
-const bcrypt = require('bcrypt'); // To hash passwords securely
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { isAdmin, isAuthenticated } = require('../middlewares/roles');
-const Photo = require('../models/Photo'); // Add this line to import the Photo model
+const Photo = require('../models/Photo');
 
 // JWT Generation Function
 function generateToken(user) {
@@ -13,7 +13,7 @@ function generateToken(user) {
     id: user._id,
     email: user.email,
     name: user.name,
-    role: user.role, // Include role in the token
+    role: user.role,
   };
 
   return jwt.sign(payload, process.env.JWT_SECRET || 'your_jwt_secret', { expiresIn: '1h' });
@@ -50,11 +50,11 @@ router.post('/register', async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: role || 'user', // Default role
+      role: role || 'user',
     });
 
     await newUser.save();
-    console.log('New User Registered:', newUser); // Debugging log
+    console.log('New User Registered:', newUser);
     req.flash('success', 'Registration successful! Please log in.');
     res.redirect('/auth/login');
   } catch (err) {
@@ -68,21 +68,20 @@ router.post('/register', async (req, res) => {
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
   try {
     const token = generateToken(req.user);
-    console.log('Generated JWT:', token); // Debugging log
+    console.log('Generated JWT:', token);
     res.cookie('jwt', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 3600000, // 1 hour
+      maxAge: 3600000,
     });
-    console.log('JWT Cookie Set:', res.getHeader('Set-Cookie')); // Debugging log
-    res.redirect('./gallery/');
+    console.log('JWT Cookie Set:', res.getHeader('Set-Cookie'));
+    res.redirect('/gallery');
   } catch (err) {
     console.error('Login Error:', err.message);
     req.flash('error', 'An error occurred during login.');
     res.redirect('/auth/login');
   }
 });
-
 
 // Get Profile Page
 router.get('/profile', async (req, res) => {
@@ -95,14 +94,12 @@ router.get('/profile', async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
-
-    // Fetch the full user object from the database
     const user = await User.findById(decoded.id);
 
-    res.render('profile', { 
-      title: 'Your Profile', 
-      user, // Pass the complete user object
-      photos: [] // Add this if you want to include uploaded photos later
+    res.render('profile', {
+      title: 'Your Profile',
+      user,
+      photos: [],
     });
   } catch (err) {
     console.error('JWT verification error:', err.message);
@@ -111,7 +108,20 @@ router.get('/profile', async (req, res) => {
   }
 });
 
-
+// Get Gallery Page
+router.get('/gallery', isAuthenticated, async (req, res) => {
+  try {
+    const photos = await Photo.find(); // Fetch all photos from the database
+    res.render('gallery', {
+      title: 'Gallery',
+      photos, // Pass the photos to the template
+    });
+  } catch (err) {
+    console.error('Error fetching gallery:', err.message);
+    req.flash('error', 'Unable to load gallery.');
+    res.redirect('/auth/login');
+  }
+});
 
 // Admin Dashboard
 router.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
@@ -127,7 +137,7 @@ router.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
   }
 });
 
-// Admin Account Creation (Only for Admins)
+// Admin Account Creation
 router.post('/admin/create', isAuthenticated, isAdmin, async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -146,7 +156,7 @@ router.post('/admin/create', isAuthenticated, isAdmin, async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: 'admin', // Explicitly set role to admin
+      role: 'admin',
     });
 
     await newAdmin.save();
