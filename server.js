@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/auth'); // Authentication routes
 const profileRoutes = require('./routes/profile'); // Profile routes
 const galleryRoutes = require('./routes/gallery'); // Gallery routes
+const readerPostRoutes = require('./routes/readerPost'); //Posted image route
 const { isAuthenticated, isAdmin } = require('./middlewares/roles'); // Role-based middleware
 
 const app = express();
@@ -116,6 +117,8 @@ app.use((req, res, next) => {
 
 // Profile routes
 app.use('/profile', profileRoutes);
+app.use('/gallery', galleryRoutes); // Gallery route
+app.use('/readerPost', readerPostRoutes); // readerPost route
 
 // Admin-only route for the admin dashboard
 app.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
@@ -124,7 +127,6 @@ app.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
 
 // Routes
 app.use('/auth', authRoutes);
-app.use('/', galleryRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

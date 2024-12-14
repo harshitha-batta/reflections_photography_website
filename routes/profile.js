@@ -109,27 +109,29 @@ router.get('/photo/:filename', async (req, res) => {
 });
 router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req, res) => {
   try {
-    const { title, description, category, tags } = req.body;
-
     if (!req.file) {
       req.flash('error', 'No file uploaded.');
       return res.redirect('/profile');
     }
 
-    // Debug `req.user` and `req.file`
-    console.log('Uploaded File:', req.file);
-    console.log('User:', req.user);
+    const { title, description, category, tags } = req.body;
 
     const newPhoto = new Photo({
       title,
       description,
       category,
       tags: tags ? tags.split(',').map((tag) => tag.trim()) : [],
-      imagePath: req.file.filename, // Ensure this matches the uploaded file name
-      uploader: req.user._id, // Ensure the user ID is correctly set
+      imagePath: req.file.filename,
+      uploader: req.user.id, // Ensure this is set correctly
     });
 
     await newPhoto.save();
+
+    // Optionally update the user's `uploadedPhotos` array
+    await User.findByIdAndUpdate(req.user.id, {
+      $push: { uploadedPhotos: newPhoto._id },
+    });
+
     req.flash('success', 'Photo uploaded successfully.');
     res.redirect('/profile');
   } catch (err) {
@@ -138,6 +140,8 @@ router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req
     res.redirect('/profile');
   }
 });
+
+
 
 
 // Upload photo with metadata

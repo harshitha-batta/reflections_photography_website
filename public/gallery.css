@@ -27,43 +27,46 @@ body {
   gap: 10px;
 }
 
-.hero-dropdown label {
-  font-family: "Montez", cursive;
-  font-size: 1.5em;
-  margin-right: 10px;
-}
-
 .hero-dropdown select {
   padding: 10px 20px;
   font-size: 1em;
   border: 1px solid #62445E;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 20px; /* Rounded corners for a softer look */
+  background-color: rgba(255, 255, 255, 0.9);
   color: #62445E;
   font-family: "Lora", serif;
   outline: none;
   transition: all 0.3s ease;
   appearance: none; /* Remove default arrow */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' fill='%2362445E'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' fill='%23E0D2DE'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 10px center; /* Space after arrow */
-  background-size: 15px;
+  background-position: right 15px center; /* Adjust arrow positioning */
+  background-size: 20px; /* Larger arrow size */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Subtle shadow */
 }
 
 .hero-dropdown select:hover {
   background-color: #62445E;
   color: white;
   border: 1px solid #fff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' fill='%23E0D2DE'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center; /* Space after arrow */
-
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' fill='%23FFFFFF'/%3E%3C/svg%3E");
+  background-position: right 15px center;
+  background-size: 20px;
 }
 
 .hero-dropdown select:focus {
   border: 1px solid #fff;
-  box-shadow: 0 0 5px rgba(98, 68, 94, 0.5);
+  box-shadow: 0 0 10px rgba(98, 68, 94, 0.5); /* Glow effect */
 }
+
+.hero-dropdown label {
+  font-family: "Montez", cursive;
+  font-size: 1.5em;
+  margin-right: 10px;
+  color: #62445E; /* Ensure contrast */
+}
+
+
 
 /* Categories Section */
 .categories {

@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema(
     role: { type: String, enum: ['guest', 'user', 'admin'], default: 'user' },
     bio: { type: String, default: '' }, // User bio
     profilePhoto: { type: String, default: '' }, // Path to profile photo
+    uploadedPhotos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Photo' }], // References to uploaded photos
   },
   { timestamps: true }
 );

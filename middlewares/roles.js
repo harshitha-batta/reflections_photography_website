@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-
 function isAuthenticated(req, res, next) {
   const token = req.cookies.jwt;
 
@@ -9,9 +8,8 @@ function isAuthenticated(req, res, next) {
   }
 
   try {
-    // Verify the token and attach the decoded user to `req.user`
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
-    req.user = decoded;
+    req.user = { id: decoded.id, email: decoded.email, name: decoded.name }; // Attach user data from JWT
     next();
   } catch (err) {
     console.error('JWT verification error:', err.message);
@@ -21,9 +19,9 @@ function isAuthenticated(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-  console.log('Authenticated:', req.isAuthenticated());
-  console.log('User Role:', req.user?.role); // Debugging log
-  if (req.isAuthenticated() && req.user.role === 'admin') return next();
+  if (req.user && req.user.role === 'admin') {
+    return next();
+  }
   req.flash('error', 'Access denied. Admins only.');
   res.redirect('/');
 }
