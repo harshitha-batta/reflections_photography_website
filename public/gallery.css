@@ -1,3 +1,9 @@
+/* General Page Styling */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Montez", cursive;
+}
 
 /* Hero Section */
 .hero {
@@ -5,11 +11,10 @@
   background: url('https://images.pexels.com/photos/772520/pexels-photo-772520.jpeg?auto=compress&cs=tinysrgb&w=800') no-repeat center center/cover;
   padding: 300px 20px;
   color: white;
-   font-family: "Montez", cursive;
 }
 
 .hero h1 {
-  font-size:5em;
+  font-size: 5em;
   font-weight: bold;
 }
 
@@ -21,35 +26,85 @@
 /* Categories Section */
 .categories {
   padding: 50px 20px;
-  text-align: center;
+  position: relative;
 }
 
 .categories h2 {
   font-size: 2em;
+  font-family: "Lora", serif;
   margin-bottom: 20px;
+  text-align: left;
+}
+
+.category-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
 }
 
 .category-buttons {
   display: flex;
-  justify-content: center;
   gap: 10px;
-  flex-wrap: wrap;
+  overflow-x: auto; /* Horizontal scrolling */
+  padding: 10px;
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+  scroll-behavior: smooth; /* Smooth scrolling for navigation */
+  flex-grow: 1;
+}
+
+.category-buttons::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in Chrome */
 }
 
 .category-buttons button {
-  padding: 10px 20px;
-  border: 1px solid #ccc;
+  padding: 12px 30px;
+  border: 1px solid #62445E;
   background-color: white;
-  font-size: 1em;
+  font-size: 1.1em;
+  font-family: "Lora", serif;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 20px;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .category-buttons button:hover {
-  background-color: #0073e6;
+  background-color: #62445E;
   color: white;
 }
+
+/* Scroll Buttons */
+.scroll-left,
+.scroll-right {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #62445E;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5em;
+  cursor: pointer;
+  position: absolute;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.scroll-left:hover,
+.scroll-right:hover {
+  background-color: #62445E;
+  color: white;
+}
+
+.scroll-left {
+  left: 10px; /* Position on the left */
+}
+
+.scroll-right {
+  right: 10px; /* Position on the right */
+}
+
 
 /* Featured Section */
 .featured {
@@ -58,20 +113,34 @@
 }
 
 .featured h2 {
-  font-size: 2em;
-  margin-bottom: 20px;
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  color: #62445E;
 }
 
 .gallery {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
-  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
 .gallery-item img {
-  width: 300px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   border-radius: 10px;
   object-fit: cover;
   transition: transform 0.3s ease;
@@ -79,4 +148,16 @@
 
 .gallery-item img:hover {
   transform: scale(1.05);
+}
+
+.gallery-item h3 {
+  font-size: 1.2em;
+  color: #62445E;
+  margin-top: 10px;
+}
+
+.gallery-item p {
+  font-size: 1em;
+  color: #666;
+  margin-top: 5px;
 }

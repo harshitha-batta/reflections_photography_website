@@ -6,10 +6,9 @@
   <title>Reflections</title>
   <link rel="stylesheet" href="/navbar.css"> <!-- Navbar styles -->
   <link rel="stylesheet" href="/gallery.css"> <!-- Home Page styles -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montez&family=Pacifico&display=swap" rel="stylesheet">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montez&family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Navbar -->
@@ -17,70 +16,70 @@
 
   <!-- Main Content -->
   <main>
+    <!-- Hero Section -->
     <section class="hero">
       <h1>Discover the Beauty of Reflections</h1>
       <p>Explore breathtaking photos and unleash your creativity.</p>
     </section>
 
-    <section class="categories">
-      <h2>Categories</h2>
-      <div class="category-buttons">
-        <button>Forest</button>
-        <button>Tree</button>
-        <button>Travel</button>
-        <button>Dark</button>
-        <button>Natural</button>
-        <button>Summer</button>
-        <button>HD Wallpapers</button>
-        <button>Beach</button>
-        <button>River</button>
-        <button>Spring</button>
+    <!-- Categories Section -->
+<section class="categories">
+  <h2>Categories</h2>
+  <div class="category-container">
+    <button class="scroll-left" aria-label="Scroll Left">&larr;</button>
+    <div class="category-buttons">
+      <button>Trees</button>
+      <button>Blur</button>
+      <button>Beautiful</button>
+      <button>Love</button>
+      <button>Daylight</button>
+      <button>Wood</button>
+      <button>Leaf</button>
+      <button>Flower</button>
+      <button>Fall</button>
+      <button>City</button>
+      <button>Beach</button>
+      <button>Rain</button>
+      <button>Autumn</button>
+      <button>Mountains</button>
+      <button>Nature</button>
+      <button>Desert</button>
+      <button>Winter</button>
+      <button>Travel</button>
+      <button>Summer</button>
+      <button>HD Wallpapers</button>
+      <button>Forest</button>
+      <button>Spring</button>
+    </div>
+    <button class="scroll-right" aria-label="Scroll Right">&rarr;</button>
+  </div>
+</section>
+
+
+    
+    <!-- Dynamic Featured Collections Section -->
+    <section class="featured">
+      <h2>Featured Collections</h2>
+      <div class="gallery">
+        <% photos.forEach(photo => { %>
+          <div class="gallery-item">
+            <img src="<%= photo.imagePath %>" alt="<%= photo.title %>">
+            <h3><%= photo.title %></h3>
+            <p><%= photo.description %></p>
+            <p>Category: <%= photo.category %></p>
+            <p>Likes: <%= photo.likes.length %></p>
+          </div>
+        <% }) %>
       </div>
     </section>
-    
-      <section class="featured">
-        <h2>Featured Collections</h2>
-        <div class="gallery">
-          <% photos.forEach(photo => { %>
-            <div class="gallery-item">
-              <img src="<%= photo.imagePath %>" alt="Placeholder">
-              <h3><%= photo.title %></h3>
-              <p><%= photo.description %></p>
-              <p>Category: <%= photo.category %></p>
-              <p>Likes: <%= photo.likes.length %></p>
-            </div>
-          <% }) %>
-        </div>
-    </section>
 
+    <!-- Static Featured Collections Section -->
     <section class="featured">
       <h2>Featured Collections</h2>
       <div class="gallery">
         <div class="gallery-item"><img src="https://images.pexels.com/photos/220051/pexels-photo-220051.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/221166/pexels-photo-221166.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/3734845/pexels-photo-3734845.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/2471458/pexels-photo-2471458.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-      </div>
-            <div class="gallery">
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/220051/pexels-photo-220051.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/221166/pexels-photo-221166.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/3734845/pexels-photo-3734845.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/2471458/pexels-photo-2471458.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-      </div>
-      
-            </div>
-            <div class="gallery">
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/220051/pexels-photo-220051.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/221166/pexels-photo-221166.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/3734845/pexels-photo-3734845.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/2471458/pexels-photo-2471458.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-      </div>
-    
-          </div>
-            <div class="gallery">
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/220051/pexels-photo-220051.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/221166/pexels-photo-221166.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/3734845/pexels-photo-3734845.jpeg?auto=compress&cs=tinysrgb&w=800"></div>
+        <div class="gallery-item"><img src="https://images.pexels.com/photos/221166/pexels-photo-221166.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
+        <div class="gallery-item"><img src="https://images.pexels.com/photos/3734845/pexels-photo-3734845.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
         <div class="gallery-item"><img src="https://images.pexels.com/photos/2471458/pexels-photo-2471458.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
       </div>
     </section>
