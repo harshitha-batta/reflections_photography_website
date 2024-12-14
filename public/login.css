@@ -95,15 +95,20 @@
 
 .content-panel .register-link {
   margin-top: 15px;
-  display: block;
+  display: inline-block; /* Makes it behave like a button */
   text-decoration: none;
   font-size: 1.2em;
-  color: #FFD700; /* Highlight color - Gold */
-  font-weight: bold; /* Make it bold for emphasis */
-  transition: color 0.3s ease;
+  font-weight: bold;
+  color: #1D4A19;
+  background-color: #C4D76C; /* Same background color as the login button */
+  padding: 12px 30px;
+  border-radius: 20px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a button-like shadow */
+  transition: all 0.3s ease;
 }
 
 .content-panel .register-link:hover {
-  text-decoration: underline;
-  color: #FFF; /* Change to white on hover */
+  background-color: white; /* Highlight background on hover */
+  color: #1D4A19; /* Text color on hover */
+  text-decoration: none; /* Ensures no underline */
 }
