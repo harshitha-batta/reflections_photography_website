@@ -2,145 +2,94 @@
 .login-page-container {
   display: flex;
   justify-content: center;
-  min-height: 100vh;
-  background-color: #fff; /* White Background */
-  padding: 20px;
-  gap: 20px;
-  font-family: "Montez", cursive;
-}
-
-/* Left Panel */
-.left-panel {
-  flex: 1;
-  background: url('https://images.pexels.com/photos/2102901/pexels-photo-2102901.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center/cover;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 40px 30px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  color: white;
-  text-align: center;
+  min-height: 100vh;
+  background: url('https://images.pexels.com/photos/36008/rosenblatt-leaf-wasserperlen-wet-drip.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center/cover;
+  background-size: cover;
+  font-family: "Montez", cursive; /* Consistent font */
 }
 
-.left-panel .content {
-  background-color: rgba(98, 68, 94, 0.4); /* Semi-transparent theme color */
-  padding: 20px;
+/* Main Content Panel */
+.content-panel {
+  background-color: rgba(97, 111, 35, 0.6); /* Semi-transparent background */
+  padding: 40px;
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 600px;
+  color: white; /* Text color for visibility */
 }
 
-.left-panel h1 {
+.content-panel h1 {
   font-size: 3em;
   font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.left-panel p {
-  font-size: 1.5em;
+  color: white; /* Theme color for heading */
   margin-bottom: 20px;
 }
 
-.left-panel .info {
+.content-panel p {
   font-size: 1.2em;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 }
 
-/* Consistent Button Styles for Both Panels */
-.left-panel .btn,
-.right-panel form .btn {
-  padding: 12px 30px; /* Adjust consistent padding */
-  width: fit-content; /* Make the button's width fit the content */
-  margin: 0 auto; /* Center the button horizontally */
-  border: none;
-  border-radius: 20px;
-  text-decoration: none;
+.content-panel form {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-panel form label {
+  text-align: left;
+  margin-bottom: 5px;
   font-size: 1.2em;
   font-weight: bold;
-  font-family: "Montez", cursive; /* Ensure consistent font */
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.left-panel .btn{
-  background-color: rgba(255, 255, 255, 0.9); /* White button with slight transparency */
-  color: #62445E; /* Consistent theme color for text */
-
-}
-
-.right-panel .btn{
-  background-color: #62445E; /* White button with slight transparency */
-  color: rgba(255, 255, 255, 0.9); /* Consistent theme color for text */
-
-}
-
-
-
-.left-panel .btn:hover {
-  background-color: #62445E;
   color: white;
 }
 
-.right-panel form .btn:hover {
-  background-color: white;
-  color: #62445E;
-}
-
-/* Right Panel */
-.right-panel {
-  flex: 1;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 40px 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.right-panel h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size:3em;
-  font-weight: bold;
-  color: #62445E; /* Theme color */
-}
-
-.right-panel form {
-  display: flex;
-  flex-direction: column;
-}
-
-.right-panel form label {
-  margin-bottom: 5px;
-  font-weight: bold;
-  font-size: 1.5em;
-  color: #62445E;
-}
-
-.right-panel form input {
+.content-panel form input {
   padding: 12px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 1em;
 }
 
-.right-panel form input:focus {
+.content-panel form input:focus {
   outline: none;
-  border: 2px solid #62445E; /* Theme focus */
+  border: 2px solid white; /* Focus theme */
 }
 
-.right-panel .forgot-link {
-  margin-top: 15px;
-  text-align: center;
+.content-panel .btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 20px;
+  background-color: white;
   color: #62445E;
+  font-size: 1em; /* Adjusted font size */
+
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-family: "Lora", serif;
+  
+  
+}
+
+.content-panel .btn:hover {
+  background-color: #62445E;
+  color: white;
+}
+
+.content-panel .forgot-link,
+.content-panel .register-link {
+  margin-top: 15px;
+  display: block;
   text-decoration: none;
   font-size: 1.2em;
+  color: white;
 }
 
-.right-panel .forgot-link:hover {
+.content-panel .forgot-link:hover,
+.content-panel .register-link:hover {
   text-decoration: underline;
 }
