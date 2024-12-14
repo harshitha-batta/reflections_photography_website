@@ -14,7 +14,7 @@ body {
 }
 
 .hero h1 {
-  font-size: 7em;
+  font-size: 6em;
   font-weight: bold;
 }
 
@@ -68,7 +68,7 @@ body {
   font-size: 1.1em;
   font-family: "Lora", serif;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 10px;
   transition: all 0.3s ease;
   flex-shrink: 0;
 }
@@ -98,7 +98,7 @@ body {
 
 .scroll-left:hover,
 .scroll-right:hover {
-  background-color: white;
+  background-color: #E0D2DE;
   color: #62445E;
 }
 

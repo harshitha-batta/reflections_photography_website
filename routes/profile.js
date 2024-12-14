@@ -50,12 +50,14 @@ router.post('/upload-profile-photo', isAuthenticated, upload.single('profilePhot
 router.get('/', isAuthenticated, async (req, res) => {
   try {
     const photos = await Photo.find({ uploader: req.user._id }); // Fetch photos uploaded by the user
+    console.log('Fetched Photos:', photos); // Log fetched photos
     res.render('profile', { title: 'Your Profile', user: req.user, photos });
   } catch (err) {
     console.error('Error fetching profile data:', err);
     res.status(500).send('Error fetching profile data');
   }
 });
+
 
 // Stream profile photo
 router.get('/profile-photo/:filename', async (req, res) => {
@@ -101,6 +103,14 @@ router.get('/photo/:filename', async (req, res) => {
 
 // Upload photo with metadata
 router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req, res) => {
+  console.log('Uploaded File:', req.file); // Log the uploaded file details
+  console.log('User:', req.user); // Log the user uploading the file
+
+  if (!req.file) {
+    req.flash('error', 'Failed to upload photo.');
+    return res.redirect('/profile/upload');
+  }
+
   const { title, description, category, tags } = req.body;
 
   try {
@@ -109,27 +119,18 @@ router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req
       description,
       category,
       tags: tags ? tags.split(',').map((tag) => tag.trim()) : [],
-      imagePath: req.file.filename, // Store GridFS filename or path
+      imagePath: req.file.filename,
       uploader: req.user._id,
     });
 
     await newPhoto.save();
+    console.log('Photo Metadata Saved:', newPhoto); // Log metadata saved
     req.flash('success', 'Photo uploaded successfully.');
     res.redirect('/profile');
   } catch (err) {
-    console.error('Error uploading photo:', err);
-    req.flash('error', 'Failed to upload photo.');
+    console.error('Error saving photo metadata:', err);
+    req.flash('error', 'Failed to save photo metadata.');
     res.redirect('/profile/upload');
-  }
-});
-
-// Render upload page
-router.get('/upload', isAuthenticated, (req, res) => {
-  try {
-    res.render('upload', { title: 'Upload Photo', user: req.user });
-  } catch (err) {
-    console.error('Error rendering upload page:', err);
-    res.status(500).send('Error rendering upload page');
   }
 });
 
