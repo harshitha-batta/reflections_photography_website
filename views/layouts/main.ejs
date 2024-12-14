@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reflections</title>
-  <link rel="stylesheet" href="/navbar.css">
+ 
+    <link rel="stylesheet" href="/navbar.css">
+    
 </head>
 <body>
 <header>
@@ -14,23 +15,13 @@
     </div>
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
-      <li class="dropdown">
-        <a href="#" class="dropbtn">Categories</a>
-        <div class="dropdown-content">
-          <a href="#">Forest</a>
-          <a href="#">Tree</a>
-          <a href="#">Travel</a>
-          <a href="#">Dark</a>
-          <a href="#">Natural</a>
-          <a href="#">Summer</a>
-          <a href="#">HD Wallpapers</a>
-          <a href="#">Beach</a>
-          <a href="#">River</a>
-          <a href="#">Spring</a>
-        </div>
-      </li>
-      <li><a href="/auth/login">Login</a></li>
-      <li><a href="/auth/register">Register</a></li>
+      <% if (!user) { %>
+        <li><a href="/auth/login">Login</a></li>
+        <li><a href="/auth/register">Register</a></li>
+      <% } else { %>
+        <li><a href="/auth/profile">Profile</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+      <% } %>
     </ul>
     <div class="hamburger">
       <span></span>
@@ -40,36 +31,20 @@
   </nav>
 </header>
 
-<main>
-  <div class="hero-section">
-    <h1>Discover the Beauty of Reflections</h1>
-    <p>Explore breathtaking photos and unleash your creativity.</p>
-  </div>
-
-  <section class="categories">
-    <h2>Categories</h2>
-    <div class="category-buttons">
-      <button>Forest</button>
-      <button>Tree</button>
-      <button>Travel</button>
-      <button>Dark</button>
-      <button>Natural</button>
-      <button>Summer</button>
-      <button>HD Wallpapers</button>
-      <button>Beach</button>
-      <button>River</button>
-      <button>Spring</button>
-    </div>
-  </section>
-
-  <section class="featured-collections">
-    <h2>Featured Collections</h2>
-    <div class="collections">
-      <div class="collection-item">300 x 300</div>
-      <div class="collection-item">300 x 300</div>
-      <div class="collection-item">300 x 300</div>
-    </div>
-  </section>
-</main>
+  
+  <!-- Flash Messages -->
+  <% if (successMessage) { %>x
+    <div class="flash success"><%= successMessage %></div>
+  <% } %>
+  <% if (errorMessage) { %>
+    <div class="flash error"><%= errorMessage %></div>
+  <% } %>
+  
+  <main>
+    <!-- Each individual page will provide its specific content here -->
+  </main>
+<!--   <footer>
+    <p>&copy; 2024 My App</p>
+  </footer> -->
 </body>
 </html>
