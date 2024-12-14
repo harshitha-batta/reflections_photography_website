@@ -122,11 +122,18 @@
   border: 2px solid #62445E; /* Theme focus */
 }
 
+.right-panel .content {
+  background-color: rgba(98, 68, 94, 0.4); /* Semi-transparent theme color */
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
 
 .right-panel .btn {
   padding: 12px 30px; /* Adjust consistent padding */
-  background-color: rgba(255, 255, 255, 0.9); /* White button with slight transparency */
-  color: #62445E; /* Consistent theme color for text */
+  background-color: #62445E; /* White button with slight transparency */
+  color: rgba(255, 255, 255, 0.9); ; /* Consistent theme color for text */
   border: none;
   border-radius: 20px;
   text-decoration: none;
@@ -138,12 +145,16 @@
 }
 
 
-
-.right-panel form button:hover {
-  background-color: #8b6186; /* Slightly lighter shade for hover */
-  transform: translateY(-2px);
+.right-panel .btn:hover {
+  background-color: white;
+  color: #62445E;
 }
 
+/* .right-panel form button:hover {
+  background-color: #8b6186;
+  transform: translateY(-2px);
+}
+ */
 .right-panel .forgot-link {
   margin-top: 15px;
   text-align: center;
