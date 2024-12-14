@@ -3,45 +3,36 @@
   <h1>Welcome, <%= user.name %>!</h1>
   <p>Email: <%= user.email %></p>
 
+  <!-- Editable Profile Information -->
+  <div class="profile-edit">
+    <h2>Edit Profile</h2>
+    <form action="/profile/update" method="POST">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" value="<%= user.name %>" required>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" value="<%= user.email %>" required>
+      <label for="bio">Bio:</label>
+      <textarea id="bio" name="bio"><%= user.bio || '' %></textarea>
+      <button type="submit">Update Profile</button>
+    </form>
+  </div>
+
   <% if (user.role === 'admin') { %>
-    <h2>Admin Actions</h2>
+    <!-- Admin-Specific Actions -->
+    <h2>Admin Dashboard</h2>
     <ul>
-      <li><a href="/admin/dashboard">View Dashboard</a></li>
-      <li><a href="/admin/manage-users">Manage Users</a></li>
-      <li><a href="/admin/manage-photos">Manage Photos</a></li>
+      <li><a href="/admin/manage-galleries">Manage Galleries</a></li>
       <li><a href="/admin/manage-comments">Moderate Comments</a></li>
+      <li><a href="/admin/user-activity">View User Activity</a></li>
     </ul>
   <% } else { %>
-    <h2>User Actions</h2>
+    <!-- User-Specific Content -->
+    <h2>Your Content</h2>
     <ul>
-      <li><a href="/gallery">Browse Galleries</a></li>
-      <li><a href="/profile/photos">Your Uploaded Photos</a></li>
-      <li><a href="/profile/likes">Your Liked Photos</a></li>
-      <li><a href="/profile/comments">Your Comments</a></li>
+      <li><a href="/profile/photos">Uploaded Photos</a></li>
+      <li><a href="/profile/likes">Liked Photos</a></li>
+      <li><a href="/profile/comments">Comments</a></li>
     </ul>
-  <% } %>
-
-  <h2>Upload a Photo</h2>
-  <form action="/auth/profile/upload-photo" method="POST" enctype="multipart/form-data">
-    <label for="photo">Choose a photo:</label>
-    <input type="file" name="photo" id="photo" required>
-    <label for="caption">Caption:</label>
-    <input type="text" name="caption" id="caption" placeholder="Add a caption (optional)">
-    <button type="submit">Upload</button>
-  </form>
-
-  <h2>Your Uploaded Photos</h2>
-  <% if (photos && photos.length > 0) { %>
-    <div class="photo-gallery">
-      <% photos.forEach(photo => { %>
-        <div class="photo-item">
-          <img src="<%= photo.url %>" alt="Uploaded Photo">
-          <p><%= photo.caption %></p>
-        </div>
-      <% }); %>
-    </div>
-  <% } else { %>
-    <p>No photos uploaded yet.</p>
   <% } %>
 
   <a href="/auth/logout">Logout</a>
