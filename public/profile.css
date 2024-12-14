@@ -1,78 +1,118 @@
+/* General Styles */
 body {
   font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
 }
 
-.profile-page {
-  max-width: 800px;
-  margin: 0 auto;
+.profile-container {
+  max-width: 900px;
+  margin: 50px auto;
   padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.profile-header {
+.title {
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.tab {
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background-color: #fff;
+  color: #e91e63;
+  font-weight: bold;
+}
+
+/* Profile Photo Section */
+.profile-photo-section {
   text-align: center;
   margin-bottom: 30px;
 }
 
-.profile-header h1 {
-  color: #e63946;
-}
-
-.tabs {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.tabs li {
-  list-style: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.active-tab {
-  background-color: #e63946;
-  color: #fff;
-}
-
-.profile-photo-section {
-  text-align: center;
-  margin-bottom: 20px;
+.photo-container {
+  position: relative;
 }
 
 .profile-photo {
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  border: 3px solid #e91e63;
   object-fit: cover;
-  border: 3px solid #e63946;
 }
 
-.change-image-btn {
+.no-photo {
   margin-top: 10px;
-  padding: 10px 15px;
-  background-color: #e63946;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  color: #666;
 }
 
-.save-btn, .upload-btn {
-  background-color: #e63946;
+.upload-photo-form {
+  margin-top: 20px;
+}
+
+.upload-photo-form label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Form Styling */
+form {
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+form textarea,
+form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Buttons */
+.btn {
+  background-color: #e91e63;
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.save-btn:hover, .upload-btn:hover {
-  background-color: #b02734;
+.btn:hover {
+  background-color: #c2185b;
 }
