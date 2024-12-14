@@ -41,7 +41,7 @@
 /* Navbar link styles */
 .navbar .nav-links li a {
   text-decoration: none;
-  font-size: 0.8em;
+  font-size: 0.7em;
   font-family: "Lora", serif;
   color: #62445E;
   padding: 5px 10px;
@@ -146,7 +146,7 @@ body {
 
 
 .nav-links .dropdown:hover .dropdown-icon {
-  color: #e91e63; /* Color change on hover */
+  color: white; /* Color change on hover */
 }
 
 /* Ensure dropdown icon is visible */
