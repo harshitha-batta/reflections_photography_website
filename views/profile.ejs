@@ -1,88 +1,139 @@
-<%- include('./layouts/main', { title: 'Profile' }) %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="/navbar.css"> <!-- Navbar styles -->
+  <link rel="stylesheet" href="/login.css"> <!-- Login page styles -->
+
+</head>
+  <body>
+
+<%- include('./layouts/main', { title: 'Profile Settings' }) %>
+ <link rel="stylesheet" href="/profile.css">
 <div class="profile-page">
-  <h1>Welcome, <%= user.name %>!</h1>
-  <p>Email: <%= user.email %></p>
+  <div class="profile-header">
+    <h1>Profile Settings</h1>
+    <ul class="tabs">
+      <li class="active-tab">Profile</li>
+      <li>Notifications</li>
+    </ul>
+  </div>
 
-  <!-- Display Profile Photo -->
-<div class="profile-photo">
-  <h2>Profile Photo</h2>
-  <% if (user.profilePhoto) { %>
-    <img src="/profile/profile-photo/<%= encodeURIComponent(user.profilePhoto) %>" alt="Profile Photo" class="profile-photo-img" />
-  <% } else { %>
-    <p>No profile photo uploaded yet.</p>
-  <% } %>
-  <form action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data">
-    <label for="profilePhoto">Upload New Profile Photo:</label>
-    <input type="file" name="profilePhoto" id="profilePhoto" required />
-    <button type="submit">Upload</button>
-  </form>
-</div>
+  <!-- Profile Photo Section -->
+  <div class="profile-photo-section">
+    <img
+      src="<%= user.profilePhoto ? `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}` : '/images/default-profile.png' %>"
+      alt="Profile Photo"
+      class="profile-photo"
+    />
+    <form action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data">
+      <button type="button" class="change-image-btn">Change Image</button>
+      <input type="file" name="profilePhoto" id="profilePhoto" hidden required />
+    </form>
+  </div>
 
+  <!-- Editable Profile Info -->
+  <div class="profile-info">
+    <form action="/profile/update-info" method="POST">
+      <div class="form-group">
+        <label for="firstName">First Name *</label>
+        <input type="text" name="firstName" id="firstName" value="<%= user.firstName || '' %>" required />
+      </div>
 
-    
+      <div class="form-group">
+        <label for="lastName">Last Name *</label>
+        <input type="text" name="lastName" id="lastName" value="<%= user.lastName || '' %>" required />
+      </div>
 
-  <!-- Editable Profile Information -->
-  <div class="profile-edit">
-    <h2>Edit Profile</h2>
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input type="email" name="email" id="email" value="<%= user.email || '' %>" required />
+      </div>
+
+      <div class="form-group">
+        <label for="paypalEmail">Paypal Email for Donations</label>
+        <input type="email" name="paypalEmail" id="paypalEmail" value="<%= user.paypalEmail || '' %>" />
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="save-btn">Save Profile</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- About Section -->
+  <div class="about-you">
+    <h2>About You</h2>
     <form action="/profile/update-bio" method="POST">
-      <label for="bio">Bio:</label>
-      <textarea id="bio" name="bio"><%= user.bio || '' %></textarea>
-      <button type="submit">Update Bio</button>
+      <textarea id="bio" name="bio" maxlength="130"><%= user.bio || '' %></textarea>
+      <button type="submit" class="save-btn">Save Bio</button>
+    </form>
+  </div>
+
+  <!-- Links Section -->
+  <div class="links-section">
+    <form action="/profile/update-links" method="POST">
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" name="location" id="location" value="<%= user.location || '' %>" />
+      </div>
+      <div class="form-group">
+        <label for="website">Website</label>
+        <input type="url" name="website" id="website" value="<%= user.website || '' %>" />
+      </div>
+      <div class="form-group">
+        <label for="instagram">Instagram</label>
+        <input type="url" name="instagram" id="instagram" value="<%= user.instagram || '' %>" />
+      </div>
+      <div class="form-group">
+        <button type="submit" class="save-btn">Save Links</button>
+      </div>
     </form>
   </div>
 
   <% if (user.role === 'admin') { %>
-    <!-- Admin-Specific Actions -->
-    <h2>Admin Dashboard</h2>
-    <ul>
-      <li><a href="/admin/manage-galleries">Manage Galleries</a></li>
-      <li><a href="/admin/manage-comments">Moderate Comments</a></li>
-      <li><a href="/admin/user-activity">View User Activity</a></li>
-    </ul>
-  <% } else { %>
-    <!-- User-Specific Content -->
-
-<h2>Your Photos</h2>
-<ul>
-  <% photos.forEach(photo => { %>
-    <li>
-      <h3><%= photo.title %></h3>
-      <p><%= photo.description %></p>
-      <img src="/profile/image/<%= photo.imagePath %>" alt="<%= photo.title %>" />
-    </li>
-  <% }) %>
-</ul>
-
+    <!-- Admin Section -->
+    <div class="admin-dashboard">
+      <h2>Admin Dashboard</h2>
+      <ul>
+        <li><a href="/admin/manage-galleries">Manage Galleries</a></li>
+        <li><a href="/admin/manage-comments">Moderate Comments</a></li>
+        <li><a href="/admin/user-activity">View User Activity</a></li>
+      </ul>
+    </div>
   <% } %>
 
-  <!-- Upload Photos Section -->
-  <div class="upload-photo">
+  <!-- Photo Upload -->
+  <div class="photo-upload">
     <h2>Upload Photos</h2>
-<form action="/profile/upload-photo" method="POST" enctype="multipart/form-data">
-  <label for="title">Title:</label>
-  <input type="text" name="title" id="title" required />
-
-  <label for="description">Description:</label>
-  <input type="text" name="description" id="description" />
-
-  <label for="category">Category:</label>
-  <select name="category" id="category" required>
-    <option value="Landscapes">Landscapes</option>
-    <option value="Portraits">Portraits</option>
-    <option value="Abstract">Abstract</option>
-    <option value="Other">Other</option>
-  </select>
-
-  <label for="tags">Tags (comma-separated):</label>
-  <input type="text" name="tags" id="tags" />
-
-  <label for="photo">Upload Photo:</label>
-  <input type="file" name="photo" id="photo" required />
-
-  <button type="submit">Upload Photo</button>
-</form>
-
+    <form action="/profile/upload-photo" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" required />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea name="description" id="description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select name="category" id="category" required>
+          <option value="Landscapes">Landscapes</option>
+          <option value="Portraits">Portraits</option>
+          <option value="Abstract">Abstract</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="photo">Photo</label>
+        <input type="file" name="photo" id="photo" required />
+      </div>
+      <button type="submit" class="upload-btn">Upload</button>
+    </form>
   </div>
-
-  <a href="/auth/logout">Logout</a>
 </div>
+    
+    </body>
+</html>
