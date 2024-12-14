@@ -26,16 +26,16 @@ body {
 /* Categories Section */
 .categories {
   padding: 50px 20px;
-  text-align: center;
+  position: relative;
 }
 
 .categories h2 {
-  font-size: 2.5em;
+  font-size: 2em;
   font-family: "Lora", serif;
   margin-bottom: 20px;
+  text-align: left;
 }
 
-/* Scrollable container */
 .category-container {
   display: flex;
   align-items: center;
@@ -43,31 +43,47 @@ body {
   position: relative;
 }
 
-.category-buttons-wrapper {
-  overflow-x: hidden; /* Hide the scrollbar */
-  display: flex;
-  flex-grow: 1;
-  position: relative;
-}
-
 .category-buttons {
   display: flex;
-  gap: 15px;
-  padding: 0 20px;
-  white-space: nowrap;
-  transition: filter 0.3s ease; /* Smooth transition for blur effect */
+  gap: 10px;
+  overflow-x: auto; /* Horizontal scrolling */
+  padding: 10px;
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+  scroll-behavior: smooth; /* Smooth scrolling for navigation */
+  flex-grow: 1;
+  position: relative;
+
+  /* Add a gradient mask to create blur near arrows */
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 1) 10%,
+    rgba(0, 0, 0, 1) 90%,
+    rgba(0, 0, 0, 0.1)
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 1) 10%,
+    rgba(0, 0, 0, 1) 90%,
+    rgba(0, 0, 0, 0.1)
+  );
+}
+
+.category-buttons::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in Chrome */
 }
 
 .category-buttons button {
-  padding: 10px 20px;
-  border: 2px solid #62445E;
+  padding: 12px 30px;
+  border: 1px solid #62445E;
   background-color: white;
   font-size: 1.1em;
   font-family: "Lora", serif;
-  color: #62445E;
-  border-radius: 20px;
   cursor: pointer;
+  border-radius: 20px;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .category-buttons button:hover {
@@ -75,52 +91,36 @@ body {
   color: white;
 }
 
-/* Scroll Arrows */
-.scroll-arrow {
-  background-color: white;
-  border: 2px solid #62445E;
-  border-radius: 50%;
+/* Scroll Buttons */
+.scroll-left,
+.scroll-right {
+  background-color: rgba(255, 255, 255, 0.8);
   color: #62445E;
-  cursor: pointer;
-  padding: 10px;
-  font-size: 1.5em;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  border: none;
+  border-radius: 50%;
   width: 40px;
   height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: 5;
+  font-size: 1.5em;
+  cursor: pointer;
+  position: absolute;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
 }
 
-.scroll-arrow:hover {
+.scroll-left:hover,
+.scroll-right:hover {
   background-color: #62445E;
   color: white;
 }
 
 .scroll-left {
-  position: absolute;
-  left: 0;
-  margin-right: -20px;
+  left: 10px; /* Position on the left */
 }
 
 .scroll-right {
-  position: absolute;
-  right: 0;
-  margin-left: -20px;
+  right: 10px; /* Position on the right */
 }
-
-/* Blur effect */
-.category-buttons-wrapper.left-blur .category-buttons {
-  filter: blur(5px) drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
-}
-
-.category-buttons-wrapper.right-blur .category-buttons {
-  filter: blur(5px) drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
-}
-
 
 /* Featured Section */
 .featured {

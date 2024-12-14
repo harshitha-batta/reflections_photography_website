@@ -7,11 +7,10 @@ const MongoStore = require('connect-mongo');
 const path = require('path');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
-const Grid = require('gridfs-stream');
 
 const authRoutes = require('./routes/auth'); // Authentication routes
 const profileRoutes = require('./routes/profile'); // Profile routes
-const galleryRoutes = require('./routes/gallery'); 
+const galleryRoutes = require('./routes/gallery'); // Gallery routes
 const { isAuthenticated, isAdmin } = require('./middlewares/roles'); // Role-based middleware
 
 const app = express();
@@ -22,22 +21,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // MongoDB Atlas Connection
-let gfs; // Variable to hold GridFS instance
+let gridfsBucket; // Variable to hold GridFSBucket instance
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(
-      `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}/${process.env.DATABASE}?retryWrites=true&w=majority`,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
+      `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.HOST}/${process.env.DATABASE}?retryWrites=true&w=majority`
     );
     console.log('MongoDB Atlas connected successfully.');
 
-    // Initialize GridFS
-    gfs = Grid(conn.connection.db, mongoose.mongo);
-    gfs.collection('photos'); // Set the bucket name (same as in multer)
-    console.log('GridFS initialized successfully.');
+    // Initialize GridFSBucket
+    gridfsBucket = new mongoose.mongo.GridFSBucket(conn.connection.db, {
+      bucketName: 'photos', // Name of the GridFS bucket (must match multer config)
+    });
+    console.log('GridFSBucket initialized successfully.');
   } catch (err) {
     console.error('MongoDB connection error:', err.message);
     process.exit(1); // Exit process with failure
@@ -46,9 +42,9 @@ const connectDB = async () => {
 
 connectDB(); // Connect to MongoDB
 
-// Make GridFS instance globally available
+// Make GridFSBucket instance globally available
 app.use((req, res, next) => {
-  req.gfs = gfs; // Attach GridFS instance to the request object
+  req.gridfsBucket = gridfsBucket; // Attach GridFSBucket to the request object
   next();
 });
 
@@ -121,11 +117,6 @@ app.use((req, res, next) => {
 // Profile routes
 app.use('/profile', profileRoutes);
 
-// // Define the root route
-// app.get('/', (req, res) => {
-//   res.render('gallery', { title: 'Home Page' }); // Render an EJS view
-// });
-
 // Admin-only route for the admin dashboard
 app.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
   res.render('admin/dashboard', { title: 'Admin Dashboard', user: req.user });
@@ -133,8 +124,6 @@ app.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
 
 // Routes
 app.use('/auth', authRoutes);
-
-// Use the gallery route
 app.use('/', galleryRoutes);
 
 // Error handling middleware
