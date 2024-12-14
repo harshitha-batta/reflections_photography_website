@@ -6,8 +6,6 @@
   background-color: #fff; /* White background */
   padding: 15px 30px; /* Adjust spacing */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  font-family: "Montez", cursive;
-
   font-size: 30px;
   position: fixed;
   top: 0;
@@ -19,13 +17,16 @@
 /* Logo */
 .navbar .logo a {
   text-decoration: none;
+   font-family: "Montez", cursive;
   font-size: 1.8em;
   font-weight: bold;
-  color: #9E485B;
+  color: #62445E;
 }
 
 /* Navigation Links */
 .navbar .nav-links {
+ 
+  font-weight: 1.1px;
   list-style: none;
   display: flex;
   gap: 20px;
@@ -40,9 +41,9 @@
 /* Navbar link styles */
 .navbar .nav-links li a {
   text-decoration: none;
-  font-size: 1em;
-  font-weight: bold;
-  color: black; /* White text */
+  font-size: 0.8em;
+  font-family: "Lora", serif;
+  color: #62445E;
   padding: 5px 10px;
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
@@ -50,7 +51,7 @@
 }
 
 .navbar .nav-links li a:hover {
-  background-color: #ff6b6b; /* Light red hover effect */
+  background-color: #62445E; 
   color: #fff; /* Ensure text remains white */
 }
 
@@ -80,7 +81,7 @@
 }
 
 .dropdown-menu li a:hover {
-  background-color: #ff6b6b; /* Light red hover effect */
+  background-color: #ff6b6b; 
   color: #fff; /* White text on hover */
 }
 
@@ -96,13 +97,6 @@
   cursor: pointer;
 }
 
-.navbar .hamburger span {
-  width: 25px;
-  height: 3px;
-  background-color: #000; /* Black lines */
-  margin: 4px 0;
-  transition: all 0.3s ease;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -146,7 +140,7 @@ body {
 .dropdown-icon {
   margin-left: 5px;
   font-size: 0.8em;
-  color: #4E475F; /* Adjust color */
+  color: #62445E; /* Adjust color */
   vertical-align: middle;
 }
 
