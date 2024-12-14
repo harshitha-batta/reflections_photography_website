@@ -96,13 +96,13 @@ router.get('/profile', async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
 
-    // Fetch photos uploaded by the logged-in user
-    const photos = await Photo.find({ uploader: decoded.id });
+    // Fetch the full user object from the database
+    const user = await User.findById(decoded.id);
 
     res.render('profile', { 
       title: 'Your Profile', 
-      user: decoded, 
-      photos // Pass the photos to the view 
+      user, // Pass the complete user object
+      photos: [] // Add this if you want to include uploaded photos later
     });
   } catch (err) {
     console.error('JWT verification error:', err.message);
@@ -110,6 +110,7 @@ router.get('/profile', async (req, res) => {
     res.redirect('/auth/login');
   }
 });
+
 
 
 // Admin Dashboard

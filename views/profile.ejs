@@ -7,7 +7,7 @@
 <div class="profile-photo">
   <h2>Profile Photo</h2>
   <% if (user.profilePhoto) { %>
-    <img src="/profile/profile-photo/<%= user.profilePhoto %>" alt="Profile Photo" class="profile-photo-img" />
+    <img src="/profile/profile-photo/<%= encodeURIComponent(user.profilePhoto) %>" alt="Profile Photo" class="profile-photo-img" />
   <% } else { %>
     <p>No profile photo uploaded yet.</p>
   <% } %>
@@ -17,6 +17,9 @@
     <button type="submit">Upload</button>
   </form>
 </div>
+
+
+    
 
   <!-- Editable Profile Information -->
   <div class="profile-edit">

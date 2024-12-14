@@ -24,8 +24,13 @@ router.post('/update-bio', isAuthenticated, async (req, res) => {
 // Upload profile photo
 router.post('/upload-profile-photo', isAuthenticated, upload.single('profilePhoto'), async (req, res) => {
   try {
-    const profilePhotoFilename = req.file.filename; // Get GridFS filename
-    await User.findByIdAndUpdate(req.user._id, { profilePhoto: profilePhotoFilename });
+    if (!req.user) {
+      req.flash('error', 'You need to log in first.');
+      return res.redirect('/auth/login');
+    }
+
+    const profilePhotoFilename = req.file.filename; // Get the GridFS filename
+    await User.findByIdAndUpdate(req.user.id, { profilePhoto: profilePhotoFilename });
     req.flash('success', 'Profile photo updated successfully.');
     res.redirect('/auth/profile');
   } catch (err) {

@@ -1,10 +1,22 @@
+const jwt = require('jsonwebtoken');
 function isAuthenticated(req, res, next) {
-  console.log('Authenticated:', req.isAuthenticated());
-  if (req.isAuthenticated()) return next();
-  req.flash('error', 'You need to log in first.');
-  res.redirect('/auth/login');
-}
+  const token = req.cookies.jwt;
 
+  if (!token) {
+    req.flash('error', 'You need to log in first.');
+    return res.redirect('/auth/login');
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+    req.user = decoded; // Attach the decoded user to the request object
+    next();
+  } catch (err) {
+    console.error('JWT verification error:', err.message);
+    req.flash('error', 'Session expired. Please log in again.');
+    return res.redirect('/auth/login');
+  }
+}
 function isAdmin(req, res, next) {
   console.log('Authenticated:', req.isAuthenticated());
   console.log('User Role:', req.user?.role); // Debugging log
