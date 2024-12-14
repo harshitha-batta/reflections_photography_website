@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+
 function isAuthenticated(req, res, next) {
   const token = req.cookies.jwt;
 
@@ -8,8 +9,9 @@ function isAuthenticated(req, res, next) {
   }
 
   try {
+    // Verify the token and attach the decoded user to `req.user`
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
-    req.user = decoded; // Attach the decoded user to the request object
+    req.user = decoded;
     next();
   } catch (err) {
     console.error('JWT verification error:', err.message);
@@ -17,6 +19,7 @@ function isAuthenticated(req, res, next) {
     return res.redirect('/auth/login');
   }
 }
+
 function isAdmin(req, res, next) {
   console.log('Authenticated:', req.isAuthenticated());
   console.log('User Role:', req.user?.role); // Debugging log

@@ -40,30 +40,16 @@ router.post('/upload-profile-photo', isAuthenticated, upload.single('profilePhot
   }
 });
 
-
-// Upload photo with tags
-router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req, res) => {
-  const { title, description, category, tags } = req.body;
-
+router.get('/', isAuthenticated, async (req, res) => {
   try {
-    const newPhoto = new Photo({
-      title,
-      description,
-      category,
-      tags: tags ? tags.split(',').map((tag) => tag.trim()) : [],
-      imagePath: req.file.filename, // Store the GridFS filename or file path
-      uploader: req.user._id, // Assign the logged-in user's ID
-    });
-
-    await newPhoto.save();
-    req.flash('success', 'Photo uploaded successfully.');
-    res.redirect('/profile');
+    const photos = await Photo.find({ uploader: req.user.id }); // Fetch photos uploaded by the user
+    res.render('profile', { title: 'Your Profile', user: req.user, photos });
   } catch (err) {
-    console.error('Error uploading photo:', err);
-    req.flash('error', 'Failed to upload photo.');
-    res.redirect('/profile');
+    console.error('Error fetching profile data:', err);
+    res.status(500).send('Error fetching profile data');
   }
 });
+
 
 const Grid = require('gridfs-stream');
 const mongoose = require('mongoose');
@@ -120,6 +106,32 @@ router.get('/profile-photo/:filename', async (req, res) => {
     res.status(500).send('Error fetching profile photo');
   }
 });
+// Upload photo with tags
+router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req, res) => {
+  const { title, description, category, tags } = req.body;
+
+  console.log('Logged-in User:', req.user); // Debug logged-in user
+
+  try {
+    const newPhoto = new Photo({
+      title,
+      description,
+      category,
+      tags: tags ? tags.split(',').map((tag) => tag.trim()) : [],
+      imagePath: req.file.filename, // Store the GridFS filename or file path
+      uploader: req.user.id, // Assign the logged-in user's ID
+    });
+
+    await newPhoto.save();
+    req.flash('success', 'Photo uploaded successfully.');
+    res.redirect('/profile');
+  } catch (err) {
+    console.error('Error uploading photo:', err);
+    req.flash('error', 'Failed to upload photo.');
+    res.redirect('/profile');
+  }
+});
+
 
 
 
