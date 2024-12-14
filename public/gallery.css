@@ -5,6 +5,7 @@
   background: url('https://images.pexels.com/photos/772520/pexels-photo-772520.jpeg?auto=compress&cs=tinysrgb&w=800') no-repeat center center/cover;
   padding: 300px 20px;
   color: white;
+   font-family: "Montez", cursive;
 }
 
 .hero h1 {
