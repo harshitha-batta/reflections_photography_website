@@ -102,7 +102,8 @@ app.use((req, res, next) => {
   }
   next();
 });
-
+const profileRoutes = require('./routes/profile');
+app.use('/profile', profileRoutes);
 
 // Define the root route
 app.get('/', (req, res) => {

@@ -3,17 +3,28 @@
   <h1>Welcome, <%= user.name %>!</h1>
   <p>Email: <%= user.email %></p>
 
+  <!-- Display Profile Photo -->
+  <div class="profile-photo">
+    <h2>Profile Photo</h2>
+    <% if (user.profilePhoto) { %>
+      <img src="<%= user.profilePhoto %>" alt="Profile Photo" class="profile-photo-img" />
+    <% } else { %>
+      <p>No profile photo uploaded yet.</p>
+    <% } %>
+    <form action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data">
+      <label for="profilePhoto">Upload New Profile Photo:</label>
+      <input type="file" name="profilePhoto" id="profilePhoto" required />
+      <button type="submit">Upload</button>
+    </form>
+  </div>
+
   <!-- Editable Profile Information -->
   <div class="profile-edit">
     <h2>Edit Profile</h2>
-    <form action="/profile/update" method="POST">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" value="<%= user.name %>" required>
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" value="<%= user.email %>" required>
+    <form action="/profile/update-bio" method="POST">
       <label for="bio">Bio:</label>
       <textarea id="bio" name="bio"><%= user.bio || '' %></textarea>
-      <button type="submit">Update Profile</button>
+      <button type="submit">Update Bio</button>
     </form>
   </div>
 
@@ -30,10 +41,36 @@
     <h2>Your Content</h2>
     <ul>
       <li><a href="/profile/photos">Uploaded Photos</a></li>
-      <li><a href="/profile/likes">Liked Photos</a></li>
-      <li><a href="/profile/comments">Comments</a></li>
     </ul>
   <% } %>
+
+  <!-- Upload Photos Section -->
+  <div class="upload-photo">
+    <h2>Upload Photos</h2>
+    <form action="/profile/upload-photo" method="POST" enctype="multipart/form-data">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" placeholder="Photo Title" required />
+      
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" placeholder="Photo Description"></textarea>
+      
+      <label for="category">Category:</label>
+      <select id="category" name="category" required>
+        <option value="Landscapes">Landscapes</option>
+        <option value="Portraits">Portraits</option>
+        <option value="Abstract">Abstract</option>
+        <option value="Other">Other</option>
+      </select>
+      
+      <label for="tags">Tags:</label>
+      <input type="text" id="tags" name="tags" placeholder="Tags (comma-separated)" />
+      
+      <label for="photo">Upload Photo:</label>
+      <input type="file" id="photo" name="photo" required />
+      
+      <button type="submit">Upload Photo</button>
+    </form>
+  </div>
 
   <a href="/auth/logout">Logout</a>
 </div>
