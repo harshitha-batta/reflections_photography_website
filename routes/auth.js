@@ -5,6 +5,7 @@ const passport = require('passport');
 const bcrypt = require('bcrypt'); // To hash passwords securely
 const jwt = require('jsonwebtoken');
 const { isAdmin, isAuthenticated } = require('../middlewares/roles');
+const Photo = require('../models/Photo'); // Add this line to import the Photo model
 
 // JWT Generation Function
 function generateToken(user) {
@@ -84,8 +85,7 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
 
 
 // Get Profile Page
-router.get('/profile', (req, res) => {
-  console.log('Cookies:', req.cookies); // Debugging log
+router.get('/profile', async (req, res) => {
   const token = req.cookies.jwt;
 
   if (!token) {
@@ -95,8 +95,15 @@ router.get('/profile', (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
-    console.log('Decoded JWT:', decoded); // Debugging log
-    res.render('profile', { title: 'Your Profile', user: decoded });
+
+    // Fetch photos uploaded by the logged-in user
+    const photos = await Photo.find({ uploader: decoded.id });
+
+    res.render('profile', { 
+      title: 'Your Profile', 
+      user: decoded, 
+      photos // Pass the photos to the view 
+    });
   } catch (err) {
     console.error('JWT verification error:', err.message);
     req.flash('error', 'Session expired. Please log in again.');

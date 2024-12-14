@@ -4,19 +4,19 @@
   <p>Email: <%= user.email %></p>
 
   <!-- Display Profile Photo -->
-  <div class="profile-photo">
-    <h2>Profile Photo</h2>
-    <% if (user.profilePhoto) { %>
-      <img src="<%= user.profilePhoto %>" alt="Profile Photo" class="profile-photo-img" />
-    <% } else { %>
-      <p>No profile photo uploaded yet.</p>
-    <% } %>
-    <form action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data">
-      <label for="profilePhoto">Upload New Profile Photo:</label>
-      <input type="file" name="profilePhoto" id="profilePhoto" required />
-      <button type="submit">Upload</button>
-    </form>
-  </div>
+<div class="profile-photo">
+  <h2>Profile Photo</h2>
+  <% if (user.profilePhoto) { %>
+    <img src="/profile/profile-photo/<%= user.profilePhoto %>" alt="Profile Photo" class="profile-photo-img" />
+  <% } else { %>
+    <p>No profile photo uploaded yet.</p>
+  <% } %>
+  <form action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data">
+    <label for="profilePhoto">Upload New Profile Photo:</label>
+    <input type="file" name="profilePhoto" id="profilePhoto" required />
+    <button type="submit">Upload</button>
+  </form>
+</div>
 
   <!-- Editable Profile Information -->
   <div class="profile-edit">
@@ -38,10 +38,18 @@
     </ul>
   <% } else { %>
     <!-- User-Specific Content -->
-    <h2>Your Content</h2>
-    <ul>
-      <li><a href="/profile/photos">Uploaded Photos</a></li>
-    </ul>
+
+<h2>Your Photos</h2>
+<ul>
+  <% photos.forEach(photo => { %>
+    <li>
+      <h3><%= photo.title %></h3>
+      <p><%= photo.description %></p>
+      <img src="/profile/image/<%= photo.imagePath %>" alt="<%= photo.title %>" />
+    </li>
+  <% }) %>
+</ul>
+
   <% } %>
 
   <!-- Upload Photos Section -->
