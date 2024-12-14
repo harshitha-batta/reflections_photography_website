@@ -1,70 +1,70 @@
-/* Container for the login page */
+/* General Container for the Login Page */
 .login-page-container {
   display: flex;
   justify-content: center;
-
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #fff; /* White Background */
   padding: 20px;
   gap: 20px;
+ font-family: "Montez", cursive;
 }
 
+/* Left Panel */
 .left-panel {
   flex: 1;
   background: url('https://images.pexels.com/photos/1226302/pexels-photo-1226302.jpeg?auto=compress&cs=tinysrgb&w=800') no-repeat center center/cover;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center items horizontally */
-  justify-content: center; /* Center items vertically */
+  align-items: center;
+  justify-content: center;
   padding: 30px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: white;
-  text-align: center; /* Align text to the center */
+  text-align: center;
 }
 
 .left-panel .content {
-  background-color: rgba(0, 0, 0, 0.5); /* Black background with 50% transparency */
+  background-color: rgba(98, 68, 94, 0.8); /* Semi-transparent theme color */
   padding: 20px;
-  border-radius: 10px; /* Rounded corners */
-  text-align: center; /* Center text inside the box */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a slight shadow */
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .left-panel h1 {
   font-size: 2.5em;
   font-weight: bold;
-  margin-bottom: 10px; /* Add spacing */
+  margin-bottom: 10px;
 }
 
 .left-panel p {
   font-size: 1.2em;
-  margin-bottom: 20px; /* Add spacing */
+  margin-bottom: 20px;
 }
 
 .left-panel .info {
   font-size: 1em;
-  margin-bottom: 15px; /* Add extra spacing below the text */
+  margin-bottom: 15px;
 }
 
 .left-panel .btn {
-  padding: 12px 325px;
-  background-color: #28a745;
-  color: white;
-  border: none;
+  padding: 12px 30px;
+  background-color: #fff;
+  color: #62445E;
+  border: 2px solid #62445E;
   border-radius: 20px;
   text-decoration: none;
   font-size: 1.1em;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .left-panel .btn:hover {
-  background-color: #218838;
+  background-color: #62445E;
+  color: white;
 }
-
-
 
 /* Right Panel */
 .right-panel {
@@ -81,15 +81,16 @@
 .right-panel .logo {
   display: block;
   margin: 0 auto 20px;
-  width: 60px;
-  height: 60px;
+  width: 80px; /* Slightly larger logo */
+  height: 80px;
 }
 
 .right-panel h2 {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 2em;
+  font-size: 2.2em;
   font-weight: bold;
+  color: #62445E; /* Theme color */
 }
 
 .right-panel form {
@@ -101,6 +102,7 @@
   margin-bottom: 5px;
   font-weight: bold;
   font-size: 1em;
+  color: #62445E;
 }
 
 .right-panel form input {
@@ -111,9 +113,14 @@
   font-size: 1em;
 }
 
+.right-panel form input:focus {
+  outline: none;
+  border: 2px solid #62445E; /* Theme focus */
+}
+
 .right-panel form button {
   padding: 12px;
-  background-color: #28a745;
+  background-color: #62445E; /* Theme color */
   color: white;
   border: none;
   border-radius: 20px;
@@ -124,14 +131,14 @@
 }
 
 .right-panel form button:hover {
-  background-color: #218838;
+  background-color: #8b6186; /* Slightly lighter shade for hover */
   transform: translateY(-2px);
 }
 
 .right-panel .forgot-link {
   margin-top: 15px;
   text-align: center;
-  color: #007bff;
+  color: #62445E;
   text-decoration: none;
   font-size: 1em;
 }
