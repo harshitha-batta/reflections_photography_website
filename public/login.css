@@ -63,8 +63,8 @@
   padding: 12px 30px;
   border: none;
   border-radius: 20px;
-  background-color: white;
-  color: #62445E;
+  background-color: #7BA329;
+  color: white;
   font-size: 1em; /* Adjusted font size */
 
   transition: all 0.3s ease;
@@ -76,12 +76,11 @@
 }
 
 .content-panel .btn:hover {
-  background-color: #62445E;
-  color: white;
+  background-color: white;
+  color: #616F23;
 }
 
-.content-panel .forgot-link,
-.content-panel .register-link {
+.content-panel .forgot-link{
   margin-top: 15px;
   display: block;
   text-decoration: none;
@@ -89,7 +88,22 @@
   color: white;
 }
 
-.content-panel .forgot-link:hover,
+.content-panel .forgot-link:hover{
+  text-decoration: underline;
+}
+
+
+.content-panel .register-link {
+  margin-top: 15px;
+  display: block;
+  text-decoration: none;
+  font-size: 1.2em;
+  color: #FFD700; /* Highlight color - Gold */
+  font-weight: bold; /* Make it bold for emphasis */
+  transition: color 0.3s ease;
+}
+
 .content-panel .register-link:hover {
   text-decoration: underline;
+  color: #FFF; /* Change to white on hover */
 }
