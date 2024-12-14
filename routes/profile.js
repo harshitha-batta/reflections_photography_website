@@ -4,58 +4,10 @@ const User = require('../models/User');
 const Photo = require('../models/Photo');
 const { isAuthenticated } = require('../middlewares/roles');
 const upload = require('../config/multerGridFs'); // Your GridFS multer setup
+const mongoose = require('mongoose');
 
 const router = express.Router();
 
-// Update user bio
-router.post('/update-bio', isAuthenticated, async (req, res) => {
-  const { bio } = req.body;
-  try {
-    await User.findByIdAndUpdate(req.user._id, { bio });
-    req.flash('success', 'Bio updated successfully.');
-    res.redirect('/auth/profile');
-  } catch (err) {
-    console.error('Error updating bio:', err);
-    req.flash('error', 'Failed to update bio.');
-    res.redirect('/auth/profile');
-  }
-});
-
-// Upload profile photo
-router.post('/upload-profile-photo', isAuthenticated, upload.single('profilePhoto'), async (req, res) => {
-  try {
-    if (!req.user) {
-      req.flash('error', 'You need to log in first.');
-      return res.redirect('/auth/login');
-    }
-
-    const profilePhotoFilename = req.file.filename; // Get the GridFS filename
-    await User.findByIdAndUpdate(req.user.id, { profilePhoto: profilePhotoFilename });
-    req.flash('success', 'Profile photo updated successfully.');
-    res.redirect('/auth/profile');
-  } catch (err) {
-    console.error('Error uploading profile photo:', err);
-    req.flash('error', 'Failed to upload profile photo.');
-    res.redirect('/auth/profile');
-  }
-});
-
-router.get('/', isAuthenticated, async (req, res) => {
-  try {
-    const photos = await Photo.find({ uploader: req.user.id }); // Fetch photos uploaded by the user
-    res.render('profile', { title: 'Your Profile', user: req.user, photos });
-  } catch (err) {
-    console.error('Error fetching profile data:', err);
-    res.status(500).send('Error fetching profile data');
-  }
-});
-
-
-const Grid = require('gridfs-stream');
-const mongoose = require('mongoose');
-const path = require('path');
-
-let gfs;
 let gridfsBucket;
 
 // Initialize GridFSBucket after MongoDB connection
@@ -66,27 +18,46 @@ mongoose.connection.once('open', () => {
   console.log('GridFSBucket initialized successfully.');
 });
 
-// Route to display an image
-router.get('/image/:filename', async (req, res) => {
+// Update user bio
+router.post('/update-bio', isAuthenticated, async (req, res) => {
+  const { bio } = req.body;
   try {
-    const file = await gfs.files.findOne({ filename: req.params.filename });
-
-    if (!file || file.length === 0) {
-      return res.status(404).send('File not found');
-    }
-
-    // Check if the file is an image
-    if (file.contentType.includes('image')) {
-      const readStream = gfs.createReadStream(file.filename);
-      readStream.pipe(res);
-    } else {
-      res.status(400).send('Not an image file');
-    }
+    await User.findByIdAndUpdate(req.user._id, { bio });
+    req.flash('success', 'Bio updated successfully.');
+    res.redirect('/profile');
   } catch (err) {
-    console.error('Error fetching image:', err);
-    res.status(500).send('Error fetching image');
+    console.error('Error updating bio:', err);
+    req.flash('error', 'Failed to update bio.');
+    res.redirect('/profile');
   }
 });
+
+// Upload profile photo
+router.post('/upload-profile-photo', isAuthenticated, upload.single('profilePhoto'), async (req, res) => {
+  try {
+    const profilePhotoFilename = req.file.filename; // Get the GridFS filename
+    await User.findByIdAndUpdate(req.user._id, { profilePhoto: profilePhotoFilename });
+    req.flash('success', 'Profile photo updated successfully.');
+    res.redirect('/profile');
+  } catch (err) {
+    console.error('Error uploading profile photo:', err);
+    req.flash('error', 'Failed to upload profile photo.');
+    res.redirect('/profile');
+  }
+});
+
+// Fetch profile and photos
+router.get('/', isAuthenticated, async (req, res) => {
+  try {
+    const photos = await Photo.find({ uploader: req.user._id }); // Fetch photos uploaded by the user
+    res.render('profile', { title: 'Your Profile', user: req.user, photos });
+  } catch (err) {
+    console.error('Error fetching profile data:', err);
+    res.status(500).send('Error fetching profile data');
+  }
+});
+
+// Stream profile photo
 router.get('/profile-photo/:filename', async (req, res) => {
   try {
     const file = await mongoose.connection.db
@@ -99,18 +70,38 @@ router.get('/profile-photo/:filename', async (req, res) => {
 
     // Stream the file from GridFSBucket
     const readStream = gridfsBucket.openDownloadStreamByName(req.params.filename);
-    res.set('Content-Type', file.contentType); // Set the content type of the response
+    res.set('Content-Type', file.contentType);
     readStream.pipe(res);
   } catch (err) {
     console.error('Error fetching profile photo:', err);
     res.status(500).send('Error fetching profile photo');
   }
 });
-// Upload photo with tags
+
+// Stream uploaded photos
+router.get('/photo/:filename', async (req, res) => {
+  try {
+    const file = await mongoose.connection.db
+      .collection('photos.files')
+      .findOne({ filename: req.params.filename });
+
+    if (!file) {
+      return res.status(404).send('Photo not found');
+    }
+
+    // Stream the file from GridFSBucket
+    const readStream = gridfsBucket.openDownloadStreamByName(req.params.filename);
+    res.set('Content-Type', file.contentType);
+    readStream.pipe(res);
+  } catch (err) {
+    console.error('Error fetching photo:', err);
+    res.status(500).send('Error fetching photo');
+  }
+});
+
+// Upload photo with metadata
 router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req, res) => {
   const { title, description, category, tags } = req.body;
-
-  console.log('Logged-in User:', req.user); // Debug logged-in user
 
   try {
     const newPhoto = new Photo({
@@ -118,8 +109,8 @@ router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req
       description,
       category,
       tags: tags ? tags.split(',').map((tag) => tag.trim()) : [],
-      imagePath: req.file.filename, // Store the GridFS filename or file path
-      uploader: req.user.id, // Assign the logged-in user's ID
+      imagePath: req.file.filename, // Store GridFS filename or path
+      uploader: req.user._id,
     });
 
     await newPhoto.save();
@@ -128,12 +119,18 @@ router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req
   } catch (err) {
     console.error('Error uploading photo:', err);
     req.flash('error', 'Failed to upload photo.');
-    res.redirect('/profile');
+    res.redirect('/profile/upload');
   }
 });
 
-
-
-
+// Render upload page
+router.get('/upload', isAuthenticated, (req, res) => {
+  try {
+    res.render('upload', { title: 'Upload Photo', user: req.user });
+  } catch (err) {
+    console.error('Error rendering upload page:', err);
+    res.status(500).send('Error rendering upload page');
+  }
+});
 
 module.exports = router;

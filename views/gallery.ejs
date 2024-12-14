@@ -23,40 +23,40 @@
     </section>
 
     <!-- Categories Section -->
-<section class="categories">
-  <h2>Categories</h2>
-  <div class="category-container">
-    <button class="scroll-left" aria-label="Scroll Left">&larr;</button>
-    <div class="category-buttons">
-      <button>Trees</button>
-      <button>Blur</button>
-      <button>Beautiful</button>
-      <button>Love</button>
-      <button>Daylight</button>
-      <button>Wood</button>
-      <button>Leaf</button>
-      <button>Flower</button>
-      <button>Fall</button>
-      <button>City</button>
-      <button>Beach</button>
-      <button>Rain</button>
-      <button>Autumn</button>
-      <button>Mountains</button>
-      <button>Nature</button>
-      <button>Desert</button>
-      <button>Winter</button>
-      <button>Travel</button>
-      <button>Summer</button>
-      <button>HD Wallpapers</button>
-      <button>Forest</button>
-      <button>Spring</button>
-    </div>
-    <button class="scroll-right" aria-label="Scroll Right">&rarr;</button>
-  </div>
-</section>
+    <section class="categories">
+      <h2>Categories</h2>
+      <div class="category-container">
+        <button class="scroll-arrow scroll-left" aria-label="Scroll Left">&larr;</button>
+        <div class="category-buttons-wrapper">
+          <div class="category-buttons">
+            <button>Trees</button>
+            <button>Blur</button>
+            <button>Beautiful</button>
+            <button>Love</button>
+            <button>Daylight</button>
+            <button>Wood</button>
+            <button>Leaf</button>
+            <button>Flower</button>
+            <button>Fall</button>
+            <button>City</button>
+            <button>Beach</button>
+            <button>Rain</button>
+            <button>Autumn</button>
+            <button>Mountains</button>
+            <button>Nature</button>
+            <button>Desert</button>
+            <button>Winter</button>
+            <button>Travel</button>
+            <button>Summer</button>
+            <button>HD Wallpapers</button>
+            <button>Forest</button>
+            <button>Spring</button>
+          </div>
+        </div>
+        <button class="scroll-arrow scroll-right" aria-label="Scroll Right">&rarr;</button>
+      </div>
+    </section>
 
-
-    
     <!-- Dynamic Featured Collections Section -->
     <section class="featured">
       <h2>Featured Collections</h2>
@@ -84,5 +84,48 @@
       </div>
     </section>
   </main>
+
+  <!-- JavaScript -->
+  <script>
+    const categoryWrapper = document.querySelector('.category-buttons-wrapper');
+    const categoryButtons = document.querySelector('.category-buttons');
+    const scrollLeft = document.querySelector('.scroll-left');
+    const scrollRight = document.querySelector('.scroll-right');
+
+    // Scroll left
+    scrollLeft.addEventListener('click', () => {
+      categoryWrapper.scrollBy({
+        left: -200, // Adjust scroll amount
+        behavior: 'smooth',
+      });
+    });
+
+    // Scroll right
+    scrollRight.addEventListener('click', () => {
+      categoryWrapper.scrollBy({
+        left: 200, // Adjust scroll amount
+        behavior: 'smooth',
+      });
+    });
+
+    // Update blur effect on scroll
+    categoryWrapper.addEventListener('scroll', () => {
+      const scrollPosition = categoryWrapper.scrollLeft;
+      const maxScroll = categoryButtons.scrollWidth - categoryWrapper.clientWidth;
+
+      // Add blur class if near the edges
+      if (scrollPosition > 0) {
+        categoryWrapper.classList.add('left-blur');
+      } else {
+        categoryWrapper.classList.remove('left-blur');
+      }
+
+      if (scrollPosition < maxScroll) {
+        categoryWrapper.classList.add('right-blur');
+      } else {
+        categoryWrapper.classList.remove('right-blur');
+      }
+    });
+  </script>
 </body>
 </html>
