@@ -16,10 +16,8 @@
   <div class="background-container">
     <div class="profile-header">
       <div class="profile-photo-container">
-<img src="<%= user.profilePhoto ? user.profilePhoto : '/default-profile.png' %>" 
-     alt="<%= user.name %>'s Profile Photo" class="profile-photo">
-
-
+        <img src="<%= user.profilePhoto ? '/profile/profile-photo/' + encodeURIComponent(user.profilePhoto) : '/default-profile.png' %>" 
+             alt="Profile Photo" class="profile-photo">
       </div>
       <div class="profile-info">
         <h1 class="profile-name">Hello, <%= user.name %>!</h1>

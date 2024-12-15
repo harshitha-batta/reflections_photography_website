@@ -21,22 +21,14 @@ mongoose.connection.once('open', () => {
 // Fetch profile and photos
 router.get('/', isAuthenticated, async (req, res) => {
   try {
-    const photos = await Photo.find({ uploader: req.user._id });
-
-    // Resolve profilePhoto URL dynamically for the logged-in user
-    const user = req.user; // Use req.user directly
-    user.profilePhoto = user.profilePhoto
-      ? `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}`
-      : '/default-profile.png';
-
-    console.log('Fetched Photos:', photos);
-    res.render('profile', { title: 'Your Profile', user, photos });
+    const photos = await Photo.find({ uploader: req.user._id }); // Fetch photos by the user
+    console.log('Fetched Photos:', photos); // Debug logs
+    res.render('profile', { title: 'Your Profile', user: req.user, photos });
   } catch (err) {
     console.error('Error fetching profile data:', err);
     res.status(500).send('Error fetching profile data');
   }
 });
-
 
 // Update bio
 router.post('/update-bio', isAuthenticated, async (req, res) => {
@@ -113,12 +105,23 @@ router.post('/upload-profile-photo', isAuthenticated, upload.single('profilePhot
 // Stream profile photo
 router.get('/profile-photo/:filename', async (req, res) => {
   try {
-    const file = await gridfsBucket.find({ filename: req.params.filename }).toArray();
+    const { filename } = req.params;
+
+    // Check if the filename is a URL (external photo)
+    if (filename.startsWith('http')) {
+      console.log('Serving external profile photo:', filename);
+      return res.redirect(filename); // Redirect to the external URL
+    }
+
+    // Fetch photo from GridFS
+    const file = await gridfsBucket.find({ filename }).toArray();
+    console.log('Requested profile photo:', filename, 'File found:', file);
+
     if (!file || file.length === 0) {
       return res.status(404).send('Profile photo not found');
     }
 
-    const readStream = gridfsBucket.openDownloadStreamByName(req.params.filename);
+    const readStream = gridfsBucket.openDownloadStreamByName(filename);
     res.set('Content-Type', file[0].contentType);
     readStream.pipe(res);
   } catch (err) {

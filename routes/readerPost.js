@@ -4,8 +4,15 @@ const User = require('../models/User');
 const Photo = require('../models/Photo');
 const { isAuthenticated } = require('../middlewares/roles');
 const upload = require('../config/multerGridFs'); // Your GridFS multer setup
+const mongoose = require('mongoose');
+let gridfsBucket;
 const router = express.Router();
-
+// Initialize GridFSBucket after MongoDB connection
+mongoose.connection.once('open', () => {
+  gridfsBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+    bucketName: 'photos',
+  });
+});
 // Route to display photo details, including uploader and comments
 router.get('/readerPost/:id', async (req, res) => {
   try {
@@ -56,29 +63,32 @@ router.post('/like/:id', async (req, res) => {
 });
 
 // Route to display user's profile
-router.get('/user/:id', async (req, res) => {
-  try {
-    const userId = req.params.id;
+// Regex to ensure the ID is a valid MongoDB ObjectId
+router.get('/user/:id', async (req, res, next) => {
+  const userId = req.params.id;
 
-    // Fetch user by ID
-    const user = await User.findById(userId).lean(); // Use lean() for plain JS objects
+  // Skip file-like paths (e.g., navbar.css)
+  if (userId.includes('.') || !mongoose.Types.ObjectId.isValid(userId)) {
+    console.error(`Invalid User ID or Static File Path: ${userId}`);
+    return next(); // Pass control to the next middleware (404 handler or static middleware)
+  }
+
+  try {
+    const user = await User.findById(userId).lean();
     if (!user) {
       console.error(`User not found for ID: ${userId}`);
       return res.status(404).send('User not found');
     }
 
-    // Fetch user's photos
-    const photos = await Photo.find({ uploader: userId });
-
-    // Resolve profilePhoto URL dynamically
-    user.profilePhoto = user.profilePhoto
+    const profilePhotoUrl = user.profilePhoto
       ? `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}`
       : '/default-profile.png';
 
-    // Render the profile page
+    const photos = await Photo.find({ uploader: userId });
+
     res.render('profile', {
       title: `${user.name}'s Profile`,
-      user,
+      user: { ...user, profilePhoto: profilePhotoUrl },
       photos,
     });
   } catch (err) {
@@ -86,6 +96,8 @@ router.get('/user/:id', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+
 
 
 
