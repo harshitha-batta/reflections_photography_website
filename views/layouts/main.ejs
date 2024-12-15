@@ -33,17 +33,14 @@
       <li><a href="#">River</a></li>
       <li><a href="#">Spring</a></li>
     </ul>
-  </li>
-
-  <% if (user) { %>
-    <!-- Show when logged in -->
-    <li><a href="/auth/profile">Profile</a></li>
-    <li><a href="/auth/logout">Logout</a></li>
-  <% } else { %>
-    <!-- Show when logged out -->
+      <% if (!user) { %> <!-- Global `user` object is now available -->
     <li><a href="/auth/login">Login</a></li>
     <li><a href="/auth/register">Register</a></li>
+  <% } else { %>
+    <li><a href="/auth/profile">Profile</a></li>
+    <li><a href="/auth/logout">Logout</a></li>
   <% } %>
+  </li>
 </ul>
 
     <div class="hamburger">

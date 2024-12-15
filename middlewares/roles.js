@@ -21,6 +21,7 @@ async function isAuthenticated(req, res, next) {
     }
 
     req.user = user; // Attach full user object to `req.user`
+    res.locals.user = user; // Make user available in all EJS templates
     next();
   } catch (err) {
     console.error('JWT verification error:', err.message);
@@ -29,6 +30,31 @@ async function isAuthenticated(req, res, next) {
   }
 }
 
+// Middleware to set global `user` for templates
+async function setUserInLocals(req, res, next) {
+  const token = req.cookies.jwt;
+
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+      const user = await User.findById(decoded.id);
+      if (user) {
+        res.locals.user = user; // Set user globally for templates
+      } else {
+        res.locals.user = null;
+      }
+    } catch (err) {
+      console.error('Error setting user in locals:', err.message);
+      res.locals.user = null;
+    }
+  } else {
+    res.locals.user = null;
+  }
+
+  next();
+}
+
+// Middleware to check admin role
 function isAdmin(req, res, next) {
   if (req.user && req.user.role === 'admin') {
     return next();
@@ -37,12 +63,15 @@ function isAdmin(req, res, next) {
   res.redirect('/');
 }
 
+// Middleware to check specific roles
 function hasRole(requiredRole) {
   return (req, res, next) => {
-    if (req.isAuthenticated() && req.user.role === requiredRole) return next();
+    if (req.user && req.user.role === requiredRole) {
+      return next();
+    }
     req.flash('error', 'Access denied. Insufficient permissions.');
     res.redirect('/');
   };
 }
 
-module.exports = { isAuthenticated, isAdmin, hasRole };
+module.exports = { isAuthenticated, isAdmin, hasRole, setUserInLocals };
