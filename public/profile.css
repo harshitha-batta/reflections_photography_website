@@ -30,20 +30,20 @@ a {
 }
 
 .profile-photo {
-  width: 300px; /* Increased size */
-  height: 300px; /* Increased size */
+  width: 200px; /* Reduced size */
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid #eee;
+  margin-bottom: 10px;
 }
 
 .edit-profile-btn {
   background-color: #62445e;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border-radius: 8px;
-  font-size: 1rem;
   cursor: pointer;
 }
 
@@ -58,7 +58,7 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,13 +70,43 @@ a {
 }
 
 .modal-content {
-  background: rgba(255, 255, 255, 0.95); /* Transparent effect */
-  padding: 30px;
-  border-radius: 15px;
-  width: 450px;
+  background: rgba(224, 210, 222, 0.9);/* Soft transparency */
+  padding: 20px;
+  border-radius: 12px;
+  width: 400px; /* Width of modal */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   text-align: center;
   position: relative;
+}
+
+.modal-content h2 {
+  color: #62445e;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.modal-content label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  text-align: left;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 90%; /* Smaller input size */
+  padding: 8px;
+  margin: 10px auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: block;
+}
+
+.modal-content textarea {
+  resize: none;
+  height: 80px; /* Smaller textarea */
 }
 
 .close-btn {
@@ -93,68 +123,16 @@ a {
   color: #50364b;
 }
 
-.modal-content h2 {
-  font-size: 2rem;
-  color: #62445e;
-  margin-bottom: 20px;
-}
-
-.modal-content label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.modal-content input,
-.modal-content textarea {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-.modal-content .btn {
+.btn {
   background-color: #62445e;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 12px;
   border-radius: 8px;
-  font-size: 1rem;
   cursor: pointer;
+  margin-top: 10px;
 }
 
-.modal-content .btn:hover {
+.btn:hover {
   background-color: #50364b;
-}
-
-/* Photos Grid */
-.uploaded-photos-section h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  color: #62445e;
-}
-
-.photos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.photo-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  text-align: center;
-  padding: 15px;
-}
-
-.photo-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
 }
