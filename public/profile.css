@@ -14,12 +14,11 @@ a {
 
 .profile-container {
   max-width: 1000px;
-  margin: 30px auto;
+  margin: 50px auto;
   background: #fff;
   border-radius: 15px;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   padding: 25px;
-  overflow: hidden;
 }
 
 /* Profile Header */
@@ -27,118 +26,86 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
   text-align: center;
-  padding: 30px 20px;
-  border-bottom: 2px solid #eee;
-}
-
-.profile-photo-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .profile-photo {
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #ddd;
-  transition: transform 0.3s ease;
+  border: 3px solid #eee;
 }
 
-.profile-photo:hover {
-  transform: scale(1.1);
-}
-
-.upload-btn {
+.edit-profile-btn {
   background-color: #62445e;
   color: white;
-  padding: 10px 18px;
-  border-radius: 6px;
-  margin-top: 10px;
-  font-size: 0.9rem;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-align: center;
 }
 
-.upload-btn:hover {
+.edit-profile-btn:hover {
   background-color: #50364b;
 }
 
-.profile-info {
-  text-align: center;
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.profile-info h1 {
-  font-size: 2.4rem;
-  font-weight: bold;
-  margin: 0;
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
   color: #333;
 }
 
-.bio-text {
-  font-size: 1.1rem;
+.close-btn:hover {
   color: #666;
-  margin: 8px 0 15px;
 }
 
-.edit-btn {
+.btn {
   background-color: #62445e;
   color: white;
+  border: none;
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
 }
 
-.edit-btn:hover {
+.btn:hover {
   background-color: #50364b;
 }
 
-.bio-form {
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-  resize: none;
-}
-
-.save-btn {
-  align-self: center;
-  padding: 8px 16px;
-  background-color: #62445e;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.save-btn:hover {
-  background-color: #50364b;
-}
-
-/* Photo Grid */
-.uploaded-photos-section {
-  margin-top: 30px;
-}
-
+/* Photos Grid */
 .uploaded-photos-section h2 {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 1.8rem;
 }
 
 .photos-grid {
@@ -153,12 +120,6 @@ textarea {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   text-align: center;
   padding: 15px;
-  overflow: hidden;
-  transition: transform 0.2s;
-}
-
-.photo-card:hover {
-  transform: translateY(-5px);
 }
 
 .photo-card img {
@@ -166,54 +127,4 @@ textarea {
   height: 150px;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.no-photos-message {
-  text-align: center;
-  color: #999;
-}
-
-/* Forms */
-.hidden {
-  display: none;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-/* Logout Section */
-.logout {
-  text-align: center;
-  margin-top: 30px;
-}
-
-.logout-btn {
-  background-color: #62445e;
-  color: #fff;
-  font-size: 1.2rem;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.logout-btn:hover {
-  background-color: #50364b;
 }
