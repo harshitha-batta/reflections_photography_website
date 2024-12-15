@@ -118,7 +118,6 @@ app.use((req, res, next) => {
 // Profile routes
 app.use('/profile', profileRoutes);
 app.use('/', galleryRoutes); // Gallery route
-app.use('/gallery', galleryRoutes); // Gallery route
 // app.use('/readerPost', readerPostRoutes); // readerPost route
 
 // Admin-only route for the admin dashboard

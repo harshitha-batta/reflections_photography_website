@@ -21,7 +21,6 @@ async function isAuthenticated(req, res, next) {
     }
 
     req.user = user; // Attach full user object to `req.user`
-    res.locals.user = user; // Make user available in all EJS templates
     next();
   } catch (err) {
     console.error('JWT verification error:', err.message);

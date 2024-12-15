@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const User = require('../models/User'); // Replace with the path to your User model
 const passport = require('passport');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt'); // To hash passwords securely
 const jwt = require('jsonwebtoken');
 const { isAdmin, isAuthenticated } = require('../middlewares/roles');
-const Photo = require('../models/Photo');
+const Photo = require('../models/Photo'); // Add this line to import the Photo model
 const { galleryHome } = require('./gallery');
 
 // JWT Generation Function
@@ -14,7 +14,7 @@ function generateToken(user) {
     id: user._id,
     email: user.email,
     name: user.name,
-    role: user.role,
+    role: user.role, // Include role in the token
   };
 
   return jwt.sign(payload, process.env.JWT_SECRET || 'your_jwt_secret', { expiresIn: '1h' });
@@ -51,11 +51,11 @@ router.post('/register', async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: role || 'user',
+      role: role || 'user', // Default role
     });
 
     await newUser.save();
-    console.log('New User Registered:', newUser);
+    console.log('New User Registered:', newUser); // Debugging log
     req.flash('success', 'Registration successful! Please log in.');
     res.redirect('/auth/login');
   } catch (err) {
@@ -69,13 +69,13 @@ router.post('/register', async (req, res) => {
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
   try {
     const token = generateToken(req.user);
-    console.log('Generated JWT:', token);
+    console.log('Generated JWT:', token); // Debugging log
     res.cookie('jwt', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 3600000,
+      maxAge: 3600000, // 1 hour
     });
-    console.log('JWT Cookie Set:', res.getHeader('Set-Cookie'));
+    console.log('JWT Cookie Set:', res.getHeader('Set-Cookie')); // Debugging log
     res.redirect('/auth/profile');
   } catch (err) {
     console.error('Login Error:', err.message);
@@ -83,6 +83,7 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
     res.redirect('/auth/login');
   }
 });
+
 
 // Get Profile Page
 router.get('/profile', async (req, res) => {
@@ -94,35 +95,31 @@ router.get('/profile', async (req, res) => {
   }
 
   try {
+    // Verify the token and get the user's ID
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
-    const user = await User.findById(decoded.id);
+    const userId = decoded.id;
 
+    // Fetch the user's profile information
+    const user = await User.findById(userId);
+
+    // Fetch photos uploaded by this user
+    const photos = await Photo.find({ uploader: userId }); // Filter photos by uploader
+
+    // Pass user and their photos to the EJS template
     res.render('profile', {
       title: 'Your Profile',
       user,
-      photos: [],
+      photos,
     });
   } catch (err) {
-    console.error('JWT verification error:', err.message);
+    console.error('JWT verification or database error:', err.message);
     req.flash('error', 'Session expired. Please log in again.');
     res.redirect('/auth/login');
   }
 });
 
-// Get Gallery Page
-router.get('/gallery', isAuthenticated, async (req, res) => {
-  try {
-    const photos = await Photo.find(); // Fetch all photos from the database
-    res.render('gallery', {
-      title: 'Gallery',
-      photos, // Pass the photos to the template
-    });
-  } catch (err) {
-    console.error('Error fetching gallery:', err.message);
-    req.flash('error', 'Unable to load gallery.');
-    res.redirect('/auth/login');
-  }
-});
+
+
 
 // Admin Dashboard
 router.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
@@ -138,7 +135,7 @@ router.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
   }
 });
 
-// Admin Account Creation
+// Admin Account Creation (Only for Admins)
 router.post('/admin/create', isAuthenticated, isAdmin, async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -157,7 +154,7 @@ router.post('/admin/create', isAuthenticated, isAdmin, async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: 'admin',
+      role: 'admin', // Explicitly set role to admin
     });
 
     await newAdmin.save();

@@ -5,20 +5,42 @@ const Photo = require('../models/Photo');
 const { isAuthenticated } = require('../middlewares/roles');
 const upload = require('../config/multerGridFs');
 const mongoose = require('mongoose');
-
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 let gridfsBucket;
-router.get('/', isAuthenticated, async (req, res) => {
+router.get('/', async (req, res) => {
+  const token = req.cookies.jwt;
+
+  if (!token) {
+    req.flash('error', 'Unauthorized. Please log in.');
+    return res.redirect('/auth/login');
+  }
+
   try {
-    const photos = await Photo.find({ uploader: req.user._id }); // Fetch photos by the user
-    console.log('Fetched Photos:', photos); // Debug logs
-    res.render('profile', { title: 'Your Profile', user: req.user, photos });
+    // Verify the token and get the user's ID
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+    const userId = decoded.id;
+
+    // Fetch the user's profile information
+    const user = await User.findById(userId);
+
+    // Fetch photos uploaded by this user
+    const photos = await Photo.find({ uploader: userId }); // Filter photos by uploader
+
+    // Pass user and their photos to the EJS template
+    res.render('profile', {
+      title: 'Your Profile',
+      user,
+      photos,
+    });
   } catch (err) {
-    console.error('Error fetching profile data:', err);
-    res.status(500).send('Error fetching profile data');
+    console.error('JWT verification or database error:', err.message);
+    req.flash('error', 'Session expired. Please log in again.');
+    res.redirect('/auth/login');
   }
 });
+
 
 // Initialize GridFSBucket after MongoDB connection
 mongoose.connection.once('open', () => {
