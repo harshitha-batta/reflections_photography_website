@@ -18,7 +18,7 @@ a {
 .profile-container {
   max-width: 1200px;
   margin: 50px auto;
-  background: rgba(240, 186, 192, 0.85); /* Soft transparent white */
+  background: rgba(240, 186, 192, 0.85);
   border-radius: 15px;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   padding: 30px;
@@ -45,21 +45,17 @@ a {
 .profile-info h1 {
   font-size: 2.5rem;
   color: #333;
-  margin: 10px 0;
 }
 
 .profile-info p {
   font-size: 1.1rem;
   color: #666;
-  margin-bottom: 10px;
 }
 
 .edit-profile-btn {
   background-color: #62445e;
   color: white;
-  font-size: 1.2rem;
   padding: 10px 20px;
-  border: none;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -68,201 +64,103 @@ a {
   background-color: #50364b;
 }
 
-/* Modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal.hidden {
-  display: none;
-}
-
-.modal-content {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 25px;
-  border-radius: 15px;
-  width: 400px;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  position: relative;
-}
-
-.modal-content h2 {
-  font-size: 1.8rem;
-  color: #62445e;
-  margin-bottom: 20px;
-}
-
-.modal-content label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
-  color: #333;
-  text-align: left;
-}
-
-.modal-content input,
-.modal-content textarea {
-  width: 90%;
-  padding: 8px;
-  margin: 10px auto;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  display: block;
-}
-
-.modal-content textarea {
-  resize: none;
-  height: 80px;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #62445e;
-  cursor: pointer;
-}
-
-.close-btn:hover {
-  color: #50364b;
-}
-
-.btn {
-  background-color: #62445e;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
-  font-size: 1rem;
-}
-
-.btn:hover {
-  background-color: #50364b;
-}
-
 /* Uploaded Photos Section */
-.uploaded-photos-section {
-  margin-top: 20px;
-}
-
-.uploaded-photos-section h2 {
-  font-size: 1.8rem;
-  color: #62445e;
-  text-a
-}
-
 .photos-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns */
-  gap: 20px; /* Spacing between photos */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  justify-items: center;
   margin-top: 20px;
-  justify-items: center; /* Center the images */
 }
 
 .photo-card {
-  background: none; /* No card background */
-  box-shadow: none; /* No shadow */
-  border-radius: 0; /* No rounded corners */
-  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .photo-card img {
   width: 100%;
-  height: 200px; /* Fixed height for consistency */
+  height: 200px;
   object-fit: cover;
   border-radius: 12px;
-  transition: transform 0.3s ease; /* Hover effect */
+  transition: transform 0.3s ease;
 }
-
 
 .photo-card img:hover {
   transform: scale(1.05);
 }
 
-.photo-card p {
-  font-size: 1rem;
-  margin-top: 8px;
-  color: #333;
-  font-family: "Lora", serif;
-}
-.photo-description,
-.photo-category {
-  font-size: 0.9rem;
-  color: #555;
-}
-
-/* Upload Form */
-.upload-section {
-  margin: 30px auto;
-  text-align: center;
+/* Hover Overlay */
+.photo-hover-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.upload-section .form-group {
-  margin-bottom: 15px;
+.photo-card:hover .photo-hover-content {
+  opacity: 1;
 }
 
-.upload-section label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-  text-align: left;
-  color: #333;
-}
-
-.upload-section input,
-.upload-section select,
-.upload-section textarea {
-  width: 90%;
-  padding: 8px;
-  margin: 10px auto;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  display: block;
-}
-
-.upload-btn {
-  background-color: #62445e;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 8px;
+.like-icon {
   cursor: pointer;
+  font-size: 1.5rem;
 }
 
-.upload-btn:hover {
-  background-color: #50364b;
+.like-icon:hover {
+  color: red;
 }
 
-/* Logout Button */
-.logout {
+/* Modal Popup */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 600px;
   text-align: center;
-  margin-top: 30px;
+  position: relative;
 }
 
-.logout-btn {
-  background-color: #62445e;
-  color: white;
-  font-size: 1.1rem;
-  padding: 10px 20px;
-  border-radius: 8px;
+.modal-content img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
 }
 
-.logout-btn:hover {
-  background-color: #50364b;
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #333;
 }
