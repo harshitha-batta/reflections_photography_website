@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Middleware to verify authentication
 async function isAuthenticated(req, res, next) {
   const token = req.cookies.jwt;
 
@@ -11,66 +10,40 @@ async function isAuthenticated(req, res, next) {
   }
 
   try {
+    // Verify and decode the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
 
-    // Fetch full user data from the database
+    // Fetch user details
     const user = await User.findById(decoded.id);
     if (!user) {
       req.flash('error', 'User not found. Please log in again.');
       return res.redirect('/auth/login');
     }
 
-    req.user = user; // Attach full user object to `req.user`
+    // Attach user to the request
+    req.user = user;
     next();
   } catch (err) {
     console.error('JWT verification error:', err.message);
-    req.flash('error', 'Session expired. Please log in again.');
-    return res.redirect('/auth/login');
-  }
-}
 
-// Middleware to set global `user` for templates
-async function setUserInLocals(req, res, next) {
-  const token = req.cookies.jwt;
-
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
-      const user = await User.findById(decoded.id);
-      if (user) {
-        res.locals.user = user; // Set user globally for templates
-      } else {
-        res.locals.user = null;
-      }
-    } catch (err) {
-      console.error('Error setting user in locals:', err.message);
-      res.locals.user = null;
+    if (err.name === 'TokenExpiredError') {
+      req.flash('error', 'Session expired. Please log in again.');
+    } else {
+      req.flash('error', 'Invalid session. Please log in again.');
     }
-  } else {
-    res.locals.user = null;
+    res.redirect('/auth/login');
   }
-
-  next();
 }
-
-// Middleware to check admin role
+// Middleware to verify if the user is an admin
 function isAdmin(req, res, next) {
   if (req.user && req.user.role === 'admin') {
     return next();
   }
+
+  // If the user is not an admin, redirect to the home page with a flash message
   req.flash('error', 'Access denied. Admins only.');
   res.redirect('/');
 }
 
-// Middleware to check specific roles
-function hasRole(requiredRole) {
-  return (req, res, next) => {
-    if (req.user && req.user.role === requiredRole) {
-      return next();
-    }
-    req.flash('error', 'Access denied. Insufficient permissions.');
-    res.redirect('/');
-  };
-}
-
-module.exports = { isAuthenticated, isAdmin, hasRole, setUserInLocals };
+// Export the middlewares
+module.exports = { isAuthenticated, isAdmin };
