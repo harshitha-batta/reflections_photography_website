@@ -4,50 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Profile</title>
-  <link rel="stylesheet" href="/profile.css">
   <link rel="stylesheet" href="/navbar.css">
+  <link rel="stylesheet" href="/profile.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montez&family=Lora:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Include Navbar -->
   <%- include('./layouts/main', { title: 'Your Profile' }) %>
 
   <div class="profile-container">
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+      <% if (successMessage) { %>
+        <div class="alert success"><%= successMessage %></div>
+      <% } %>
+      <% if (errorMessage) { %>
+        <div class="alert error"><%= errorMessage %></div>
+      <% } %>
+    </div>
+
     <!-- Profile Header -->
     <div class="profile-header">
       <div class="profile-photo-container">
         <% if (user.profilePhoto) { %>
           <img src="/profile/profile-photo/<%= encodeURIComponent(user.profilePhoto) %>" alt="Profile Photo" class="profile-photo" />
         <% } else { %>
-          <p class="no-photo">No profile photo uploaded yet.</p>
+          <div class="no-photo">No profile photo uploaded yet.</div>
         <% } %>
-        <button class="btn" onclick="toggleForm('profilePhotoForm')">Change Profile Photo</button>
-        <form id="profilePhotoForm" action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data" class="upload-photo-form hidden">
-          <label for="profilePhoto">Upload New Profile Photo:</label>
+        <button class="btn" onclick="toggleForm('profilePhotoForm')">Change Photo</button>
+        <form id="profilePhotoForm" action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data" class="hidden">
           <input type="file" name="profilePhoto" id="profilePhoto" required />
           <button type="submit" class="btn">Upload</button>
         </form>
       </div>
 
       <div class="profile-info">
-        <h1><%= user.firstName || user.name %> <%= user.lastName || '' %></h1>
-        <p><%= user.bio || 'No bio yet. Add one below!' %></p>
+        <h1><%= user.name %></h1>
+        <p class="bio"><%= user.bio || 'No bio yet. Add one below!' %></p>
         <button class="btn" onclick="toggleForm('bioForm')">Edit Bio</button>
-        <form id="bioForm" action="/profile/update-bio" method="POST" class="edit-bio-form hidden">
-          <textarea id="bio" name="bio" placeholder="Write a short bio..."><%= user.bio || '' %></textarea>
-          <button type="submit" class="btn">Save Bio</button>
+        <form id="bioForm" action="/profile/update-bio" method="POST" class="hidden">
+          <textarea name="bio" id="bio" placeholder="Write something about yourself..."><%= user.bio || '' %></textarea>
+          <button type="submit" class="btn">Save</button>
         </form>
       </div>
     </div>
-
-    <!-- Admin Features -->
-    <% if (user.role === 'admin') { %>
-      <div class="admin-section">
-        <h2>Admin Panel</h2>
-        <p>You have admin privileges. Use the links below to manage users and photos:</p>
-        <div class="admin-actions">
-          <a href="/admin/dashboard" class="btn">Go to Admin Dashboard</a>
-        </div>
-      </div>
-    <% } %>
 
     <!-- Uploaded Photos Section -->
     <div class="uploaded-photos-section">
@@ -56,88 +56,43 @@
         <div class="photos-grid">
           <% photos.forEach(photo => { %>
             <div class="photo-card">
-              <img src="/profile/photo/<%= photo.imagePath %>" alt="<%= photo.title %>" class="uploaded-photo" />
-              <p><%= photo.description %></p>
-              <p><strong>Category:</strong> <%= photo.category %></p>
+              <img src="/profile/photo/<%= photo.imagePath %>" alt="<%= photo.title %>" />
+              <p class="photo-title"><%= photo.title %></p>
+              <p class="photo-description"><%= photo.description || 'No description provided' %></p>
+              <p class="photo-category"><strong>Category:</strong> <%= photo.category %></p>
             </div>
           <% }) %>
         </div>
       <% } else { %>
         <p>No photos uploaded yet.</p>
       <% } %>
-      <button class="btn" onclick="toggleForm('uploadPhotoForm')">Upload New Photo</button>
-      <form id="uploadPhotoForm" action="/profile/upload-photo" method="POST" enctype="multipart/form-data" class="upload-photo-form hidden">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" name="title" id="title" placeholder="Enter a title for the photo" required />
-        </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <textarea name="description" id="description" placeholder="Enter a brief description"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="category">Category</label>
-          <select name="category" id="category" required>
-            <option value="Landscapes">Landscapes</option>
-            <option value="Portraits">Portraits</option>
-            <option value="Abstract">Abstract</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="tags">Tags (comma-separated)</label>
-          <input type="text" name="tags" id="tags" placeholder="e.g., nature, travel, photography" />
-        </div>
-        <div class="form-group">
-          <label for="photo">Upload Photo</label>
-          <input type="file" name="photo" id="photo" required onchange="previewImage(event)" />
-        </div>
-        <!-- Image Preview -->
-        <div class="form-group">
-          <img id="photo-preview" alt="Preview" style="max-width: 100%; display: none; margin-top: 10px;" />
-        </div>
-        <button type="submit" class="btn">Upload Photo</button>
+      <button class="btn" onclick="toggleForm('uploadPhotoForm')">Upload Photo</button>
+      <form id="uploadPhotoForm" action="/profile/upload-photo" method="POST" enctype="multipart/form-data" class="hidden">
+        <input type="text" name="title" placeholder="Photo Title" required />
+        <textarea name="description" placeholder="Photo Description"></textarea>
+        <select name="category" required>
+          <option value="Landscapes">Landscapes</option>
+          <option value="Portraits">Portraits</option>
+          <option value="Abstract">Abstract</option>
+          <option value="Other">Other</option>
+        </select>
+        <input type="file" name="photo" id="photoUpload" required />
+        <button type="submit" class="btn">Upload</button>
       </form>
-    </div>
-
-    <div class="logout">
-      <a href="/auth/logout" class="btn">Logout</a>
     </div>
   </div>
 
-  <!-- JavaScript for Form Toggle -->
+  <!-- Logout -->
+  <div class="logout">
+    <a href="/auth/logout" class="btn logout-btn">Logout</a>
+  </div>
+
+  <!-- JavaScript -->
   <script>
     function toggleForm(formId) {
       const form = document.getElementById(formId);
-      if (form.classList.contains('hidden')) {
-        form.classList.remove('hidden');
-      } else {
-        form.classList.add('hidden');
-      }
-    }
-
-    function previewImage(event) {
-      const file = event.target.files[0];
-      if (!file.type.startsWith('image/')) {
-        alert('Please select a valid image file.');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function () {
-        const output = document.getElementById('photo-preview');
-        output.src = reader.result;
-        output.style.display = 'block';
-      };
-      reader.readAsDataURL(file);
+      form.classList.toggle('hidden');
     }
   </script>
-
-  <!-- Hidden Class CSS -->
-  <style>
-    .hidden {
-      display: none;
-    }
-  </style>
 </body>
 </html>
