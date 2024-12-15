@@ -55,6 +55,32 @@ router.post('/like/:id', async (req, res) => {
   }
 });
 
+// Route to display user's profile
+router.get('/user/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Find the user by ID and their photos
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    // Fetch photos uploaded by the user
+    const photos = await Photo.find({ uploader: userId });
+
+    // Render the Profile.ejs file located in the root views folder
+    res.render('profile', {
+      title: `${user.name}'s Profile`,
+      user, // Pass user details
+      photos, // Pass user's uploaded photos
+    });
+  } catch (err) {
+    console.error('Error fetching user profile:', err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 
 module.exports = router;
 

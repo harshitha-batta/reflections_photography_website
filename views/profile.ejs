@@ -9,24 +9,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Montez&family=Pacifico&family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Background Image -->
-  <div class="background-container">
-    <%- include('./layouts/main', { title: 'Your Profile' }) %>
+  <!-- Navbar -->
+  <%- include('./layouts/main', { title: 'Your Profile' }) %>
 
-    <!-- Transparent Profile Box -->
+  <!-- Profile Header -->
+  <div class="background-container">
     <div class="profile-header">
       <div class="profile-photo-container">
         <img src="<%= user.profilePhoto ? '/profile/profile-photo/' + encodeURIComponent(user.profilePhoto) : '/default-profile.png' %>" 
              alt="Profile Photo" class="profile-photo">
       </div>
       <div class="profile-info">
-        <h1 class="profile-name">Hello! <%= user.name %></h1>
+        <h1 class="profile-name">Hello, <%= user.name %>!</h1>
         <p><%= user.bio || 'No bio added yet!' %></p>
       </div>
 
-      <!-- Button Row -->
+      <!-- Buttons for Editing and Uploading -->
       <div class="button-row">
-        <button class="edit-profile-btn" onclick="openModal()">✏️ Edit Profile</button>
+        <button class="edit-profile-btn" onclick="openProfileModal()">✏️ Edit Profile</button>
         <button class="upload-photo-btn" onclick="openUploadModal()">📷 Upload Photo</button>
       </div>
     </div>
@@ -40,23 +40,18 @@
             <div class="photo-card">
               <!-- Photo Image -->
               <img src="/profile/photo/<%= photo.imagePath %>" alt="<%= photo.title %>">
-              <!-- Photo Title -->
               <p class="photo-title"><%= photo.title %></p>
-              <!-- Photo Description -->
-              <p class="photo-description"><strong>Description: </strong>
-                <%= photo.description || 'No description provided.' %>
-              </p>
-              <!-- Photo Category -->
-              <p class="photo-category">
-                <strong>Category:</strong> <%= photo.category %>
-              </p>
+              <p class="photo-description"><strong>Description: </strong><%= photo.description || 'No description provided.' %></p>
+              <p class="photo-category"><strong>Category:</strong> <%= photo.category %></p>
 
               <!-- Action Buttons -->
               <div class="photo-actions">
-                <button class="edit-photo-btn" onclick="openEditModal('<%= photo._id %>', '<%= photo.title %>', '<%= photo.description %>', '<%= photo.category %>')">✏️ Edit</button>
-                <form action="/profile/photo/<%= photo._id %>?_method=DELETE" method="POST" style="display:inline;">
-                  <button type="submit" class="delete-photo-btn">🗑️ Delete</button>
-                </form>
+                <button class="edit-photo-btn" 
+                        onclick="openEditModal('<%= photo._id %>', '<%= photo.title %>', '<%= photo.description %>', '<%= photo.category %>')">✏️ Edit</button>
+                  <form action="/profile/photo/<%= photo._id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit" class="delete-photo-btn">🗑️ Delete</button>
+                  </form>
+
               </div>
             </div>
           <% }) %>
@@ -72,20 +67,16 @@
     </div>
   </div>
 
-  <!-- Modal for Editing Profile -->
-  <div id="modal" class="modal hidden">
+  <!-- Profile Edit Modal -->
+  <div id="profile-modal" class="modal hidden">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()">×</span>
+      <span class="close-btn" onclick="closeProfileModal()">×</span>
       <h2>Edit Profile</h2>
-      
-      <!-- Change Profile Photo -->
       <form action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data">
         <label for="profilePhoto">Change Photo:</label>
         <input type="file" id="profilePhoto" name="profilePhoto" required>
         <button type="submit" class="btn">Upload Photo</button>
       </form>
-
-      <!-- Edit Bio -->
       <form action="/profile/update-bio" method="POST">
         <label for="bio">Edit Bio:</label>
         <textarea id="bio" name="bio" placeholder="Write a short bio..."><%= user.bio || '' %></textarea>
@@ -99,39 +90,34 @@
     <div class="modal-content">
       <span class="close-btn" onclick="closeEditModal()">×</span>
       <h3>Edit Photo</h3>
-      <form id="edit-photo-form" action="/profile/photo/<%= photo._id %>?_method=PATCH" method="POST">
-        <label for="title">Title</label>
+      <form id="edit-photo-form" action="" method="POST">
+        <input type="hidden" name="_method" value="PATCH">
+        <label for="edit-title">Title</label>
         <input type="text" id="edit-title" name="title" required>
-
-        <label for="description">Description</label>
+        <label for="edit-description">Description</label>
         <textarea id="edit-description" name="description"></textarea>
-
-        <label for="category">Category</label>
+        <label for="edit-category">Category</label>
         <select id="edit-category" name="category">
           <option value="Landscapes">Landscapes</option>
           <option value="Portraits">Portraits</option>
           <option value="Abstract">Abstract</option>
           <option value="Other">Other</option>
         </select>
-
-        <button type="submit" class="save-edit-btn">Save Changes</button>
+        <button type="submit" class="btn save-edit-btn">Save Changes</button>
       </form>
-
     </div>
   </div>
 
-  <!-- Upload Form Modal -->
-  <div id="upload-photo-modal" class="modal-overlay hidden">
+  <!-- Upload Photo Modal -->
+  <div id="upload-photo-modal" class="modal hidden">
     <div class="modal-content">
       <span class="close-modal" onclick="closeUploadModal()">×</span>
       <h3>Upload New Photo</h3>
       <form action="/upload" method="POST" enctype="multipart/form-data">
         <label for="title">Title</label>
         <input type="text" id="title" name="title" placeholder="Enter photo title" required>
-
         <label for="description">Description</label>
         <textarea id="description" name="description" rows="2" placeholder="Add a short description"></textarea>
-
         <label for="category">Category</label>
         <select id="category" name="category">
           <option value="Landscapes">Landscapes</option>
@@ -139,13 +125,11 @@
           <option value="Abstract">Abstract</option>
           <option value="Other">Other</option>
         </select>
-
         <label for="photo">Photo</label>
         <input type="file" id="photo" name="photo" required>
-
         <div class="modal-buttons">
-          <button type="submit" class="upload-btn">Upload</button>
-          <button type="button" class="cancel-btn" onclick="closeUploadModal()">Cancel</button>
+          <button type="submit" class="btn upload-btn">Upload</button>
+          <button type="button" class="btn cancel-btn" onclick="closeUploadModal()">Cancel</button>
         </div>
       </form>
     </div>
@@ -153,34 +137,30 @@
 
   <!-- JavaScript for Modals -->
   <script>
-    function openModal() {
-      document.getElementById('modal').classList.remove('hidden');
+    function openProfileModal() {
+      document.getElementById('profile-modal').classList.remove('hidden');
     }
-
-    function closeModal() {
-      document.getElementById('modal').classList.add('hidden');
+    function closeProfileModal() {
+      document.getElementById('profile-modal').classList.add('hidden');
     }
-
+    function openEditModal(photoId, title, description, category) {
+      const modal = document.getElementById('edit-photo-modal');
+      modal.classList.remove('hidden');
+      document.getElementById('edit-title').value = title || '';
+      document.getElementById('edit-description').value = description || '';
+      document.getElementById('edit-category').value = category || 'Other';
+      const form = document.getElementById('edit-photo-form');
+      form.action = `/profile/photo/${photoId}?_method=PATCH`;
+    }
+    function closeEditModal() {
+      document.getElementById('edit-photo-modal').classList.add('hidden');
+    }
     function openUploadModal() {
-      document.getElementById("upload-photo-modal").classList.remove("hidden");
+      document.getElementById('upload-photo-modal').classList.remove('hidden');
     }
-
     function closeUploadModal() {
-      document.getElementById("upload-photo-modal").classList.add("hidden");
+      document.getElementById('upload-photo-modal').classList.add('hidden');
     }
-
-function openEditModal(photoId, title, description, category) {
-  const modal = document.getElementById('edit-photo-modal');
-  modal.classList.remove('hidden');
-
-  document.getElementById('edit-title').value = title || '';
-  document.getElementById('edit-description').value = description || '';
-  document.getElementById('edit-category').value = category || 'Other';
-
-  const form = document.getElementById('edit-photo-form');
-  form.action = `/profile/photo/${photoId}`;
-}
-
   </script>
 </body>
 </html>
