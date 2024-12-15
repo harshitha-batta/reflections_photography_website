@@ -6,7 +6,7 @@ const { isAuthenticated } = require('../middlewares/roles');
 const upload = require('../config/multerGridFs');
 const mongoose = require('mongoose');
 
-
+const { setFlashMessage } = require('../utils/flash');
 const router = express.Router();
 
 let gridfsBucket;
@@ -129,6 +129,64 @@ router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req
   } catch (err) {
     console.error('Error uploading photo:', err);
     setFlashMessage(res, 'error', 'Failed to upload photo.');
+    res.redirect('/profile');
+  }
+});
+// Delete a photo
+// Delete a photo
+router.delete('/photo/:id', isAuthenticated, async (req, res) => {
+  try {
+    const photoId = req.params.id;
+
+    // Find the photo
+    const photo = await Photo.findById(photoId);
+
+    // Check if the photo exists and belongs to the current user
+    if (!photo || photo.uploader.toString() !== req.user._id.toString()) {
+      setFlashMessage(res, 'error', 'You are not authorized to delete this photo.');
+      return res.status(403).redirect('/profile');
+    }
+
+    // Remove the photo from the database
+    await photo.remove();
+
+    // If using GridFS, delete the image file
+    if (gridfsBucket) {
+      await gridfsBucket.delete(new mongoose.Types.ObjectId(photo.imagePath));
+    }
+
+    setFlashMessage(res, 'success', 'Photo deleted successfully!');
+    res.redirect('/profile');
+  } catch (err) {
+    console.error('Error deleting photo:', err);
+    setFlashMessage(res, 'error', 'Failed to delete photo.');
+    res.redirect('/profile');
+  }
+});
+
+// Edit a photo
+router.patch('/photo/:id', isAuthenticated, async (req, res) => {
+  try {
+    const photoId = req.params.id;
+    const { title, description, category } = req.body;
+
+    const photo = await Photo.findById(photoId);
+    if (!photo || photo.uploader.toString() !== req.user._id.toString()) {
+      setFlashMessage(res, 'error', 'You are not authorized to edit this photo.');
+      return res.status(403).redirect('/profile');
+    }
+
+    // Update photo details
+    photo.title = title || photo.title;
+    photo.description = description || photo.description;
+    photo.category = category || photo.category;
+    await photo.save();
+
+    setFlashMessage(res, 'success', 'Photo updated successfully!');
+    res.redirect('/profile');
+  } catch (err) {
+    console.error('Error updating photo:', err);
+    setFlashMessage(res, 'error', 'Failed to update photo.');
     res.redirect('/profile');
   }
 });

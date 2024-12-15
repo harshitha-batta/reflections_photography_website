@@ -31,19 +31,6 @@
       </div>
     </div>
 
-    <!-- Admin Panel -->
-    <% if (user.role === 'admin') { %>
-      <div class="admin-section">
-        <h2>Admin Panel</h2>
-        <p>Welcome, Admin! Use the tools below to manage the platform:</p>
-        <div class="admin-actions">
-          <a href="/admin/dashboard" class="btn admin-btn">Go to Admin Dashboard</a>
-          <a href="/admin/users" class="btn admin-btn">Manage Users</a>
-          <a href="/admin/photos" class="btn admin-btn">Moderate Photos</a>
-        </div>
-      </div>
-    <% } %>
-
     <!-- Uploaded Photos Section -->
     <div class="uploaded-photos-section">
       <h2>Your Photos</h2>
@@ -63,6 +50,14 @@
               <p class="photo-category">
                 <strong>Category:</strong> <%= photo.category %>
               </p>
+
+              <!-- Action Buttons -->
+              <div class="photo-actions">
+                <button class="edit-photo-btn" onclick="openEditModal('<%= photo._id %>', '<%= photo.title %>', '<%= photo.description %>', '<%= photo.category %>')">✏️ Edit</button>
+                <form action="/profile/photo/<%= photo._id %>?_method=DELETE" method="POST" style="display:inline;">
+                  <button type="submit" class="delete-photo-btn">🗑️ Delete</button>
+                </form>
+              </div>
             </div>
           <% }) %>
         </div>
@@ -95,6 +90,32 @@
         <label for="bio">Edit Bio:</label>
         <textarea id="bio" name="bio" placeholder="Write a short bio..."><%= user.bio || '' %></textarea>
         <button type="submit" class="btn">Save Bio</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Photo Modal -->
+  <div id="edit-photo-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeEditModal()">×</span>
+      <h3>Edit Photo</h3>
+      <form id="edit-photo-form" action="" method="POST">
+        <input type="hidden" name="_method" value="PATCH">
+        <label for="title">Title</label>
+        <input type="text" id="edit-title" name="title" required>
+
+        <label for="description">Description</label>
+        <textarea id="edit-description" name="description"></textarea>
+
+        <label for="category">Category</label>
+        <select id="edit-category" name="category">
+          <option value="Landscapes">Landscapes</option>
+          <option value="Portraits">Portraits</option>
+          <option value="Abstract">Abstract</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <button type="submit" class="save-edit-btn">Save Changes</button>
       </form>
     </div>
   </div>
@@ -146,6 +167,22 @@
 
     function closeUploadModal() {
       document.getElementById("upload-photo-modal").classList.add("hidden");
+    }
+
+    function openEditModal(photoId, title, description, category) {
+      const modal = document.getElementById('edit-photo-modal');
+      modal.classList.remove('hidden');
+
+      document.getElementById('edit-title').value = title;
+      document.getElementById('edit-description').value = description;
+      document.getElementById('edit-category').value = category;
+
+      const form = document.getElementById('edit-photo-form');
+      form.action = `/profile/photo/${photoId}`;
+    }
+
+    function closeEditModal() {
+      document.getElementById('edit-photo-modal').classList.add('hidden');
     }
   </script>
 </body>
