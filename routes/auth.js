@@ -99,7 +99,7 @@ router.post('/login', async (req, res) => {
     });
 
     console.log('Generated JWT:', token);
-    res.redirect('/auth/profile');
+    res.redirect('/');
   } catch (err) {
     console.error('Login Error:', err.message);
     setFlashMessage(res, 'error', 'An error occurred during login.');
