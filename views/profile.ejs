@@ -41,10 +41,11 @@
           <% photos.forEach(photo => { %>
             <div class="photo-card">
               <!-- Photo Image -->
+                <a href="/readerPost/<%= photo._id %>">
               <img src="<%= photo.imagePath.startsWith('http') ? photo.imagePath : '/profile/photo/' + encodeURIComponent(photo.imagePath) %>" 
      alt="<%= photo.title || 'Photo' %>" 
      class="uploaded-photo">
-
+              </a>
               <p class="photo-title"><%= photo.title %></p>
               <p class="photo-description"><strong>Description: </strong><%= photo.description || 'No description provided.' %></p>
               <p class="photo-category"><strong>Category:</strong> <%= photo.category %></p>
