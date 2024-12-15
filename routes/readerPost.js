@@ -64,29 +64,29 @@ router.post('/like/:id', async (req, res) => {
 
 
 // Regex to ensure the ID is a valid MongoDB ObjectId
-router.get('/user/:id', async (req, res, next) => {
-  const userId = req.params.id;
-
-  // Skip file-like paths (e.g., navbar.css)
-  if (userId.includes('.') || !mongoose.Types.ObjectId.isValid(userId)) {
-    console.error(`Invalid User ID or Static File Path: ${userId}`);
-    return next(); // Pass control to static file handler or 404
-  }
-
+router.get('/user/:id', async (req, res) => {
   try {
+    const userId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      console.error(`Invalid User ID: ${userId}`);
+      return res.status(400).send('Invalid User ID');
+    }
+
     const user = await User.findById(userId).lean();
     if (!user) {
       console.error(`User not found for ID: ${userId}`);
       return res.status(404).send('User not found');
     }
 
+    const photos = await Photo.find({ uploader: userId });
+    console.log('Photos for user:', photos.map(photo => photo.imagePath)); // Debug log
+
     const profilePhotoUrl = user.profilePhoto
       ? user.profilePhoto.startsWith('http')
         ? user.profilePhoto
         : `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}`
       : '/default-profile.png';
-
-    const photos = await Photo.find({ uploader: userId });
 
     res.render('profile', {
       title: `${user.name}'s Profile`,

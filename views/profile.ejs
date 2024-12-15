@@ -24,34 +24,41 @@
         <p><%= user.bio || 'No bio added yet!' %></p>
       </div>
 
-      <!-- Action Buttons -->
-      <div class="button-row">
-        <button class="edit-profile-btn" onclick="openProfileModal()">✏️ Edit Profile</button>
-        <button class="upload-photo-btn" onclick="openUploadModal()">📷 Upload Photo</button>
-      </div>
+      <!-- Action Buttons: Visible Only for Session User -->
+      <% if (locals.user && locals.user.id === user._id.toString()) { %>
+        <div class="button-row">
+          <button class="edit-profile-btn" onclick="openProfileModal()">✏️ Edit Profile</button>
+          <button class="upload-photo-btn" onclick="openUploadModal()">📷 Upload Photo</button>
+        </div>
+      <% } %>
     </div>
 
     <!-- Uploaded Photos Section -->
     <div class="uploaded-photos-section">
-      <h2>Your Photos</h2>
+      <h2>Photos</h2>
       <% if (photos && photos.length > 0) { %>
         <div class="photos-grid">
           <% photos.forEach(photo => { %>
             <div class="photo-card">
               <!-- Photo Image -->
-              <img src="/profile/photo/<%= photo.imagePath %>" alt="<%= photo.title %>">
+              <img src="<%= photo.imagePath.startsWith('http') ? photo.imagePath : '/profile/photo/' + encodeURIComponent(photo.imagePath) %>" 
+     alt="<%= photo.title || 'Photo' %>" 
+     class="uploaded-photo">
+
               <p class="photo-title"><%= photo.title %></p>
               <p class="photo-description"><strong>Description: </strong><%= photo.description || 'No description provided.' %></p>
               <p class="photo-category"><strong>Category:</strong> <%= photo.category %></p>
 
-              <!-- Photo Actions -->
-              <div class="photo-actions">
-                <button class="edit-photo-btn" 
-                        onclick="openEditModal('<%= photo._id %>', '<%= photo.title %>', '<%= photo.description %>', '<%= photo.category %>')">✏️ Edit</button>
-                <form action="/profile/photo/<%= photo._id %>?_method=DELETE" method="POST" style="display:inline;">
-                  <button type="submit" class="delete-photo-btn">🗑️ Delete</button>
-                </form>
-              </div>
+              <!-- Photo Actions: Visible Only for Session User -->
+              <% if (locals.user && locals.user.id === user._id.toString()) { %>
+                <div class="photo-actions">
+                  <button class="edit-photo-btn" 
+                          onclick="openEditModal('<%= photo._id %>', '<%= photo.title %>', '<%= photo.description %>', '<%= photo.category %>')">✏️ Edit</button>
+                  <form action="/profile/photo/<%= photo._id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit" class="delete-photo-btn">🗑️ Delete</button>
+                  </form>
+                </div>
+              <% } %>
             </div>
           <% }) %>
         </div>

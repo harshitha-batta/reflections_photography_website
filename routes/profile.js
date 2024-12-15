@@ -21,14 +21,15 @@ mongoose.connection.once('open', () => {
 // Fetch profile and photos
 router.get('/', isAuthenticated, async (req, res) => {
   try {
-    const photos = await Photo.find({ uploader: req.user._id }); // Fetch photos by the user
-    console.log('Fetched Photos:', photos); // Debug logs
+    const photos = await Photo.find({ uploader: req.user._id });
+    console.log('Photos for session user:', photos.map(photo => photo.imagePath)); // Debug log
     res.render('profile', { title: 'Your Profile', user: req.user, photos });
   } catch (err) {
     console.error('Error fetching profile data:', err);
     res.status(500).send('Error fetching profile data');
   }
 });
+
 
 // Update bio
 router.post('/update-bio', isAuthenticated, async (req, res) => {
