@@ -65,15 +65,21 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware for static files
+// Serve static files first
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
+// Dynamic routes
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
 app.use('/', galleryRoutes);
-app.use('/', readerPostRoutes); // readerPost route
+app.use('/', readerPostRoutes); // Dynamic photo routes
 app.use('/admin', adminRoutes);
+
+// Catch-all for unmatched routes
+app.use((req, res) => {
+  res.status(404).render('404', { title: 'Page Not Found' });
+});
+
 
 // Admin-only route for the admin dashboard
 app.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {

@@ -132,15 +132,22 @@ router.get('/profile-photo/:filename', async (req, res) => {
 
 
 // Stream uploaded photos
-router.get('/photo/:filename', async (req, res) => {
+ router.get('/photo/:filename', async (req, res) => {
   try {
-    const file = await gridfsBucket.find({ filename: req.params.filename }).toArray();
+    const { filename } = req.params;
+        // Check if the filename is a URL (external photo)
+    if (filename.startsWith('http')) {
+      console.log('Serving external profile photo:', filename);
+      return res.redirect(filename); // Redirect to the external URL
+    }
+    const file = await gridfsBucket.find({ filename }).toArray();
+    console.log('Requested photo:', filename, 'File found:', file);
 
     if (!file || file.length === 0) {
       return res.status(404).send('Photo not found');
     }
 
-    const readStream = gridfsBucket.openDownloadStreamByName(req.params.filename);
+    const readStream = gridfsBucket.openDownloadStreamByName(filename);
     res.set('Content-Type', file[0].contentType);
     readStream.pipe(res);
   } catch (err) {
@@ -148,6 +155,8 @@ router.get('/photo/:filename', async (req, res) => {
     res.status(500).send('Error fetching photo');
   }
 });
+
+
 
 // Upload photo with metadata
 router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req, res) => {

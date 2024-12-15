@@ -62,7 +62,7 @@ router.post('/like/:id', async (req, res) => {
   }
 });
 
-// Route to display user's profile
+
 // Regex to ensure the ID is a valid MongoDB ObjectId
 router.get('/user/:id', async (req, res, next) => {
   const userId = req.params.id;
@@ -70,7 +70,7 @@ router.get('/user/:id', async (req, res, next) => {
   // Skip file-like paths (e.g., navbar.css)
   if (userId.includes('.') || !mongoose.Types.ObjectId.isValid(userId)) {
     console.error(`Invalid User ID or Static File Path: ${userId}`);
-    return next(); // Pass control to the next middleware (404 handler or static middleware)
+    return next(); // Pass control to static file handler or 404
   }
 
   try {
@@ -81,7 +81,9 @@ router.get('/user/:id', async (req, res, next) => {
     }
 
     const profilePhotoUrl = user.profilePhoto
-      ? `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}`
+      ? user.profilePhoto.startsWith('http')
+        ? user.profilePhoto
+        : `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}`
       : '/default-profile.png';
 
     const photos = await Photo.find({ uploader: userId });
@@ -96,6 +98,7 @@ router.get('/user/:id', async (req, res, next) => {
     res.status(500).send('Server Error');
   }
 });
+
 
 
 
