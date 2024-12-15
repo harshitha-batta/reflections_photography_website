@@ -163,31 +163,43 @@ a {
 .uploaded-photos-section h2 {
   font-size: 1.8rem;
   color: #62445e;
+  text-a
 }
 
 .photos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  gap: 20px; /* Spacing between photos */
   margin-top: 20px;
+  justify-items: center; /* Center the images */
 }
 
 .photo-card {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 15px;
+  background: none; /* No card background */
+  box-shadow: none; /* No shadow */
+  border-radius: 0; /* No rounded corners */
   text-align: center;
 }
 
 .photo-card img {
   width: 100%;
-  height: 150px;
+  height: 200px; /* Fixed height for consistency */
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  border-radius: 12px;
+  transition: transform 0.3s ease; /* Hover effect */
 }
 
+
+.photo-card img:hover {
+  transform: scale(1.05);
+}
+
+.photo-card p {
+  font-size: 1rem;
+  margin-top: 8px;
+  color: #333;
+  font-family: "Lora", serif;
+}
 .photo-description,
 .photo-category {
   font-size: 0.9rem;

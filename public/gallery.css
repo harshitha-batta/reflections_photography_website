@@ -14,7 +14,7 @@ body {
 }
 
 .hero h1 {
-  font-size: 6em;
+  font-size: 5em;
   font-weight: bold;
 }
 
@@ -61,7 +61,7 @@ body {
 
 .hero-dropdown label {
   font-family: "Montez", cursive;
-  font-size: 1.8em;
+  font-size: 1.4em;
   margin-right: 10px;
   color: #E0D2DE; /* Ensure contrast */
 }
