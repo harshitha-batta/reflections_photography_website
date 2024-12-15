@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, <%= user.name %> (<%= user.role %>)</p>
+    <a href="/auth/logout">Logout</a>
+  </header>
+
+  <main>
+    <section>
+      <h2>Users</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user => { %>
+          <tr>
+            <td><%= user.name %></td>
+            <td><%= user.email %></td>
+            <td><%= user.role %></td>
+            <td>
+              <% if (user.role !== 'admin') { %>
+              <form method="POST" action="/admin/user/<%= user._id %>?_method=DELETE">
+                <button type="submit">Remove</button>
+              </form>
+              <% } else { %>
+              <em>Admin</em>
+              <% } %>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Photos</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Uploader</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% photos.forEach(photo => { %>
+          <tr>
+            <td><%= photo.title %></td>
+            <td><%= photo.uploader %></td>
+            <td>
+              <form method="POST" action="/admin/photo/<%= photo._id %>?_method=DELETE">
+                <button type="submit">Remove</button>
+              </form>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

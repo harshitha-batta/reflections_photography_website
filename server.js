@@ -7,9 +7,12 @@ const { connectDB, getGridFsBucket } = require('./db'); // Import MongoDB connec
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
 const galleryRoutes = require('./routes/gallery');
+const readerPostRoutes = require('./routes/readerPost'); //Posted image route
+const adminRoutes = require('./routes/admin');
 const { isAuthenticated, isAdmin } = require('./middlewares/roles');
 const { setFlashMessage } = require('./utils/flash');
 const app = express();
+const methodOverride = require('method-override');
 
 // Middleware for parsing JSON and forms
 app.use(express.json());
@@ -17,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use(methodOverride('_method'));
 // MongoDB Connection
 connectDB(); // Establish MongoDB connection
 
@@ -65,6 +69,8 @@ app.use((req, res, next) => {
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
 app.use('/', galleryRoutes);
+app.use('/', readerPostRoutes); // readerPost route
+app.use('/admin', adminRoutes);
 
 // Admin-only route for the admin dashboard
 app.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {

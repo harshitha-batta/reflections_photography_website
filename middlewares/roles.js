@@ -39,11 +39,7 @@ function isAdmin(req, res, next) {
   if (req.user && req.user.role === 'admin') {
     return next();
   }
-
-  // If the user is not an admin, redirect to the home page with a flash message
-  req.flash('error', 'Access denied. Admins only.');
-  res.redirect('/');
+  res.status(403).json({ error: 'Access denied. Admins only.' });
 }
-
 // Export the middlewares
 module.exports = { isAuthenticated, isAdmin };

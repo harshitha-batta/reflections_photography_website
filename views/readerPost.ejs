@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/readerPost.css">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main>
+    <!-- Uploader Section -->
+    <section class="uploader">
+      <div class="uploader-info">
+        <img 
+          src="<%= uploader.profilePhoto || '/default-profile.png' %>" 
+          alt="<%= uploader.name %>" 
+          class="profile-photo"
+        >
+        <h2><%= uploader.name %></h2>
+      </div>
+    </section>
+
+    <!-- Image Section -->
+    <section class="image-section">
+      <img src="<%= photo.imagePath %>" alt="<%= photo.title %>" class="post-image">
+    </section>
+  </main>
+</body>
+</html>
