@@ -1,27 +1,36 @@
 /* General Styles */
 body {
   margin: 0;
+  padding: 0;
   font-family: "Lora", serif;
-  background-color: #f9f9f9;
+  background-color: #f8f8f8;
   color: #333;
-  padding-top: 150px;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
 }
 
 .profile-container {
-  max-width: 900px;
-  margin: 20px auto;
+  max-width: 1000px;
+  margin: 30px auto;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  overflow: hidden;
 }
 
+/* Profile Header */
 .profile-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  border-bottom: 1px solid #ddd;
+  justify-content: center;
+  border-bottom: 2px solid #eee;
   padding-bottom: 20px;
+  gap: 20px;
 }
 
 .profile-photo-container {
@@ -32,48 +41,115 @@ body {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 3px solid #eee;
-  margin-bottom: 10px;
+  object-fit: cover;
+  border: 4px solid #eee;
+}
+
+.profile-info {
+  text-align: center;
 }
 
 .profile-info h1 {
-  font-size: 2rem;
-  color: #333;
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+.bio-text {
+  color: #666;
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+.btn {
+  background-color: #62445e;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #50364b;
+}
+
+/* Photo Grid */
+.uploaded-photos-section {
+  margin-top: 30px;
+}
+
+.uploaded-photos-section h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
 }
 
 .photos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
 
 .photo-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  text-align: center;
-  padding: 10px;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
   background: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  max-width: 500px;
-  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  padding: 15px;
+  overflow: hidden;
+  transition: transform 0.2s;
 }
 
+.photo-card:hover {
+  transform: translateY(-5px);
+}
+
+.photo-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.no-photos-message {
+  text-align: center;
+  color: #999;
+}
+
+/* Forms */
 .hidden {
   display: none;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.logout {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.logout-btn {
+  background-color: #62445e;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 10px 20px;
 }
