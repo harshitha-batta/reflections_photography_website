@@ -158,7 +158,8 @@ a {
 }
 
 .btn:hover {
-  background-color: #50364b;
+  background: rgba(98, 68, 94, 0.2);
+  color: #50364b;
 }
 
 /* Uploaded Photos Section */

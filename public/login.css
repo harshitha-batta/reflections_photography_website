@@ -4,27 +4,27 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: url('https://images.pexels.com/photos/36008/rosenblatt-leaf-wasserperlen-wet-drip.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center/cover;
+  background: url('https://images.pexels.com/photos/2099266/pexels-photo-2099266.jpeg?auto=compress&cs=tinysrgb&w=800') no-repeat center center/cover;
   background-size: cover;
   font-family: "Montez", cursive; /* Consistent font */
 }
 
 /* Main Content Panel */
 .content-panel {
-  background-color: rgba(97, 111, 35, 0.6); /* Semi-transparent background */
+  background-color: rgba(245, 235, 224, 0.8); /* Semi-transparent background */
   padding: 40px;
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   width: 90%;
   max-width: 600px;
-  color: white; /* Text color for visibility */
+ color: #7f5539; /* Text color for visibility */
 }
 
 .content-panel h1 {
   font-size: 3em;
   font-weight: bold;
-  color: white; /* Theme color for heading */
+  color: #7f5539; /* Theme color for heading */
   margin-bottom: 20px;
 }
 
@@ -43,7 +43,7 @@
   margin-bottom: 5px;
   font-size: 1.2em;
   font-weight: bold;
-  color: white;
+ color: #7f5539;
 }
 
 .content-panel form input {
@@ -52,6 +52,7 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 1em;
+   color: #7f5539;
 }
 
 .content-panel form input:focus {
@@ -63,7 +64,7 @@
   padding: 12px 30px;
   border: none;
   border-radius: 20px;
-  background-color: #7BA329;
+  background-color: #7f5539;
   color: white;
   font-size: 1em; /* Adjusted font size */
 
