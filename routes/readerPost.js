@@ -29,7 +29,7 @@ router.get('/readerPost/:id', async (req, res) => {
 });
 
 
-// Add a like to a photo
+// GET Like Count
 router.post('/like/:id', async (req, res) => {
   try {
     const photoId = req.params.id;
