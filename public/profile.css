@@ -51,6 +51,7 @@ a {
 .profile-info p {
   font-size: 1.1rem;
   color: #666;
+    font-family: "Lora", serif;
   margin-bottom: 10px;
 }
 
@@ -158,6 +159,8 @@ a {
 /* Uploaded Photos Section */
 .uploaded-photos-section {
   margin-top: 20px;
+  background: #FAD9DE;
+   background: rgba(0, 0, 0, 0.6);
 }
 
 .uploaded-photos-section h2 {
@@ -204,6 +207,7 @@ a {
   margin: 10px 0;
   font-size: 1.1rem;
   color: #333;
+     font-family: "Lora", serif;
 }
 .photo-title {
   font-weight: bold;
@@ -359,6 +363,7 @@ a {
 /* Button Row Container */
 .button-row {
   display: flex;
+ 
   justify-content: center;
   gap: 20px; /* Space between buttons */
   margin: 20px 0; /* Add spacing above and below */
@@ -368,6 +373,7 @@ a {
   background-color: #62445e;
   color: white;
   padding: 10px 20px;
+  font-family: "Lora", serif;
   border: none;
   border-radius: 8px;
   cursor: pointer;
