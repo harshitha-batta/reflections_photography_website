@@ -61,7 +61,7 @@ router.get('/user/:id', async (req, res) => {
     const userId = req.params.id;
 
     // Fetch user by ID
-    const user = await User.findById(userId).lean(); // Use lean for plain JS objects
+    const user = await User.findById(userId).lean(); // Use lean() for plain JS objects
     if (!user) {
       console.error(`User not found for ID: ${userId}`);
       return res.status(404).send('User not found');
@@ -69,28 +69,24 @@ router.get('/user/:id', async (req, res) => {
 
     // Fetch user's photos
     const photos = await Photo.find({ uploader: userId });
-    if (!photos || photos.length === 0) {
-      console.log(`No photos found for user ID: ${userId}`);
-    } else {
-      console.log(`Fetched ${photos.length} photos for user ID: ${userId}`);
-    }
 
-    // Ensure profilePhoto is set properly
-    const profilePhotoUrl = user.profilePhoto
+    // Resolve profilePhoto URL dynamically
+    user.profilePhoto = user.profilePhoto
       ? `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}`
       : '/default-profile.png';
 
     // Render the profile page
     res.render('profile', {
       title: `${user.name}'s Profile`,
-      user: { ...user, profilePhoto: profilePhotoUrl }, // Include profilePhoto dynamically
-      photos, // Pass user's uploaded photos
+      user,
+      photos,
     });
   } catch (err) {
     console.error('Error fetching user profile:', err.message);
     res.status(500).send('Server Error');
   }
 });
+
 
 
 

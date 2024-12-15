@@ -21,14 +21,22 @@ mongoose.connection.once('open', () => {
 // Fetch profile and photos
 router.get('/', isAuthenticated, async (req, res) => {
   try {
-    const photos = await Photo.find({ uploader: req.user._id }); // Fetch photos by the user
-    console.log('Fetched Photos:', photos); // Debug logs
-    res.render('profile', { title: 'Your Profile', user: req.user, photos });
+    const photos = await Photo.find({ uploader: req.user._id });
+
+    // Resolve profilePhoto URL dynamically for the logged-in user
+    const user = req.user; // Use req.user directly
+    user.profilePhoto = user.profilePhoto
+      ? `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}`
+      : '/default-profile.png';
+
+    console.log('Fetched Photos:', photos);
+    res.render('profile', { title: 'Your Profile', user, photos });
   } catch (err) {
     console.error('Error fetching profile data:', err);
     res.status(500).send('Error fetching profile data');
   }
 });
+
 
 // Update bio
 router.post('/update-bio', isAuthenticated, async (req, res) => {
