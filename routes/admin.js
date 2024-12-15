@@ -20,21 +20,33 @@ router.delete('/photo/:id', isAuthenticated, isAdmin, async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Remove photo document from MongoDB
+    // Remove photo document
     const photo = await Photo.findByIdAndDelete(id);
     if (!photo) {
-      return res.status(404).json({ error: 'Photo not found' });
+      setFlashMessage(res, 'error', 'Photo not found.');
+      return res.redirect('/admin/dashboard');
     }
 
     // Remove file from GridFS
-    await gridfsBucket.delete(new mongoose.Types.ObjectId(photo.imagePath));
+    try {
+      await gridfsBucket.delete(new mongoose.Types.ObjectId(photo.imagePath));
+      console.log('Photo successfully deleted from GridFS.');
+    } catch (err) {
+      console.warn('GridFS deletion error:', err.message);
+      setFlashMessage(res, 'error', 'Photo removed, but file deletion failed.');
+      return res.redirect('/admin/dashboard');
+    }
 
-    res.json({ success: true, message: 'Photo removed successfully' });
+    setFlashMessage(res, 'success', 'Photo removed successfully.');
+    res.redirect('/admin/dashboard');
   } catch (err) {
-    console.error('Error removing photo:', err);
-    res.status(500).json({ error: 'Failed to remove photo' });
+    console.error('Error while removing photo:', err.message, err.stack);
+    setFlashMessage(res, 'error', 'Failed to remove photo due to a server error.');
+    res.redirect('/admin/dashboard');
   }
 });
+
+
 
 // Remove a user by ID
 router.delete('/user/:id', isAuthenticated, isAdmin, async (req, res) => {
