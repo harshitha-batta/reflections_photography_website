@@ -35,13 +35,13 @@ app.use(cookieParser());
 
 // Middleware to set and read flash messages using cookies
 app.use((req, res, next) => {
-  // Read flash messages from cookies
   res.locals.successMessage = req.cookies.successMessage || null;
   res.locals.errorMessage = req.cookies.errorMessage || null;
 
-  // Clear flash messages after they are read
+  // Clear flash messages after they are passed to the view
   res.clearCookie('successMessage');
   res.clearCookie('errorMessage');
+
   next();
 });
 
