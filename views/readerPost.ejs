@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="/readerPost.css">
   <title><%= title %></title>
   <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
   <main>
@@ -14,7 +14,7 @@
     <section class="uploader">
       <div class="uploader-info">
         <img 
-          src="<%= uploader.profilePhoto || '/default-profile.png' %>" 
+          src="<%= uploader.profilePhoto && uploader.profilePhoto.startsWith('http') ? uploader.profilePhoto : '/profile/photo/' + encodeURIComponent(uploader.profilePhoto || 'default-profile.png') %>" 
           alt="<%= uploader.name %>" 
           class="profile-photo"
         >
@@ -24,17 +24,20 @@
 
     <!-- Image Section -->
     <section class="image-section">
-      <img src="<%= photo.imagePath %>" alt="<%= photo.title %>" class="post-image">
+      <img 
+        src="<%= photo.imagePath.startsWith('http') ? photo.imagePath : '/profile/photo/' + encodeURIComponent(photo.imagePath) %>" 
+        alt="<%= photo.title %>" 
+        class="post-image"
+      >
     </section>
       
-      <!-- Likes Section -->
-<section class="likes-section">
-  <div class="like-box">
-    <i class="bi bi-heart-fill"></i> <!-- Heart icon from Bootstrap -->
-    <span>Like <%= photo.likes.length %></span>
-  </div>
-</section>
-      
+    <!-- Likes Section -->
+    <section class="likes-section">
+      <div class="like-box">
+        <i class="bi bi-heart-fill"></i> <!-- Heart icon from Bootstrap -->
+        <span>Like <%= photo.likes.length %></span>
+      </div>
+    </section>
   </main>
 </body>
 </html>
