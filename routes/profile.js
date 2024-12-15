@@ -166,30 +166,33 @@ router.delete('/photo/:id', isAuthenticated, async (req, res) => {
 
 // Edit a photo
 router.patch('/photo/:id', isAuthenticated, async (req, res) => {
+  console.log('PATCH request received');
+  console.log('Photo ID:', req.params.id);
+  console.log('Request Body:', req.body);
+
   try {
     const photoId = req.params.id;
     const { title, description, category } = req.body;
 
     const photo = await Photo.findById(photoId);
+
     if (!photo || photo.uploader.toString() !== req.user._id.toString()) {
-      setFlashMessage(res, 'error', 'You are not authorized to edit this photo.');
-      return res.status(403).redirect('/profile');
+      return res.status(403).send('You are not authorized to edit this photo.');
     }
 
-    // Update photo details
-    photo.title = title || photo.title;
-    photo.description = description || photo.description;
-    photo.category = category || photo.category;
+    if (title) photo.title = title;
+    if (description) photo.description = description;
+    if (category) photo.category = category;
     await photo.save();
 
-    setFlashMessage(res, 'success', 'Photo updated successfully!');
     res.redirect('/profile');
   } catch (err) {
-    console.error('Error updating photo:', err);
-    setFlashMessage(res, 'error', 'Failed to update photo.');
-    res.redirect('/profile');
+    console.error('Error updating photo:', err.message);
+    res.status(500).send('Failed to update photo.');
   }
 });
+
+
 
 // Render upload page
 router.get('/upload', isAuthenticated, (req, res) => {

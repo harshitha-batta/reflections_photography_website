@@ -99,8 +99,7 @@
     <div class="modal-content">
       <span class="close-btn" onclick="closeEditModal()">×</span>
       <h3>Edit Photo</h3>
-      <form id="edit-photo-form" action="" method="POST">
-        <input type="hidden" name="_method" value="PATCH">
+      <form id="edit-photo-form" action="/profile/photo/<%= photo._id %>?_method=PATCH" method="POST">
         <label for="title">Title</label>
         <input type="text" id="edit-title" name="title" required>
 
@@ -117,6 +116,7 @@
 
         <button type="submit" class="save-edit-btn">Save Changes</button>
       </form>
+
     </div>
   </div>
 
@@ -169,21 +169,18 @@
       document.getElementById("upload-photo-modal").classList.add("hidden");
     }
 
-    function openEditModal(photoId, title, description, category) {
-      const modal = document.getElementById('edit-photo-modal');
-      modal.classList.remove('hidden');
+function openEditModal(photoId, title, description, category) {
+  const modal = document.getElementById('edit-photo-modal');
+  modal.classList.remove('hidden');
 
-      document.getElementById('edit-title').value = title;
-      document.getElementById('edit-description').value = description;
-      document.getElementById('edit-category').value = category;
+  document.getElementById('edit-title').value = title || '';
+  document.getElementById('edit-description').value = description || '';
+  document.getElementById('edit-category').value = category || 'Other';
 
-      const form = document.getElementById('edit-photo-form');
-      form.action = `/profile/photo/${photoId}`;
-    }
+  const form = document.getElementById('edit-photo-form');
+  form.action = `/profile/photo/${photoId}`;
+}
 
-    function closeEditModal() {
-      document.getElementById('edit-photo-modal').classList.add('hidden');
-    }
   </script>
 </body>
 </html>
