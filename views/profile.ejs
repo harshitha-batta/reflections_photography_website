@@ -11,28 +11,28 @@
   <%- include('./layouts/main', { title: 'Your Profile' }) %>
 
   <div class="profile-container">
-    <!-- Profile Header -->
-    <div class="profile-header">
-      <div class="profile-photo-container">
-        <img src="<%= user.profilePhoto ? '/profile/profile-photo/' + encodeURIComponent(user.profilePhoto) : '/default-profile.png' %>" 
-             alt="Profile Photo" class="profile-photo">
-        <button class="btn" onclick="toggleForm('photoForm')">Change Photo</button>
-        <form id="photoForm" action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data" class="hidden">
-          <input type="file" name="profilePhoto" required>
-          <button type="submit" class="btn">Upload</button>
-        </form>
-      </div>
+<!-- Profile Header -->
+<div class="profile-header">
+  <div class="profile-photo-container">
+    <img src="<%= user.profilePhoto ? '/profile/profile-photo/' + encodeURIComponent(user.profilePhoto) : '/default-profile.png' %>" 
+         alt="Profile Photo" class="profile-photo">
+    <form id="photoForm" action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data">
+      <label for="profilePhoto" class="btn upload-btn">Change Photo</label>
+      <input type="file" id="profilePhoto" name="profilePhoto" class="hidden" onchange="this.form.submit()">
+    </form>
+  </div>
 
-      <div class="profile-info">
-        <h1><%= user.name %></h1>
-        <p class="bio-text"><%= user.bio || 'Add a bio to introduce yourself!' %></p>
-        <button class="btn" onclick="toggleForm('bioForm')">Edit Bio</button>
-        <form id="bioForm" action="/profile/update-bio" method="POST" class="hidden">
-          <textarea name="bio" id="bio" placeholder="Write a short bio..."><%= user.bio || '' %></textarea>
-          <button type="submit" class="btn">Save</button>
-        </form>
-      </div>
-    </div>
+  <div class="profile-info">
+    <h1 class="profile-name"><%= user.name %></h1>
+    <p class="bio-text"><%= user.bio || 'Add a bio to introduce yourself!' %></p>
+    <button class="btn edit-btn" onclick="toggleForm('bioForm')">Edit Bio</button>
+    <form id="bioForm" action="/profile/update-bio" method="POST" class="hidden bio-form">
+      <textarea name="bio" id="bio" placeholder="Write a short bio..." rows="3"><%= user.bio || '' %></textarea>
+      <button type="submit" class="btn save-btn">Save</button>
+    </form>
+  </div>
+</div>
+
 
     <!-- Photos Section -->
     <div class="uploaded-photos-section">
