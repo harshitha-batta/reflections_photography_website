@@ -33,8 +33,12 @@ router.get('/login', (req, res) => {
 router.post('/register', async (req, res) => {
   const { name, email, password, role } = req.body;
 
+  // Log incoming data
+  console.log('Register request data:', { name, email, password, role });
+
   // Validate input
   if (!name || !email || !password) {
+    console.error('Validation Error: Missing fields');
     setFlashMessage(res, 'error', 'All fields are required.');
     return res.redirect('/auth/register');
   }
@@ -43,6 +47,7 @@ router.post('/register', async (req, res) => {
     // Check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
+      console.error('Duplicate Email Error:', email);
       setFlashMessage(res, 'error', 'Email is already registered.');
       return res.redirect('/auth/register');
     }
@@ -57,14 +62,16 @@ router.post('/register', async (req, res) => {
     });
 
     await newUser.save();
+    console.log('User successfully registered:', { name, email, role });
     setFlashMessage(res, 'success', 'Registration successful! Please log in.');
     res.redirect('/auth/login');
   } catch (err) {
-    console.error('Registration Error:', err.message);
+    console.error('Registration Error:', err.message, err.stack);
     setFlashMessage(res, 'error', 'An error occurred during registration.');
     res.redirect('/auth/register');
   }
 });
+
 
 // Handle Login Form Submission
 router.post('/login', async (req, res) => {

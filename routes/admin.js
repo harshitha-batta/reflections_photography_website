@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const User = require('../models/User');
 const Photo = require('../models/Photo');
 const { isAuthenticated, isAdmin } = require('../middlewares/roles');
-
+const { setFlashMessage } = require('../utils/flash');
 const router = express.Router();
 
 let gridfsBucket;
@@ -53,27 +53,38 @@ router.delete('/user/:id', isAuthenticated, isAdmin, async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Remove user from MongoDB
+    // Remove user from the database
     const user = await User.findByIdAndDelete(id);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      setFlashMessage(res, 'error', 'User not found.');
+      return res.redirect('/admin/dashboard');
     }
 
-    // Optionally: Remove photos uploaded by the user
-    const userPhotos = await Photo.find({ uploader: id });
-    const photoDeletionPromises = userPhotos.map((photo) => {
-      return gridfsBucket.delete(new mongoose.Types.ObjectId(photo.imagePath));
-    });
+    // Optionally, remove user's photos (if applicable)
+    try {
+      const userPhotos = await Photo.find({ uploader: id });
+      const photoDeletionPromises = userPhotos.map((photo) =>
+        gridfsBucket.delete(new mongoose.Types.ObjectId(photo.imagePath))
+      );
 
-    await Promise.all(photoDeletionPromises);
-    await Photo.deleteMany({ uploader: id });
+      await Promise.all(photoDeletionPromises);
+      await Photo.deleteMany({ uploader: id });
+      console.log('All associated photos deleted for user:', id);
+    } catch (err) {
+      console.warn('Failed to delete associated photos for user:', id, err.message);
+      setFlashMessage(res, 'error', 'User removed, but failed to delete their photos.');
+      return res.redirect('/admin/dashboard');
+    }
 
-    res.json({ success: true, message: 'User and associated photos removed successfully' });
+    setFlashMessage(res, 'success', 'User removed successfully.');
+    res.redirect('/admin/dashboard');
   } catch (err) {
-    console.error('Error removing user:', err);
-    res.status(500).json({ error: 'Failed to remove user' });
+    console.error('Error while removing user:', err.message, err.stack);
+    setFlashMessage(res, 'error', 'Failed to remove user due to a server error.');
+    res.redirect('/admin/dashboard');
   }
 });
+
 router.get('/dashboard', isAuthenticated, isAdmin, async (req, res) => {
   try {
     const users = await User.find(); // Fetch all users
