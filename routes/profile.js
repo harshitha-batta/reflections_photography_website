@@ -5,7 +5,7 @@ const Photo = require('../models/Photo');
 const { isAuthenticated } = require('../middlewares/roles');
 const upload = require('../config/multerGridFs');
 const mongoose = require('mongoose');
-const { setFlashMessage } = require('../utils/flash');
+
 
 const router = express.Router();
 

@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { setFlashMessage } = require('../utils/flash');
 
 async function isAuthenticated(req, res, next) {
   const token = req.cookies.jwt;
 
   if (!token) {
-    req.flash('error', 'You need to log in first.');
+    setFlashMessage(req, 'error', 'You need to log in first.');
     return res.redirect('/auth/login');
   }
 
@@ -16,7 +17,7 @@ async function isAuthenticated(req, res, next) {
     // Fetch user details
     const user = await User.findById(decoded.id);
     if (!user) {
-      req.flash('error', 'User not found. Please log in again.');
+      setFlashMessage(req, 'error', 'User not found. Please log in again.');
       return res.redirect('/auth/login');
     }
 
@@ -27,13 +28,14 @@ async function isAuthenticated(req, res, next) {
     console.error('JWT verification error:', err.message);
 
     if (err.name === 'TokenExpiredError') {
-      req.flash('error', 'Session expired. Please log in again.');
+      setFlashMessage(req, 'error', 'Session expired. Please log in again.');
     } else {
-      req.flash('error', 'Invalid session. Please log in again.');
+      setFlashMessage(req, 'error', 'Invalid session. Please log in again.');
     }
     res.redirect('/auth/login');
   }
 }
+
 // Middleware to verify if the user is an admin
 function isAdmin(req, res, next) {
   if (req.user && req.user.role === 'admin') {
@@ -41,5 +43,6 @@ function isAdmin(req, res, next) {
   }
   res.status(403).json({ error: 'Access denied. Admins only.' });
 }
+
 // Export the middlewares
 module.exports = { isAuthenticated, isAdmin };
