@@ -166,58 +166,58 @@ a {
   text-align: center;
 }
 
+/* Photos Grid with Larger Cards */
 .photos-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns */
-  gap: 20px; /* Spacing between photos */
-  margin-top: 20px;
-  justify-items: center; /* Center the images */
+  grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+  gap: 40px; /* Larger spacing between cards */
+  margin: 40px auto; /* Adjust margin for spacing */
+  max-width: 1400px; /* Increase max width for bigger cards */
+  padding: 0 30px; /* Horizontal padding */
 }
 
+/* Photo Cards */
 .photo-card {
-  background: #fff; /* White background for the card */
-  border-radius: 12px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for card effect */
-  overflow: hidden; /* Ensure content stays within rounded edges */
-  text-align: center; /* Center the text */
-  transition: all 0.3s ease; /* Smooth transition effect */
-  padding: 15px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.photo-card:hover {
+  transform: translateY(-5px); /* Lift on hover */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
-.photo-card:hover {
-  transform: translateY(-5px); /* Slight lift effect on hover */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
-}
 
 .photo-card img {
   width: 100%;
-  height: 180px; /* Fixed height for image */
-  object-fit: cover; /* Maintain aspect ratio and cover */
-  border-radius: 8px; /* Rounded corners for the image */
+  height: 350px; /* Increased image height */
+  object-fit: cover; /* Ensure proportional scaling */
 }
-
 
 .photo-card img:hover {
   transform: scale(1.05);
 }
-
 .photo-card p {
   margin: 10px 0;
-  color: #333; /* Dark text for readability */
-  font-family: "Lora", serif; /* Elegant font for captions */
+  font-size: 1.1rem;
+  color: #333;
 }
-
 .photo-title {
   font-weight: bold;
-  font-size: 1.1rem;
-  color: #62445e; /* Theme color */
-  margin-bottom: 5px;
+  font-size: 1.3rem; /* Larger title size */
+  color: #62445e;
 }
+
 .photo-description,
 .photo-category {
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 1rem;
+  color: #555;
 }
+
+
 /* Upload Photo Button */
 .upload-photo-btn-container {
   text-align: center;
