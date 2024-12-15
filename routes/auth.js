@@ -33,10 +33,10 @@ router.get('/login', (req, res) => {
 router.post('/register', async (req, res) => {
   const { name, email, password, role } = req.body;
 
-  // Log incoming data
+  // Log request data for debugging
   console.log('Register request data:', { name, email, password, role });
 
-  // Validate input
+  // Validate required fields
   if (!name || !email || !password) {
     console.error('Validation Error: Missing fields');
     setFlashMessage(res, 'error', 'All fields are required.');
@@ -44,15 +44,12 @@ router.post('/register', async (req, res) => {
   }
 
   try {
-    // Check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
-      console.error('Duplicate Email Error:', email);
       setFlashMessage(res, 'error', 'Email is already registered.');
       return res.redirect('/auth/register');
     }
 
-    // Create new user
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       name,
@@ -66,11 +63,12 @@ router.post('/register', async (req, res) => {
     setFlashMessage(res, 'success', 'Registration successful! Please log in.');
     res.redirect('/auth/login');
   } catch (err) {
-    console.error('Registration Error:', err.message, err.stack);
+    console.error('Registration Error:', err.message);
     setFlashMessage(res, 'error', 'An error occurred during registration.');
     res.redirect('/auth/register');
   }
 });
+
 
 
 // Handle Login Form Submission

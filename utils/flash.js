@@ -2,7 +2,7 @@ function setFlashMessage(res, type, message) {
   const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    maxAge: 5000, // Flash message will expire in 5 seconds
+    maxAge: 5000, // Flash message lasts for 5 seconds
   };
 
   if (type === 'success') {
