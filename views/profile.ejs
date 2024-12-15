@@ -13,7 +13,7 @@
     <%- include('./layouts/main', { title: 'Your Profile' }) %>
 
     <!-- Transparent Profile Box -->
-    <div class="profile-container">
+<!--     <div class="profile-container"> -->
       <!-- Profile Header -->
       <div class="profile-header">
         <div class="profile-photo-container">
@@ -22,10 +22,12 @@
         </div>
         <div class="profile-info">
           <h1 class="profile-name">Hello! <%= user.name %></h1>
+            <div class="profile-container">
           <p><%= user.bio || 'No bio added yet!' %></p>
+              </div
           <button class="edit-profile-btn" onclick="openModal()">✏️ Edit Profile</button>
         </div>
-      </div>
+<!--       </div> -->
 
       <!-- Uploaded Photos Section -->
       <div class="uploaded-photos-section">
