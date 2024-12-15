@@ -18,7 +18,7 @@ a {
 .profile-container {
   max-width: 1200px;
   margin: 50px auto;
-  background: rgba(255, 255, 255, 0.85); /* Soft transparent white */
+  background: rgba(240, 186, 192, 0.85); /* Soft transparent white */
   border-radius: 15px;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   padding: 30px;
@@ -50,7 +50,7 @@ a {
 
 .profile-info p {
   font-size: 1.1rem;
-  color: #666;
+  color: #62445E;
   margin-bottom: 10px;
 }
 
