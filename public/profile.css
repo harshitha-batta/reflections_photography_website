@@ -43,9 +43,10 @@ a {
 }
 
 .profile-info h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: #333;
   margin: 10px 0;
+  text-align: center;
 }
 
 .profile-info p {
@@ -125,6 +126,7 @@ a {
 .modal-content textarea {
   resize: none;
   height: 80px;
+  font-family: "Lora", serif;
 }
 
 .close-btn {
@@ -159,12 +161,14 @@ a {
 /* Uploaded Photos Section */
 .uploaded-photos-section {
   margin-top: 20px;
-  background: #FAD9DE;
-   background: rgba(0, 0, 0, 0.6);
+
+   background: rgba(98, 68, 94, 0.2);
+  border-radius: 10px;
+/*    background: rgba(250, 217, 222, 0.6); */
 }
 
 .uploaded-photos-section h2 {
-  font-size: 1.8rem;
+  font-size: 2.5rem;
   color: #62445e;
   text-align: center;
 }
@@ -176,7 +180,7 @@ a {
   gap: 40px; /* Larger spacing between cards */
   margin: 40px auto; /* Adjust margin for spacing */
   max-width: 1400px; /* Increase max width for bigger cards */
-  padding: 0 30px; /* Horizontal padding */
+  padding: 0 80px; /* Horizontal padding */
 }
 
 /* Photo Cards */
@@ -382,7 +386,8 @@ a {
 }
 
 .button-row button:hover {
-  background-color: #50364b;
+  background: rgba(98, 68, 94, 0.2);
+  color: #50364b;
   transform: translateY(-2px);
 }
 
