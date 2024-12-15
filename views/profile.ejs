@@ -11,7 +11,7 @@
 <body>
   <!-- Navbar -->
   <%- include('./layouts/main', { title: 'Your Profile' }) %>
-
+  
   <!-- Profile Section -->
   <div class="background-container">
     <div class="profile-header">
@@ -32,7 +32,12 @@
         </div>
       <% } %>
     </div>
-
+    <% if (locals.user && locals.user.role === 'admin') { %>
+  <div class="admin-dashboard-buttons">
+    
+    <center><h3>Admin Dashboard</h3><a href="/admin/dashboard" class="btn">Admin Dashboard</a></center>
+  </div>
+<% } %>
     <!-- Uploaded Photos Section -->
     <div class="uploaded-photos-section">
       <h2>Photos</h2>
@@ -115,6 +120,7 @@
       </form>
     </div>
   </div>
+
 
   <!-- Upload Photo Modal -->
   <div id="upload-photo-modal" class="modal hidden">
