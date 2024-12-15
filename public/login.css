@@ -86,7 +86,7 @@
   display: block;
   text-decoration: none;
   font-size: 1.2em;
-  color: white;
+  color: #7f5539;
 }
 
 .content-panel .forgot-link:hover{
@@ -100,8 +100,8 @@
   text-decoration: none;
   font-size: 1.2em;
   font-weight: bold;
-  color: #1D4A19;
-  background-color: #C4D76C; /* Same background color as the login button */
+  color: white;
+  background-color: #c38e70; /* Same background color as the login button */
   padding: 12px 30px;
   border-radius: 20px; /* Rounded corners */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a button-like shadow */
@@ -110,6 +110,6 @@
 
 .content-panel .register-link:hover {
   background-color: white; /* Highlight background on hover */
-  color: #1D4A19; /* Text color on hover */
+  color: #c38e70; /* Text color on hover */
   text-decoration: none; /* Ensures no underline */
 }
