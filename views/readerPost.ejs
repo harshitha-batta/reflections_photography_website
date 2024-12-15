@@ -25,6 +25,15 @@
     <section class="image-section">
       <img src="<%= photo.imagePath %>" alt="<%= photo.title %>" class="post-image">
     </section>
+      
+            <!-- Likes Section -->
+<section class="likes-section">
+  <div class="like-box">
+    <i class="bi bi-heart-fill"></i> <!-- Heart icon from Bootstrap -->
+    <span>Like <%= photo.likes.length %></span>
+  </div>
+</section>
+      
   </main>
 </body>
 </html>

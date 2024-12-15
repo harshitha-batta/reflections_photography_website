@@ -65,28 +65,39 @@
 
 /* Likes Section */
 .likes-section {
-  text-align: center;
   margin-top: 20px;
 }
 
-.likes-section button {
-  background-color: #ff6666; /* Red button for likes */
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 14px;
+.like-box {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  cursor: pointer;
+  background-color: #f9f9f9;
+  color: #333;
+  font-weight: bold;
 }
 
-.likes-section button:hover {
-  background-color: #ff3333; /* Darker red on hover */
+.like-box:hover {
+  border: 1px solid #A9A9A9;
+  background-color: white;
 }
 
-.likes-section p {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #555;
+.like-box i {
+  margin-right: 6px;
+  font-size: 18px;
+  color: #dc3545; /* Heart color */
+}
+
+.like-box span {
+  font-size: 1rem;
+}
+
+.like-count {
+  margin-left: 4px;
+  font-weight: normal;
+  color: #777;
 }
 
 /* Comments Section */

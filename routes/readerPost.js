@@ -28,4 +28,26 @@ router.get('/readerPost/:id', async (req, res) => {
   }
 });
 
+
+// Add a like to a photo
+router.post('/like/:id', async (req, res) => {
+  try {
+    const photoId = req.params.id;
+    const userId = req.user._id; // Replace with the authenticated user's ID
+
+    const photo = await Photo.findById(photoId);
+    if (!photo) return res.status(404).send('Photo not found');
+
+    if (!photo.likes.includes(userId)) {
+      photo.likes.push(userId); // Add user to likes array
+      await photo.save();
+    }
+
+    res.redirect(`/readerPost/${photoId}`);
+  } catch (err) {
+    console.error('Error liking photo:', err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
