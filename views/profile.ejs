@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/profile.css">
   <link rel="stylesheet" href="/navbar.css">
   <link href="https://fonts.googleapis.com/css2?family=Montez&family=Pacifico&family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
 </head>
 <body>
   <!-- Background Image -->
@@ -14,7 +15,7 @@
     <%- include('./layouts/main', { title: 'Your Profile' }) %>
 
     <!-- Transparent Profile Box -->
-    <div class="profile-container">
+<!--     <div class="profile-container"> -->
       <!-- Profile Header -->
       <div class="profile-header">
         <div class="profile-photo-container">
@@ -24,9 +25,9 @@
         <div class="profile-info">
           <h1 class="profile-name">Hello! <%= user.name %></h1>
           <p><%= user.bio || 'No bio added yet!' %></p>
-          <button class="edit-profile-btn" onclick="openEditModal()">✏️ Edit Profile</button>
+          <button class="edit-profile-btn" onclick="openModal()">✏️ Edit Profile</button>
         </div>
-      </div>
+<!--       </div> -->
 
       <!-- Uploaded Photos Section -->
       <div class="uploaded-photos-section">
@@ -34,47 +35,46 @@
         <% if (photos.length > 0) { %>
           <div class="photos-grid">
             <% photos.forEach(photo => { %>
-              <div class="photo-card" onclick="openPhotoModal('<%= photo.imagePath %>', '<%= photo.title %>', '<%= photo.description %>', '<%= photo.category %>')">
+              <div class="photo-card">
                 <img src="/profile/photo/<%= photo.imagePath %>" alt="<%= photo.title %>">
-                <div class="photo-hover-content">
-                  <span class="username">Uploaded by: <%= user.name %></span>
-                  <span class="like-icon" onclick="event.stopPropagation(); likePhoto('<%= photo._id %>')">❤️</span>
-                </div>
+                <p><strong><%= photo.title %></strong></p>
+                <p class="photo-description"><%= photo.description || 'No description provided.' %></p>
+                <p class="photo-category"><strong>Category:</strong> <%= photo.category %></p>
               </div>
             <% }) %>
           </div>
         <% } else { %>
-          <p>You haven't uploaded any photos yet.</p>
+          <p class="no-photos-message">You haven't uploaded any photos yet.</p>
         <% } %>
-      </div>
 
-      <!-- Upload New Photo Form -->
-      <div class="upload-section">
-        <h3>Upload New Photo</h3>
-        <form action="/profile/upload-photo" method="POST" enctype="multipart/form-data">
-          <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" id="title" name="title" required>
-          </div>
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" name="description" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="category">Category</label>
-            <select id="category" name="category">
-              <option value="Landscapes">Landscapes</option>
-              <option value="Portraits">Portraits</option>
-              <option value="Abstract">Abstract</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="photo">Photo</label>
-            <input type="file" id="photo" name="photo" required>
-          </div>
-          <button type="submit" class="upload-btn">Upload</button>
-        </form>
+        <!-- Upload New Photo Form -->
+        <div class="upload-section">
+          <h3>Upload New Photo</h3>
+          <form action="/profile/upload-photo" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" name="description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select id="category" name="category">
+                <option value="Landscapes">Landscapes</option>
+                <option value="Portraits">Portraits</option>
+                <option value="Abstract">Abstract</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="photo">Photo</label>
+              <input type="file" id="photo" name="photo" required>
+            </div>
+            <button type="submit" class="upload-btn">Upload</button>
+          </form>
+        </div>
       </div>
 
       <!-- Logout Button -->
@@ -84,21 +84,10 @@
     </div>
   </div>
 
-  <!-- Modal for Viewing Photo Details -->
-  <div id="image-modal" class="modal-overlay">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closePhotoModal()">×</span>
-      <img id="modal-image" src="" alt="">
-      <h2 id="modal-title"></h2>
-      <p id="modal-description"></p>
-      <p id="modal-category"></p>
-    </div>
-  </div>
-
   <!-- Modal for Editing Profile -->
-  <div id="edit-modal" class="modal hidden">
+  <div id="modal" class="modal hidden">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeEditModal()">×</span>
+      <span class="close-btn" onclick="closeModal()">×</span>
       <h2>Edit Profile</h2>
       
       <!-- Change Profile Photo -->
@@ -117,38 +106,14 @@
     </div>
   </div>
 
-  <!-- JavaScript for Modals -->
+  <!-- JavaScript for Modal -->
   <script>
-    function openPhotoModal(imagePath, title, description, category) {
-      document.getElementById('modal-image').src = `/profile/photo/${imagePath}`;
-      document.getElementById('modal-title').innerText = title;
-      document.getElementById('modal-description').innerText = description || 'No description provided.';
-      document.getElementById('modal-category').innerText = `Category: ${category}`;
-      document.getElementById('image-modal').classList.add('active');
+    function openModal() {
+      document.getElementById('modal').classList.remove('hidden');
     }
 
-    function closePhotoModal() {
-      document.getElementById('image-modal').classList.remove('active');
-    }
-
-    function openEditModal() {
-      document.getElementById('edit-modal').classList.remove('hidden');
-    }
-
-    function closeEditModal() {
-      document.getElementById('edit-modal').classList.add('hidden');
-    }
-
-    function likePhoto(photoId) {
-      fetch(`/profile/like-photo/${photoId}`, { method: 'POST' })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            alert('You liked the photo!');
-          } else {
-            alert('Error liking the photo.');
-          }
-        });
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
     }
   </script>
 </body>
