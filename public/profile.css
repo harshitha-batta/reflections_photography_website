@@ -175,18 +175,25 @@ a {
 }
 
 .photo-card {
-  background: none; /* No card background */
-  box-shadow: none; /* No shadow */
-  border-radius: 0; /* No rounded corners */
-  text-align: center;
+  background: #fff; /* White background for the card */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for card effect */
+  overflow: hidden; /* Ensure content stays within rounded edges */
+  text-align: center; /* Center the text */
+  transition: all 0.3s ease; /* Smooth transition effect */
+  padding: 15px;
+}
+
+.photo-card:hover {
+  transform: translateY(-5px); /* Slight lift effect on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
 }
 
 .photo-card img {
   width: 100%;
-  height: 200px; /* Fixed height for consistency */
-  object-fit: cover;
-  border-radius: 12px;
-  transition: transform 0.3s ease; /* Hover effect */
+  height: 180px; /* Fixed height for image */
+  object-fit: cover; /* Maintain aspect ratio and cover */
+  border-radius: 8px; /* Rounded corners for the image */
 }
 
 
@@ -195,15 +202,21 @@ a {
 }
 
 .photo-card p {
-  font-size: 1rem;
-  margin-top: 8px;
-  color: #333;
-  font-family: "Lora", serif;
+  margin: 10px 0;
+  color: #333; /* Dark text for readability */
+  font-family: "Lora", serif; /* Elegant font for captions */
+}
+
+.photo-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #62445e; /* Theme color */
+  margin-bottom: 5px;
 }
 .photo-description,
 .photo-category {
   font-size: 0.9rem;
-  color: #555;
+  color: #666;
 }
 /* Upload Photo Button */
 .upload-photo-btn-container {
@@ -342,3 +355,28 @@ a {
 .close-modal:hover {
   color: #62445e;
 }
+
+/* Button Row Container */
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Space between buttons */
+  margin: 20px 0; /* Add spacing above and below */
+}
+
+.button-row button {
+  background-color: #62445e;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.button-row button:hover {
+  background-color: #50364b;
+  transform: translateY(-2px);
+}
+
