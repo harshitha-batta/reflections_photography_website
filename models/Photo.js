@@ -23,9 +23,6 @@ const photoSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId, 
       ref: 'Comment' 
     }], // References to comments on the photo
-    tags: [{ 
-      type: String 
-    }], // Optional tags for better categorization and search
   },
   { timestamps: true }
 );
