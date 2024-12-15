@@ -43,6 +43,45 @@ router.post('/update-bio', isAuthenticated, async (req, res) => {
     res.redirect('/profile');
   }
 });
+// Delete a photo
+router.delete('/photo/:id', isAuthenticated, async (req, res) => {
+  console.log(`DELETE request received for photo ID: ${req.params.id}`);
+  try {
+    const photoId = req.params.id;
+    const photo = await Photo.findById(photoId);
+
+    if (!photo) {
+      console.error('Photo not found');
+      return res.status(404).send('Photo not found');
+    }
+
+    if (photo.uploader.toString() !== req.user._id.toString()) {
+      console.error('Unauthorized delete attempt');
+      return res.status(403).send('You are not authorized to delete this photo.');
+    }
+
+    // Delete photo document
+    await photo.remove();
+    console.log('Photo document deleted:', photoId);
+
+    // Delete GridFS file
+    if (gridfsBucket) {
+      try {
+        await gridfsBucket.delete(new mongoose.Types.ObjectId(photo.imagePath));
+        console.log('GridFS file deleted:', photo.imagePath);
+      } catch (err) {
+        console.error('Error deleting GridFS file:', err);
+      }
+    }
+
+    setFlashMessage(res, 'success', 'Photo deleted successfully!');
+    res.redirect('/profile');
+  } catch (err) {
+    console.error('Error in DELETE route:', err);
+    setFlashMessage(res, 'error', 'Failed to delete photo.');
+    res.redirect('/profile');
+  }
+});
 
 // Upload profile photo
 router.post('/upload-profile-photo', isAuthenticated, upload.single('profilePhoto'), async (req, res) => {
@@ -67,7 +106,6 @@ router.post('/upload-profile-photo', isAuthenticated, upload.single('profilePhot
 router.get('/profile-photo/:filename', async (req, res) => {
   try {
     const file = await gridfsBucket.find({ filename: req.params.filename }).toArray();
-
     if (!file || file.length === 0) {
       return res.status(404).send('Profile photo not found');
     }
@@ -80,6 +118,7 @@ router.get('/profile-photo/:filename', async (req, res) => {
     res.status(500).send('Error fetching profile photo');
   }
 });
+
 
 // Stream uploaded photos
 router.get('/photo/:filename', async (req, res) => {
@@ -129,43 +168,6 @@ router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req
   } catch (err) {
     console.error('Error uploading photo:', err);
     setFlashMessage(res, 'error', 'Failed to upload photo.');
-    res.redirect('/profile');
-  }
-});
-// Delete a photo
-router.delete('/photo/:id', isAuthenticated, async (req, res) => {
-  console.log('DELETE request received for photo ID:', req.params.id);
-  try {
-    const photoId = req.params.id;
-    const photo = await Photo.findById(photoId);
-
-    if (!photo) {
-      console.error('Photo not found');
-      return res.status(404).send('Photo not found');
-    }
-
-    console.log('Photo found:', photo);
-
-    if (photo.uploader.toString() !== req.user._id.toString()) {
-      console.error('Unauthorized delete attempt');
-      return res.status(403).send('You are not authorized to delete this photo.');
-    }
-
-    // Delete photo document
-    await photo.remove();
-    console.log('Photo document deleted:', photoId);
-
-    // Delete GridFS file
-    if (gridfsBucket) {
-      await gridfsBucket.delete(new mongoose.Types.ObjectId(photo.imagePath));
-      console.log('GridFS file deleted:', photo.imagePath);
-    }
-
-    setFlashMessage(res, 'success', 'Photo deleted successfully!');
-    res.redirect('/profile');
-  } catch (err) {
-    console.error('Error in DELETE route:', err);
-    setFlashMessage(res, 'error', 'Failed to delete photo.');
     res.redirect('/profile');
   }
 });

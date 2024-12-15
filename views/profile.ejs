@@ -12,7 +12,7 @@
   <!-- Navbar -->
   <%- include('./layouts/main', { title: 'Your Profile' }) %>
 
-  <!-- Profile Header -->
+  <!-- Profile Section -->
   <div class="background-container">
     <div class="profile-header">
       <div class="profile-photo-container">
@@ -24,7 +24,7 @@
         <p><%= user.bio || 'No bio added yet!' %></p>
       </div>
 
-      <!-- Buttons for Editing and Uploading -->
+      <!-- Action Buttons -->
       <div class="button-row">
         <button class="edit-profile-btn" onclick="openProfileModal()">✏️ Edit Profile</button>
         <button class="upload-photo-btn" onclick="openUploadModal()">📷 Upload Photo</button>
@@ -34,7 +34,7 @@
     <!-- Uploaded Photos Section -->
     <div class="uploaded-photos-section">
       <h2>Your Photos</h2>
-      <% if (photos.length > 0) { %>
+      <% if (photos && photos.length > 0) { %>
         <div class="photos-grid">
           <% photos.forEach(photo => { %>
             <div class="photo-card">
@@ -44,14 +44,13 @@
               <p class="photo-description"><strong>Description: </strong><%= photo.description || 'No description provided.' %></p>
               <p class="photo-category"><strong>Category:</strong> <%= photo.category %></p>
 
-              <!-- Action Buttons -->
+              <!-- Photo Actions -->
               <div class="photo-actions">
                 <button class="edit-photo-btn" 
                         onclick="openEditModal('<%= photo._id %>', '<%= photo.title %>', '<%= photo.description %>', '<%= photo.category %>')">✏️ Edit</button>
-                  <form action="/profile/photo/<%= photo._id %>?_method=DELETE" method="POST" style="display:inline;">
-                    <button type="submit" class="delete-photo-btn">🗑️ Delete</button>
-                  </form>
-
+                <form action="/profile/photo/<%= photo._id %>?_method=DELETE" method="POST" style="display:inline;">
+                  <button type="submit" class="delete-photo-btn">🗑️ Delete</button>
+                </form>
               </div>
             </div>
           <% }) %>
@@ -67,7 +66,8 @@
     </div>
   </div>
 
-  <!-- Profile Edit Modal -->
+  <!-- Modals -->
+  <!-- Edit Profile Modal -->
   <div id="profile-modal" class="modal hidden">
     <div class="modal-content">
       <span class="close-btn" onclick="closeProfileModal()">×</span>
@@ -113,11 +113,11 @@
     <div class="modal-content">
       <span class="close-modal" onclick="closeUploadModal()">×</span>
       <h3>Upload New Photo</h3>
-      <form action="/upload" method="POST" enctype="multipart/form-data">
+      <form action="/profile/upload-photo" method="POST" enctype="multipart/form-data">
         <label for="title">Title</label>
-        <input type="text" id="title" name="title" placeholder="Enter photo title" required>
+        <input type="text" id="title" name="title" required>
         <label for="description">Description</label>
-        <textarea id="description" name="description" rows="2" placeholder="Add a short description"></textarea>
+        <textarea id="description" name="description" rows="2"></textarea>
         <label for="category">Category</label>
         <select id="category" name="category">
           <option value="Landscapes">Landscapes</option>
@@ -135,7 +135,7 @@
     </div>
   </div>
 
-  <!-- JavaScript for Modals -->
+  <!-- JavaScript -->
   <script>
     function openProfileModal() {
       document.getElementById('profile-modal').classList.remove('hidden');

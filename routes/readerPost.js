@@ -60,19 +60,30 @@ router.get('/user/:id', async (req, res) => {
   try {
     const userId = req.params.id;
 
-    // Find the user by ID and their photos
-    const user = await User.findById(userId);
+    // Fetch user by ID
+    const user = await User.findById(userId).lean(); // Use lean for plain JS objects
     if (!user) {
+      console.error(`User not found for ID: ${userId}`);
       return res.status(404).send('User not found');
     }
 
-    // Fetch photos uploaded by the user
+    // Fetch user's photos
     const photos = await Photo.find({ uploader: userId });
+    if (!photos || photos.length === 0) {
+      console.log(`No photos found for user ID: ${userId}`);
+    } else {
+      console.log(`Fetched ${photos.length} photos for user ID: ${userId}`);
+    }
 
-    // Render the Profile.ejs file located in the root views folder
+    // Ensure profilePhoto is set properly
+    const profilePhotoUrl = user.profilePhoto
+      ? `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}`
+      : '/default-profile.png';
+
+    // Render the profile page
     res.render('profile', {
       title: `${user.name}'s Profile`,
-      user, // Pass user details
+      user: { ...user, profilePhoto: profilePhotoUrl }, // Include profilePhoto dynamically
       photos, // Pass user's uploaded photos
     });
   } catch (err) {
@@ -80,6 +91,10 @@ router.get('/user/:id', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+
+
+
 
 
 module.exports = router;
