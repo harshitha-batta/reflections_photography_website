@@ -4,94 +4,103 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Profile</title>
-  <link rel="stylesheet" href="/navbar.css">
   <link rel="stylesheet" href="/profile.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montez&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/navbar.css">
 </head>
 <body>
-  <!-- Include Navbar -->
   <%- include('./layouts/main', { title: 'Your Profile' }) %>
 
   <div class="profile-container">
-    <!-- Flash Messages -->
-    <div class="flash-messages">
-      <% if (successMessage) { %>
-        <div class="alert success"><%= successMessage %></div>
-      <% } %>
-      <% if (errorMessage) { %>
-        <div class="alert error"><%= errorMessage %></div>
-      <% } %>
-    </div>
-
     <!-- Profile Header -->
     <div class="profile-header">
       <div class="profile-photo-container">
-        <% if (user.profilePhoto) { %>
-          <img src="/profile/profile-photo/<%= encodeURIComponent(user.profilePhoto) %>" alt="Profile Photo" class="profile-photo" />
-        <% } else { %>
-          <div class="no-photo">No profile photo uploaded yet.</div>
-        <% } %>
-        <button class="btn" onclick="toggleForm('profilePhotoForm')">Change Photo</button>
-        <form id="profilePhotoForm" action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data" class="hidden">
-          <input type="file" name="profilePhoto" id="profilePhoto" required />
-          <button type="submit" class="btn">Upload</button>
-        </form>
+        <img src="<%= user.profilePhoto ? '/profile/profile-photo/' + encodeURIComponent(user.profilePhoto) : '/default-profile.png' %>" 
+             alt="Profile Photo" class="profile-photo">
+        <button class="btn" onclick="toggleModal('photoModal')">Change Photo</button>
       </div>
-
       <div class="profile-info">
         <h1><%= user.name %></h1>
-        <p class="bio"><%= user.bio || 'No bio yet. Add one below!' %></p>
-        <button class="btn" onclick="toggleForm('bioForm')">Edit Bio</button>
-        <form id="bioForm" action="/profile/update-bio" method="POST" class="hidden">
-          <textarea name="bio" id="bio" placeholder="Write something about yourself..."><%= user.bio || '' %></textarea>
-          <button type="submit" class="btn">Save</button>
-        </form>
+        <p><%= user.bio || 'Add a bio to introduce yourself!' %></p>
+        <button class="btn" onclick="toggleModal('bioModal')">Edit Bio</button>
       </div>
     </div>
 
     <!-- Uploaded Photos Section -->
     <div class="uploaded-photos-section">
       <h2>Your Photos</h2>
-      <% if (photos && photos.length > 0) { %>
+      <% if (photos.length > 0) { %>
         <div class="photos-grid">
           <% photos.forEach(photo => { %>
             <div class="photo-card">
-              <img src="/profile/photo/<%= photo.imagePath %>" alt="<%= photo.title %>" />
-              <p class="photo-title"><%= photo.title %></p>
-              <p class="photo-description"><%= photo.description || 'No description provided' %></p>
-              <p class="photo-category"><strong>Category:</strong> <%= photo.category %></p>
+              <img src="/profile/photo/<%= photo.imagePath %>" alt="<%= photo.title %>">
+              <p><strong><%= photo.title %></strong></p>
+              <p><%= photo.description %></p>
+              <p><strong>Category:</strong> <%= photo.category %></p>
             </div>
           <% }) %>
         </div>
       <% } else { %>
-        <p>No photos uploaded yet.</p>
+        <p class="no-photos-text">No photos uploaded yet.</p>
       <% } %>
-      <button class="btn" onclick="toggleForm('uploadPhotoForm')">Upload Photo</button>
-      <form id="uploadPhotoForm" action="/profile/upload-photo" method="POST" enctype="multipart/form-data" class="hidden">
-        <input type="text" name="title" placeholder="Photo Title" required />
-        <textarea name="description" placeholder="Photo Description"></textarea>
-        <select name="category" required>
+      <button class="btn" onclick="toggleModal('uploadModal')">Upload New Photo</button>
+    </div>
+
+    <!-- Logout Section -->
+    <div class="logout">
+      <a href="/auth/logout" class="btn logout-btn">Logout</a>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <div id="bioModal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Edit Bio</h2>
+      <form action="/profile/update-bio" method="POST">
+        <textarea name="bio" placeholder="Write a short bio..."><%= user.bio || '' %></textarea>
+        <button type="submit" class="btn">Save</button>
+        <button type="button" class="btn close-btn" onclick="toggleModal('bioModal')">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="photoModal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Change Profile Photo</h2>
+      <form action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data">
+        <input type="file" name="profilePhoto" required>
+        <button type="submit" class="btn">Upload</button>
+        <button type="button" class="btn close-btn" onclick="toggleModal('photoModal')">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="uploadModal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Upload New Photo</h2>
+      <form action="/profile/upload-photo" method="POST" enctype="multipart/form-data">
+        <label for="title">Title</label>
+        <input type="text" name="title" required>
+        <label for="description">Description</label>
+        <textarea name="description"></textarea>
+        <label for="category">Category</label>
+        <select name="category">
           <option value="Landscapes">Landscapes</option>
           <option value="Portraits">Portraits</option>
           <option value="Abstract">Abstract</option>
           <option value="Other">Other</option>
         </select>
-        <input type="file" name="photo" id="photoUpload" required />
+        <label for="photo">Photo</label>
+        <input type="file" name="photo" required>
         <button type="submit" class="btn">Upload</button>
+        <button type="button" class="btn close-btn" onclick="toggleModal('uploadModal')">Cancel</button>
       </form>
     </div>
   </div>
 
-  <!-- Logout -->
-  <div class="logout">
-    <a href="/auth/logout" class="btn logout-btn">Logout</a>
-  </div>
-
-  <!-- JavaScript -->
   <script>
-    function toggleForm(formId) {
-      const form = document.getElementById(formId);
-      form.classList.toggle('hidden');
+    function toggleModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.toggle('hidden');
     }
   </script>
 </body>
