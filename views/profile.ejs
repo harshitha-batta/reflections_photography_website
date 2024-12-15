@@ -32,12 +32,13 @@
         </div>
       <% } %>
     </div>
+
     <% if (locals.user && locals.user.role === 'admin') { %>
-  <div class="admin-dashboard-buttons">
-    
-    <center><h3>Admin Dashboard</h3><a href="/admin/dashboard" class="btn">Admin Dashboard</a></center>
-  </div>
-<% } %>
+      <div class="admin-dashboard-buttons">
+        <center><h3>Admin Dashboard</h3><a href="/admin/dashboard" class="btn">Admin Dashboard</a></center>
+      </div>
+    <% } %>
+
     <!-- Uploaded Photos Section -->
     <div class="uploaded-photos-section">
       <h2>Photos</h2>
@@ -46,10 +47,9 @@
           <% photos.forEach(photo => { %>
             <div class="photo-card">
               <!-- Photo Image -->
-                <a href="/readerPost/<%= photo._id %>">
-              <img src="<%= photo.imagePath.startsWith('http') ? photo.imagePath : '/profile/photo/' + encodeURIComponent(photo.imagePath) %>" 
-     alt="<%= photo.title || 'Photo' %>" 
-     class="uploaded-photo">
+              <a href="/readerPost/<%= photo._id %>">
+                <img src="<%= photo.imagePath.startsWith('http') ? photo.imagePath : '/profile/photo/' + encodeURIComponent(photo.imagePath) %>" 
+                     alt="<%= photo.title || 'Photo' %>" class="uploaded-photo">
               </a>
               <p class="photo-title"><%= photo.title %></p>
               <p class="photo-description"><strong>Description: </strong><%= photo.description || 'No description provided.' %></p>
@@ -103,7 +103,7 @@
     <div class="modal-content">
       <span class="close-btn" onclick="closeEditModal()">×</span>
       <h3>Edit Photo</h3>
-      <form id="edit-photo-form" action="" method="POST">
+      <form id="edit-photo-form" action="" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="_method" value="PATCH">
         <label for="edit-title">Title</label>
         <input type="text" id="edit-title" name="title" required>
@@ -116,11 +116,12 @@
           <option value="Abstract">Abstract</option>
           <option value="Other">Other</option>
         </select>
+        <label for="edit-photo">Change Photo</label>
+        <input type="file" id="edit-photo" name="photo">
         <button type="submit" class="btn save-edit-btn">Save Changes</button>
       </form>
     </div>
   </div>
-
 
   <!-- Upload Photo Modal -->
   <div id="upload-photo-modal" class="modal hidden">

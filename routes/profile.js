@@ -199,11 +199,8 @@ router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req
 
 
 // Edit a photo
-router.patch('/photo/:id', isAuthenticated, async (req, res) => {
-  console.log('PATCH request received');
-  console.log('Photo ID:', req.params.id);
-  console.log('Request Body:', req.body);
-
+router.patch('/photo/:id', isAuthenticated, upload.single('photo'), async (req, res) => {
+  console.log('PATCH request received for photo ID:', req.params.id);
   try {
     const photoId = req.params.id;
     const { title, description, category } = req.body;
@@ -214,10 +211,28 @@ router.patch('/photo/:id', isAuthenticated, async (req, res) => {
       return res.status(403).send('You are not authorized to edit this photo.');
     }
 
+    // Update fields
     if (title) photo.title = title;
     if (description) photo.description = description;
     if (category) photo.category = category;
+
+    // If a new photo file is uploaded, update the imagePath
+    if (req.file) {
+      // Delete the old GridFS file
+      if (photo.imagePath) {
+        try {
+          await gridfsBucket.delete(new mongoose.Types.ObjectId(photo.imagePath));
+        } catch (err) {
+          console.error('Error deleting old GridFS file:', err);
+        }
+      }
+
+      // Update the imagePath with the new file's ID
+      photo.imagePath = req.file.filename;
+    }
+
     await photo.save();
+    console.log('Photo updated:', photo);
 
     res.redirect('/profile');
   } catch (err) {
@@ -225,6 +240,7 @@ router.patch('/photo/:id', isAuthenticated, async (req, res) => {
     res.status(500).send('Failed to update photo.');
   }
 });
+
 
 
 
