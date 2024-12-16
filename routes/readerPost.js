@@ -99,6 +99,32 @@ router.get('/user/:id', async (req, res) => {
   }
 });
 
+router.post('/comments/:id', async (req, res) => {
+  try {
+    const photoId = req.params.id;
+    const { text } = req.body; // Comment text sent from the form
+
+    // Find the photo
+    const photo = await Photo.findById(photoId);
+    if (!photo) {
+      return res.status(404).send('Photo not found');
+    }
+
+    // Add the new comment
+    photo.comments.push({
+      text: text,
+      authorName: req.user.name, // Ensure user is authenticated and has a `name`
+    });
+
+    await photo.save();
+    res.redirect(`/readerPost/${photoId}`); // Redirect back to the photo page
+  } catch (err) {
+    console.error('Error adding comment:', err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+
 module.exports = router;
 
 
