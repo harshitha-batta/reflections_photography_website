@@ -1,38 +1,32 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Photo = require('../models/Photo');
+const Photo = require("../models/Photo");
+const Comment = require("../models/Comment");
+// const Comment = require("../models/User");
 const isAuthenticated = require('../middlewares/isAuthenticated'); // Middleware for auth
 
-// POST: Add a new comment
-router.post('/comments/:photoId', isAuthenticated, async (req, res) => {
+// POST: Add a comment to a photo
+router.post("/comments/:photoId", isAuthenticated, async (req, res) => {
   try {
-    console.log('User:', req.user); // Debugging: check the user
-    console.log('Comment Text:', req.body.text); // Debugging: check the form data
+    const { text } = req.body;
     const photoId = req.params.photoId;
 
-    const photo = await Photo.findById(photoId);
-    if (!photo) {
-      console.log('Photo not found');
-      req.flash('error', 'Photo not found');
-      return res.redirect('back');
-    }
+    // Create a new comment document
+    const newComment = await Comment.create({
+      text,
+      user: req.user.id, // Use the authenticated user's ID
+      photo: photoId,
+    });
 
-    // Add the comment to the photo
-    const newComment = {
-      text: req.body.text,
-      authorName: req.user.name, // Assuming `req.user` has `name`
-    };
+    // Push the new comment's ID to the photo's comments array
+    await Photo.findByIdAndUpdate(photoId, { $push: { comments: newComment._id } });
 
-    photo.comments.push(newComment);
-    await photo.save();
-
-    console.log('Comment added successfully!');
-    req.flash('success', 'Comment added successfully');
-    res.redirect(`/readerPost/${photoId}`);
+    req.flash("success", "Comment added successfully");
+    res.redirect(`/readerPost/${photoId}`); // Redirect back to the photo page
   } catch (err) {
-    console.error('Error adding comment:', err.message);
-    req.flash('error', 'An error occurred while adding the comment');
-    res.redirect('back');
+    console.error("Error adding comment:", err.message);
+    req.flash("error", "Failed to add comment");
+    res.redirect("back");
   }
 });
 

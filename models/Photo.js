@@ -16,14 +16,15 @@ const photoSchema = new mongoose.Schema(
       required: true,
     }, // Reference to the uploader (user)
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Array of user references who liked the photo
-    comments: [
-      {
-        text: { type: String, required: true }, // Comment text
-        authorName: { type: String, required: true }, // Name of the user who made the comment
-        createdAt: { type: Date, default: Date.now }, // Timestamp when the comment was created
-        updatedAt: { type: Date, default: Date.now }, // Timestamp when the comment was last updated
-      },
-    ],
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    // comments: [
+    //   {
+    //     text: { type: String, required: true }, // Comment text
+    //     authorName: { type: String, required: true }, // Name of the user who made the comment
+    //     createdAt: { type: Date, default: Date.now }, // Timestamp when the comment was created
+    //     updatedAt: { type: Date, default: Date.now }, // Timestamp when the comment was last updated
+    //   },
+    // ],
   },
   { timestamps: true } // Adds createdAt and updatedAt fields for the Photo document
 );

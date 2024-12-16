@@ -61,29 +61,29 @@
     </section>
           
       
-      <!-- Comments Section -->
-      <section class="comments-section">
-        <h3>Comments</h3>
+<section class="comments-section">
+  <h3>Comments</h3>
 
-          <!-- Display existing comments -->
-          <ul class="comments-list">
-            <% photo.comments.forEach(comment => { %>
-              <li class="comment-item">
-                <strong><%= comment.authorName %></strong>: <%= comment.text %>
-              </li>
-            <% }) %>
-          </ul>
+  <!-- Display comments -->
+  <ul class="comments-list">
+    <% photo.comments.forEach(comment => { %>
+      <li class="comment-item">
+        <strong><%= comment.user.name %></strong>: <%= comment.text %>
+      </li>
+    <% }) %>
+  </ul>
 
-          <!-- Add Comment Form - Only show if user is authenticated -->
-          <% if (user) { %>
-            <form id="comment-form" method="POST" action="/comments/<%= photo._id %>">
-              <textarea name="text" id="comment-text" placeholder="Add a comment..." required></textarea>
-              <button type="submit">Post Comment</button>
-            </form>
-          <% } else { %>
-            <p>Please Log in</a> or Register</a> to add a comment.</p>
-          <% } %>
-        </section>
+  <!-- Add comment form -->
+  <% if (user) { %>
+    <form method="POST" action="/comments/<%= photo._id %>">
+      <textarea name="text" placeholder="Add a comment..." required></textarea>
+      <button type="submit">Post Comment</button>
+    </form>
+  <% } else { %>
+    <p>Please <a href="/auth/login">Log in</a> to add a comment.</p>
+  <% } %>
+</section>
+
 
       
   </main>
