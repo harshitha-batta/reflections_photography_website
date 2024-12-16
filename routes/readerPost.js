@@ -102,31 +102,35 @@ router.get("/user/:id", async (req, res) => {
 });
 
 
-// POST route to add a comment
+// Add a comment to a photo
 router.post('/comments/:photoId', isAuthenticated, async (req, res) => {
-  const { text } = req.body; 
-  const { photoId } = req.params; 
+  const { text } = req.body;  // The comment text
+  const { photoId } = req.params; // The photo being commented on
 
   try {
-    const newComment = new Comment({
-      text,
-      user: req.user.id, 
-      photo: photoId, 
-    });
-
-    await newComment.save();
-
+    // Find the photo by ID
     const photo = await Photo.findById(photoId);
     if (!photo) {
       return res.status(404).send('Photo not found');
     }
+
+    // Create a new comment
+    const newComment = new Comment({
+      text,
+      user: req.user.id, // Authenticated user's ID
+      photo: photoId,    // Reference the photo
+    });
+
+    await newComment.save();
+
+    // Add the comment's ID to the photo's comments array
     photo.comments.push(newComment._id);
     await photo.save();
 
-    res.redirect(`/readerPost/${photoId}`);
+    res.redirect(`/readerPost/${photoId}`); // Redirect back to the post
   } catch (error) {
     console.error('Error adding comment:', error);
-    res.status(500).send('Something went wrong while adding the comment');
+    res.status(500).send('Failed to add comment');
   }
 });
 
