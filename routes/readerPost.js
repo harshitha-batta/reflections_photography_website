@@ -19,21 +19,24 @@ router.get("/readerPost/:id", async (req, res) => {
   try {
     const photoId = req.params.id;
 
-    // Find the photo and populate the uploader and comments
+    // Find the photo, populate uploader and comments with their users
     const photo = await Photo.findById(photoId)
-      .populate("uploader", "name profilePhoto") // Populate the uploader's name
-      .exec();
+      .populate("uploader", "name profilePhoto") // Populate uploader's name and profile photo
+      .populate({
+        path: "comments",
+        populate: { path: "user", select: "name profilePhoto" }, // Populate user details in comments
+      });
 
     if (!photo) {
       return res.status(404).send("Photo not found");
     }
 
-    // Render the readerPost view with the photo details
+    // Render the readerPost view with the populated photo details
     res.render("readerPost", {
       title: photo.title,
       photo,
-      uploader: photo.uploader, // Pass uploader details
-      comments: photo.comments, // Pass comments array from the schema
+      uploader: photo.uploader,
+      comments: photo.comments,
     });
   } catch (err) {
     console.error("Error fetching photo:", err.message);
