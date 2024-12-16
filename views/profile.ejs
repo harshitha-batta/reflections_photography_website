@@ -127,10 +127,9 @@
         <textarea id="edit-description" name="description"></textarea>
         <label for="edit-category">Category</label>
         <select id="edit-category" name="category">
-          <option value="Landscapes">Landscapes</option>
-          <option value="Portraits">Portraits</option>
-          <option value="Abstract">Abstract</option>
-          <option value="Other">Other</option>
+          <% categories.forEach(category => { %>
+            <option value="<%= category._id %>"><%= category.name %></option>
+          <% }) %>
         </select>
         <label for="edit-photo">Change Photo</label>
         <input type="file" id="edit-photo" name="photo">
@@ -151,10 +150,9 @@
         <textarea id="description" name="description" rows="2"></textarea>
         <label for="category">Category</label>
         <select id="category" name="category">
-          <option value="Landscapes">Landscapes</option>
-          <option value="Portraits">Portraits</option>
-          <option value="Abstract">Abstract</option>
-          <option value="Other">Other</option>
+          <% categories.forEach(category => { %>
+            <option value="<%= category._id %>"><%= category.name %></option>
+          <% }) %>
         </select>
         <label for="photo">Photo</label>
         <input type="file" id="photo" name="photo" required>
@@ -165,6 +163,8 @@
       </form>
     </div>
   </div>
+
+
 
   <!-- JavaScript -->
   <script>
