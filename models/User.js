@@ -18,5 +18,27 @@ const userSchema = new mongoose.Schema(
 userSchema.methods.validatePassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
+userSchema.pre('deleteOne', { document: true }, async function (next) {
+  try {
+    const userId = this._id;
+
+    // Delete all photos uploaded by the user
+    const Photo = mongoose.model('Photo');
+    const photos = await Photo.find({ uploader: userId });
+
+    for (const photo of photos) {
+      await photo.deleteOne(); // This will trigger the photo delete middleware
+    }
+
+    // Delete all comments made by the user
+    const Comment = mongoose.model('Comment');
+    await Comment.deleteMany({ user: userId });
+
+    next();
+  } catch (err) {
+    next(err); // Pass the error to the next middleware
+  }
+});
+
 
 module.exports = mongoose.model('User', userSchema);

@@ -19,6 +19,11 @@ router.get("/readerPost/:id", async (req, res) => {
   try {
     const photoId = req.params.id;
 
+    // Validate photoId
+    if (!mongoose.Types.ObjectId.isValid(photoId)) {
+      return res.status(400).send("Invalid Photo ID");
+    }
+
     // Find the photo, populate uploader and comments with their users
     const photo = await Photo.findById(photoId)
       .populate("uploader", "name profilePhoto")
@@ -45,6 +50,7 @@ router.get("/readerPost/:id", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
 
 // GET Like Count
 router.post("/like/:id", async (req, res) => {
@@ -142,28 +148,26 @@ router.post('/comments/:photoId', isAuthenticated, async (req, res) => {
 router.delete('/comments/:commentId', isAuthenticated, async (req, res) => {
   const { commentId } = req.params;
 
+  // Validate commentId
+  if (!mongoose.Types.ObjectId.isValid(commentId)) {
+    return res.status(400).send('Invalid Comment ID');
+  }
+
   try {
-    // Find the comment by ID
     const comment = await Comment.findById(commentId);
 
     if (!comment) {
       return res.status(404).send('Comment not found');
     }
 
-    // Ensure the authenticated user is the owner of the comment
     if (comment.user.toString() !== req.user.id.toString()) {
       return res.status(403).send('You are not authorized to delete this comment');
     }
 
-    // Remove the comment from the associated photo's comments array
-    await Photo.findByIdAndUpdate(comment.photo, {
-      $pull: { comments: commentId },
-    });
-
-    // Delete the comment itself
+    await Photo.findByIdAndUpdate(comment.photo, { $pull: { comments: commentId } });
     await comment.deleteOne();
 
-    res.redirect(`/readerPost/${comment.photo}`); // Redirect back to the photo
+    res.redirect(`/readerPost/${comment.photo}`);
   } catch (err) {
     console.error('Error deleting comment:', err.message);
     res.status(500).send('Failed to delete comment');

@@ -54,27 +54,26 @@
 
       <!-- Display Comments -->
       <ul class="comments-list">
-<% photo.comments.forEach(comment => { %>
-  <li class="comment-item">
-    <strong>
-      <%= comment.user ? comment.user.name : 'Unknown User' %>
-    </strong>: 
-    <%= comment.text %>
+  <% photo.comments.forEach(comment => { %>
+    <li class="comment-item">
+      <strong>
+        <%= comment.user ? comment.user.name : 'Unknown User' %>
+      </strong>: 
+      <%= comment.text %>
 
-    <!-- Show Delete Button for Comment Owner -->
-    <% if (user && comment.user && comment.user._id && comment.user._id.toString() === user._id.toString()) { %>
-      <form 
-        method="POST" 
-        action="/comments/<%= comment._id %>?_method=DELETE" 
-        style="display: inline;"
-      >
-        <button type="submit" class="delete-comment-btn">Delete</button>
-      </form>
-    <% } %>
-  </li>
-<% }) %>
-
-      </ul>
+      <!-- Show Delete Button for Comment Owner -->
+      <% if (user && comment.user && comment.user._id && user._id && comment.user._id.toString() === user._id.toString()) { %>
+        <form 
+          method="POST" 
+          action="/comments/<%= comment._id %>?_method=DELETE" 
+          style="display: inline;"
+        >
+          <button type="submit" class="delete-comment-btn">Delete</button>
+        </form>
+      <% } %>
+    </li>
+  <% }) %>
+</ul>
 
       <!-- Add Comment Form -->
       <% if (user) { %>

@@ -12,5 +12,9 @@ const photoSchema = new mongoose.Schema(
   },
   { timestamps: true } 
 );
+photoSchema.pre('deleteOne', { document: true }, async function (next) {
+  await Comment.deleteMany({ photo: this._id });
+  next();
+});
 
 module.exports = mongoose.model("Photo", photoSchema);
