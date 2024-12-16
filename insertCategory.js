@@ -38,6 +38,9 @@ async function main() {
       { name: "HD Wallpapers"},
       { name: "Forest"},
       { name: "Spring"},
+      { name: "Landscape"},
+      { name: "Portraits"},
+      { name: "Abstract"},
     ];
 
     // Insert categories into the Category collection
