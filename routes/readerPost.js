@@ -21,17 +21,19 @@ router.get("/readerPost/:id", async (req, res) => {
 
     // Find the photo, populate uploader and comments with their users
     const photo = await Photo.findById(photoId)
-      .populate("uploader", "name profilePhoto") // Populate uploader's name and profile photo
+      .populate("uploader", "name profilePhoto")
       .populate({
         path: "comments",
-        populate: { path: "user", select: "name profilePhoto" }, // Populate user details in comments
+        populate: { path: "user", select: "name profilePhoto" },
       });
 
     if (!photo) {
       return res.status(404).send("Photo not found");
     }
 
-    // Render the readerPost view with the populated photo details
+    // Filter comments to remove any with missing user references
+    photo.comments = photo.comments.filter((comment) => comment.user);
+
     res.render("readerPost", {
       title: photo.title,
       photo,
@@ -134,6 +136,37 @@ router.post('/comments/:photoId', isAuthenticated, async (req, res) => {
   } catch (error) {
     console.error('Error adding comment:', error);
     res.status(500).send('Failed to add comment');
+  }
+});
+// Delete a comment
+router.delete('/comments/:commentId', isAuthenticated, async (req, res) => {
+  const { commentId } = req.params;
+
+  try {
+    // Find the comment by ID
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return res.status(404).send('Comment not found');
+    }
+
+    // Ensure the authenticated user is the owner of the comment
+    if (comment.user.toString() !== req.user.id.toString()) {
+      return res.status(403).send('You are not authorized to delete this comment');
+    }
+
+    // Remove the comment from the associated photo's comments array
+    await Photo.findByIdAndUpdate(comment.photo, {
+      $pull: { comments: commentId },
+    });
+
+    // Delete the comment itself
+    await comment.deleteOne();
+
+    res.redirect(`/readerPost/${comment.photo}`); // Redirect back to the photo
+  } catch (err) {
+    console.error('Error deleting comment:', err.message);
+    res.status(500).send('Failed to delete comment');
   }
 });
 
