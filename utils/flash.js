@@ -1,15 +1,9 @@
 function setFlashMessage(res, type, message) {
   const cookieOptions = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 5000, // Flash message lasts for 5 seconds
+    maxAge: 1000 * 60 * 5, // 5 minutes
+    httpOnly: true, // Secure cookie, cannot be accessed by client-side JavaScript
   };
-
-  if (type === 'success') {
-    res.cookie('successMessage', message, cookieOptions);
-  } else if (type === 'error') {
-    res.cookie('errorMessage', message, cookieOptions);
-  }
+  res.cookie(type, message, cookieOptions); // Set the cookie properly
 }
 
 module.exports = { setFlashMessage };

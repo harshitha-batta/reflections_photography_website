@@ -1,6 +1,28 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { setFlashMessage } = require('../utils/flash');
+// Middleware to attach user if token exists (optional authentication)
+async function attachUser(req, res, next) {
+  const token = req.cookies.jwt;
+
+  if (!token) {
+    req.user = null; // No user for guests
+    return next();
+  }
+
+  try {
+    // Verify and decode the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+    const user = await User.findById(decoded.id);
+
+    req.user = user || null; // Attach user or null if not found
+  } catch (err) {
+    console.error('JWT verification error:', err.message);
+    req.user = null; // Treat errors as unauthenticated
+  }
+
+  next();
+}
 
 async function isAuthenticated(req, res, next) {
   const token = req.cookies.jwt;
@@ -46,4 +68,4 @@ function isAdmin(req, res, next) {
 }
 
 // Export the middlewares
-module.exports = { isAuthenticated, isAdmin };
+module.exports = { isAuthenticated, attachUser, isAdmin };

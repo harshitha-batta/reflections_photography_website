@@ -3,7 +3,7 @@ const multer = require("multer");
 const User = require("../models/User");
 const Photo = require("../models/Photo");
 const Comment = require('../models/Comment');
-const { isAuthenticated } = require("../middlewares/roles");
+const { attachUser, isAuthenticated } = require("../middlewares/roles");
 const upload = require("../config/multerGridFs"); // Your GridFS multer setup
 const mongoose = require("mongoose");
 let gridfsBucket;
@@ -14,45 +14,42 @@ mongoose.connection.once("open", () => {
     bucketName: "photos",
   });
 });
-// Route to display photo details, including uploader and comments
-router.get("/readerPost/:id", isAuthenticated, async (req, res) => {
+// Route for readerPost (accessible to both guests and logged-in users)
+router.get('/readerPost/:id', attachUser, async (req, res) => {
   try {
     const photoId = req.params.id;
 
     // Validate photoId
     if (!mongoose.Types.ObjectId.isValid(photoId)) {
-      return res.status(400).send("Invalid Photo ID");
+      return res.status(400).send('Invalid Photo ID');
     }
 
-    // Find the photo, populate uploader and comments
     const photo = await Photo.findById(photoId)
-      .populate("uploader", "name profilePhoto")
+      .populate('uploader', 'name profilePhoto')
       .populate({
-        path: "comments",
-        populate: { path: "user", select: "name profilePhoto" },
+        path: 'comments',
+        populate: { path: 'user', select: 'name profilePhoto' },
       });
 
     if (!photo) {
-      return res.status(404).send("Photo not found");
+      return res.status(404).send('Photo not found');
     }
 
     // Filter out invalid comments
     photo.comments = photo.comments.filter((comment) => comment.user);
 
-    // Pass user to the template
-    res.render("readerPost", {
+    res.render('readerPost', {
       title: photo.title,
       photo,
       uploader: photo.uploader,
       comments: photo.comments,
-      user: req.user,
+      user: req.user, // Null for guests, valid user for authenticated users
     });
   } catch (err) {
-    console.error("Error fetching photo:", err.message);
-    res.status(500).send("Server Error");
+    console.error('Error fetching photo:', err.message);
+    res.status(500).send('Server Error');
   }
 });
-
 
 
 // GET Like Count

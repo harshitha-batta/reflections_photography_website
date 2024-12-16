@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const cookieParser = require('cookie-parser'); // Import cookie-parser
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const { connectDB, getGridFsBucket } = require('./db'); // Import MongoDB connection
 const authRoutes = require('./routes/auth');
