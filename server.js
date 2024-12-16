@@ -47,6 +47,9 @@ app.use((req, res, next) => {
   next();
 });
 
+// Serve static files first
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Utility to set flash messages
 
 // Middleware to make user and role available to all templates
@@ -67,7 +70,8 @@ app.use((req, res, next) => {
   next();
 });
 
-
+// // Serve static files first
+// app.use(express.static(path.join(__dirname, 'public')));
 
 // Dynamic routes
 app.use('/auth', authRoutes);
