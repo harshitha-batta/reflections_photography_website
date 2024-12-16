@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const User = require("../models/User");
 const Photo = require("../models/Photo");
+const Comment = require('../models/Comment');
 const { isAuthenticated } = require("../middlewares/roles");
 const upload = require("../config/multerGridFs"); // Your GridFS multer setup
 const mongoose = require("mongoose");
@@ -103,53 +104,31 @@ router.get("/user/:id", async (req, res) => {
 
 // POST route to add a comment
 router.post('/comments/:photoId', isAuthenticated, async (req, res) => {
-  const { text } = req.body;
-  const { photoId } = req.params;
+  const { text } = req.body; 
+  const { photoId } = req.params; 
 
   try {
     const newComment = new Comment({
       text,
-      user: req.user._id, 
+      user: req.user.id, 
+      photo: photoId, 
     });
 
     await newComment.save();
+
     const photo = await Photo.findById(photoId);
-    photo.comments.push(newComment);
+    if (!photo) {
+      return res.status(404).send('Photo not found');
+    }
+    photo.comments.push(newComment._id);
     await photo.save();
 
-    res.redirect(`/readerPost/${photoId}`); 
+    res.redirect(`/readerPost/${photoId}`);
   } catch (error) {
     console.error('Error adding comment:', error);
-    res.status(500).send('Something went wrong');
+    res.status(500).send('Something went wrong while adding the comment');
   }
 });
 
 module.exports = router;
-
-
-// router.post("/comments/:id", async (req, res) => {
-//   try {
-//     const photoId = req.params.id;
-//     const { text } = req.body; // Comment text sent from the form
-
-//     // Find the photo
-//     const photo = await Photo.findById(photoId);
-//     if (!photo) {
-//       return res.status(404).send("Photo not found");
-//     }
-
-//     // Add the new comment
-//     photo.comments.push({
-//       text: text,
-//       authorName: req.user.name, // Ensure user is authenticated and has a `name`
-//     });
-
-//     await photo.save();
-//     res.redirect(`/readerPost/${photoId}`); // Redirect back to the photo page
-//   } catch (err) {
-//     console.error("Error adding comment:", err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
-
 
