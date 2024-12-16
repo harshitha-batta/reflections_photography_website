@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 });
 
 // Initialize cookie-parser middleware
-app.use(cookieParser());
+app.use(cookieParser()); // Use cookie-parser middleware
 
 // Middleware to set and read flash messages using cookies
 app.use((req, res, next) => {
