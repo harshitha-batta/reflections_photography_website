@@ -1,163 +1,136 @@
 /* ReaderPost Page Styles */
 
-/* Styling the uploader section */
+/* General container for spacing */
+.post-container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Uploader Section */
 .uploader {
   display: flex;
   align-items: center;
-  position: absolute; /* Position it on the top-left */
-  top: 20px; /* Adjust spacing from the top */
-  left: 20px; /* Adjust spacing from the left */
-  background: white; /* Optional: white background for contrast */
-  padding: 10px;
+  margin-bottom: 20px;
+  background: #f9f9f9;
+  padding: 10px 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 10; /* Ensure it stays above other elements */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Profile photo */
-.uploader-info .profile-photo {
-  width: 50px; /* Adjust size of the profile photo */
-  height: 50px;
-  border-radius: 50%; /* Make it circular */
-  object-fit: cover; /* Ensure image fits properly */
-  margin-right: 10px; /* Space between image and details */
-}
-
-/* Uploader details */
-.uploader-info .uploader-details {
+.uploader-info {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 
-.uploader-details h2 {
-  font-size: 16px; /* Smaller font for username */
-  margin: 0;
-  color: #333; /* Dark text color */
+.profile-photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
 }
 
-.follow-button {
-  background-color: #f4f4f4; /* Light gray background */
-  border: 1px solid #ccc; /* Subtle border */
-  padding: 5px 10px;
-  font-size: 12px; /* Small font size */
-  border-radius: 4px; /* Rounded edges */
-  cursor: pointer;
-  margin-top: 5px;
-}
-
-.follow-button:hover {
-  background-color: #ddd; /* Slightly darker on hover */
+.uploader-info h2 {
+  font-size: 1.5rem;
+  color: #333;
 }
 
 /* Image Section */
 .image-section {
-  margin-top: 100px; /* Push image section down below uploader */
-  display: flex;
-  justify-content: center; /* Center align image */
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .post-image {
-  max-width: 80%; /* Ensure image scales properly */
+  max-width: 100%;
   height: auto;
-  border-radius: 10px; /* Optional: Rounded corners for the image */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
-
 
 /* Likes Section */
 .likes-section {
-  position: absolute;
-  top: 40px; 
-  right: 40px; 
-  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
 }
 
 .like-box {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  padding: 8px 12px;
+  gap: 5px;
+  padding: 10px 15px;
+  background: #fff;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  border-radius: 8px;
+  font-size: 1.1rem;
   color: #333;
-  font-weight: bold;
-  transition: background-color 0.3s, border-color 0.3s; /* Smooth hover effects */
-}
-
-.like-box:hover {
-  border: 1px solid #a9a9a9;
-  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
 .like-box i {
-  margin-right: 6px;
-  font-size: 18px;
-  color: #dc3545; 
-}
-
-.like-box span {
-  font-size: 1rem;
-}
-
-.like-count {
-  margin-left: 4px;
-  font-weight: normal;
-  color: #777;
+  color: #dc3545;
+  font-size: 1.3rem;
 }
 
 /* Comments Section */
 .comments-section {
-  margin-top: 40px;
+  background: #f9f9f9;
   padding: 20px;
-  background: #f9f9f9; /* Light gray background */
   border-radius: 8px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .comments-section h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.comments-section ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.comments-section li {
-  margin-bottom: 10px;
-  font-size: 14px;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
   color: #333;
 }
 
-.comments-section li strong {
-  color: #000; /* Bold black for author name */
+.comments-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.comment-item {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.comment-item strong {
+  color: #333;
 }
 
 .comments-section textarea {
   width: 100%;
   padding: 10px;
-  font-size: 14px;
+  font-size: 1rem;
   margin-bottom: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
   resize: none;
 }
 
 .comments-section button {
-  background-color: #007bff; /* Blue button for posting comments */
+  display: inline-block;
+  background-color: #62445E;
   color: white;
   border: none;
-  padding: 8px 12px;
-  font-size: 14px;
-  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .comments-section button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #50364b;
 }
