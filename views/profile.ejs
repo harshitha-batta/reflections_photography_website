@@ -69,7 +69,7 @@
               </a>
               <p class="photo-title"><%= photo.title %></p>
               <p class="photo-description"><strong>Description: </strong><%= photo.description || 'No description provided.' %></p>
-              <p class="photo-category"><strong>Category:</strong> <%= photo.category.name %></p>
+              <p class="photo-category"><strong>Category:</strong> <%= photo.category %></p>
 
               <!-- Photo Actions: Visible Only for Session User -->
               <% if (locals.user && locals.user.id === user._id.toString()) { %>
@@ -127,9 +127,10 @@
         <textarea id="edit-description" name="description"></textarea>
         <label for="edit-category">Category</label>
         <select id="edit-category" name="category">
-          <% categories.forEach(category => { %>
-            <option value="<%= category._id %>"><%= category.name %></option>
-          <% }) %>
+          <option value="Landscapes">Landscapes</option>
+          <option value="Portraits">Portraits</option>
+          <option value="Abstract">Abstract</option>
+          <option value="Other">Other</option>
         </select>
         <label for="edit-photo">Change Photo</label>
         <input type="file" id="edit-photo" name="photo">
@@ -150,9 +151,10 @@
         <textarea id="description" name="description" rows="2"></textarea>
         <label for="category">Category</label>
         <select id="category" name="category">
-          <% categories.forEach(category => { %>
-            <option value="<%= category._id %>"><%= category.name %></option>
-          <% }) %>
+          <option value="Landscapes">Landscapes</option>
+          <option value="Portraits">Portraits</option>
+          <option value="Abstract">Abstract</option>
+          <option value="Other">Other</option>
         </select>
         <label for="photo">Photo</label>
         <input type="file" id="photo" name="photo" required>
@@ -163,8 +165,6 @@
       </form>
     </div>
   </div>
-
-
 
   <!-- JavaScript -->
   <script>
@@ -181,7 +181,7 @@
       document.getElementById('edit-description').value = description || '';
       document.getElementById('edit-category').value = category || 'Other';
       const form = document.getElementById('edit-photo-form');
-      form.action = `/profile/photo/${photoId}?_method=PATCH`;
+      form.action = /profile/photo/${photoId}?_method=PATCH;
     }
     function closeEditModal() {
       document.getElementById('edit-photo-modal').classList.add('hidden');
@@ -195,3 +195,4 @@
   </script>
 </body>
 </html>
+
