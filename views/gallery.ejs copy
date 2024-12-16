@@ -16,33 +16,71 @@
 
   <!-- Main Content -->
   <main>
-
     <!-- Hero Section -->
     <section class="hero">
       <h1>Discover the Beauty of Reflections</h1>
       <div class="hero-dropdown">
-      <select class="explore-dropdown" id="explore-dropdown" name="explore-dropdown">
-        <option value="" disabled selected>Explore</option>
-        <% categories.forEach(category => { %>
-      <option value="<%= category._id %>"><%= category.name %></option>
-    <% }) %>
-  </select>
-  <label for="explore-dropdown">Breathtaking photos and unleash your creativity.</label>
-</div>
+       
+        <select class="explore-dropdown" id="explore-dropdown" name="explore-dropdown">
+          <option value="" disabled selected>Explore</option>
+          <option value="trees" style"color: yellow">Trees</option>
+          <option value="blur">Blur</option>
+          <option value="beautiful">Beautiful</option>
+          <option value="love">Love</option>
+          <option value="daylight">Daylight</option>
+          <option value="wood">Wood</option>
+          <option value="leaf">Leaf</option>
+          <option value="flower">Flower</option>
+          <option value="fall">Fall</option>
+          <option value="city">City</option>
+          <option value="beach">Beach</option>
+          <option value="rain">Rain</option>
+          <option value="autumn">Autumn</option>
+          <option value="mountains">Mountains</option>
+          <option value="nature">Nature</option>
+          <option value="desert">Desert</option>
+          <option value="winter">Winter</option>
+          <option value="travel">Travel</option>
+          <option value="summer">Summer</option>
+          <option value="hd-wallpapers">HD Wallpapers</option>
+          <option value="forest">Forest</option>
+          <option value="spring">Spring</option>
+        </select>
+         <label for="explore-dropdown"> breathtaking photos and unleash your creativity.</label>
+      </div>
+    </section>
 
-    <!-- Categories Section -->
     <!-- Categories Section -->
     <section class="categories">
       <h2>Featured Collections</h2>
       <div class="category-container">
         <button class="scroll-left" aria-label="Scroll Left">&larr;</button>
         <div class="category-buttons">
-          <% categories.forEach(category => { %>
-            <button onclick="window.location.href='/category/<%= category._id %>'"><%= category.name %></button>
-          <% }) %>
+          <button>Trees</button>
+          <button>Blur</button>
+          <button>Beautiful</button>
+          <button>Love</button>
+          <button>Daylight</button>
+          <button>Wood</button>
+          <button>Leaf</button>
+          <button>Flower</button>
+          <button>Fall</button>
+          <button>City</button>
+          <button>Beach</button>
+          <button>Rain</button>
+          <button>Autumn</button>
+          <button>Mountains</button>
+          <button>Nature</button>
+          <button>Desert</button>
+          <button>Winter</button>
+          <button>Travel</button>
+          <button>Summer</button>
+          <button>HD Wallpapers</button>
+          <button>Forest</button>
+          <button>Spring</button>
         </div>
         <button class="scroll-right" aria-label="Scroll Right">&rarr;</button>
-      </div>
+      </div>a
     </section>
 
     <!-- Dynamic Featured Collections Section -->

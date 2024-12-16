@@ -14,6 +14,26 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Route to display photos by category
+router.get("/category/:categoryId", async (req, res) => {
+  try {
+    const categoryId = req.params.categoryId;
+    const categories = await Category.find(); // Fetch all categories for the dropdown
+    const photos = await Photo.find({ category: categoryId }).populate(
+      "category"
+    ); // Fetch photos for the selected category
+
+    res.render("gallery", {
+      title: "Gallery - Filtered by Category",
+      photos,
+      categories, // Pass categories to the template for the dropdown
+    });
+  } catch (err) {
+    console.error("Error fetching category photos:", err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;
 
 
