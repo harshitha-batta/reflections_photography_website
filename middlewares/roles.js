@@ -21,8 +21,10 @@ async function isAuthenticated(req, res, next) {
       return res.redirect('/auth/login');
     }
 
-    // Attach user to the request
+    // Attach user to the request and ensure _id is an ObjectId
     req.user = user;
+    req.user._id = user._id.toString(); // Ensure _id is a string for comparison
+
     next();
   } catch (err) {
     console.error('JWT verification error:', err.message);
@@ -35,7 +37,6 @@ async function isAuthenticated(req, res, next) {
     res.redirect('/auth/login');
   }
 }
-
 // Middleware to verify if the user is an admin
 function isAdmin(req, res, next) {
   if (req.user && req.user.role === 'admin') {

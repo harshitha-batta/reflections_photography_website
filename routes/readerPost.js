@@ -15,7 +15,7 @@ mongoose.connection.once("open", () => {
   });
 });
 // Route to display photo details, including uploader and comments
-router.get("/readerPost/:id", async (req, res) => {
+router.get("/readerPost/:id", isAuthenticated, async (req, res) => {
   try {
     const photoId = req.params.id;
 
@@ -24,7 +24,7 @@ router.get("/readerPost/:id", async (req, res) => {
       return res.status(400).send("Invalid Photo ID");
     }
 
-    // Find the photo, populate uploader and comments with their users
+    // Find the photo, populate uploader and comments
     const photo = await Photo.findById(photoId)
       .populate("uploader", "name profilePhoto")
       .populate({
@@ -36,20 +36,23 @@ router.get("/readerPost/:id", async (req, res) => {
       return res.status(404).send("Photo not found");
     }
 
-    // Filter comments to remove any with missing user references
+    // Filter out invalid comments
     photo.comments = photo.comments.filter((comment) => comment.user);
 
+    // Pass user to the template
     res.render("readerPost", {
       title: photo.title,
       photo,
       uploader: photo.uploader,
       comments: photo.comments,
+      user: req.user,
     });
   } catch (err) {
     console.error("Error fetching photo:", err.message);
     res.status(500).send("Server Error");
   }
 });
+
 
 
 // GET Like Count

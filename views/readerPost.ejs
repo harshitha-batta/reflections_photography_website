@@ -54,25 +54,31 @@
 
       <!-- Display Comments -->
       <ul class="comments-list">
-  <% photo.comments.forEach(comment => { %>
-    <li class="comment-item">
-      <strong>
-        <%= comment.user ? comment.user.name : 'Unknown User' %>
-      </strong>: 
-      <%= comment.text %>
+<% console.log('Logged-in user:', user); %>
+<% photo.comments.forEach(comment => { %>
+  <li class="comment-item">
+    <strong>
+      <%= comment.user ? comment.user.name : 'Unknown User' %>
+    </strong>: 
+    <%= comment.text %>
 
-      <!-- Show Delete Button for Comment Owner -->
-      <% if (user && comment.user && comment.user._id && user._id && comment.user._id.toString() === user._id.toString()) { %>
-        <form 
-          method="POST" 
-          action="/comments/<%= comment._id %>?_method=DELETE" 
-          style="display: inline;"
-        >
-          <button type="submit" class="delete-comment-btn">Delete</button>
-        </form>
-      <% } %>
-    </li>
-  <% }) %>
+    <!-- Debug comment.user._id and user._id -->
+    <% console.log('Comment user ID:', comment.user && comment.user._id); %>
+    <% console.log('Logged-in user ID:', user && user._id); %>
+
+    <!-- Show Delete Button for Comment Owner -->
+    <% if (user && comment.user && comment.user._id && user._id && comment.user._id.toString() === user._id.toString()) { %>
+      <form 
+        method="POST" 
+        action="/comments/<%= comment._id %>?_method=DELETE" 
+        style="display: inline;"
+      >
+        <button type="submit" class="delete-comment-btn">Delete</button>
+      </form>
+    <% } %>
+  </li>
+<% }) %>
+
 </ul>
 
       <!-- Add Comment Form -->
