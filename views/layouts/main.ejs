@@ -36,13 +36,13 @@
       </li>
 
       <!-- Authentication Links -->
-      <% if (typeof user === 'undefined' || user === null) { %>
-  <li><a href="/auth/login">Login</a></li>
-  <li><a href="/auth/register">Register</a></li>
-<% } else { %>
-  <li><a href="/auth/profile">Profile</a></li>
-  <li><a href="/auth/logout">Logout</a></li>
-<% } %>
+      <% if (user && user._id) { %>
+        <li><a href="/auth/profile">Profile</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+      <% } else { %>
+        <li><a href="/auth/login">Login</a></li>
+        <li><a href="/auth/register">Register</a></li>
+      <% } %>
 
 
 
