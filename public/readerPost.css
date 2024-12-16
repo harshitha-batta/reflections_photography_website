@@ -1,24 +1,30 @@
 /* ReaderPost Page Styles */
+body {
+  font-family: "Montez", cursive;
+}
 
 /* General container for spacing */
 .post-container {
   max-width: 1000px;
-  margin: 20px auto;
-  padding: 20px;
+  margin: 0 auto; /* Center the container */
+  padding: 20px; 
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding-top:140px;
 }
+
 
 /* Uploader Section */
 .uploader {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
-  background: #f9f9f9;
+  justify-content: flex-start;
+  background: white;
   padding: 10px 20px;
+  margin-bottom: 20px; /* Adds spacing below */
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .uploader-info {
@@ -42,9 +48,10 @@
 
 /* Image Section */
 .image-section {
+  margin-top: 20px; /* Add spacing below the uploader */
   text-align: center;
-  margin-bottom: 20px;
 }
+
 
 .post-image {
   max-width: 100%;
