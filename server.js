@@ -9,7 +9,7 @@ const profileRoutes = require('./routes/profile');
 const galleryRoutes = require('./routes/gallery');
 const readerPostRoutes = require('./routes/readerPost'); //Posted image route
 const adminRoutes = require('./routes/admin');
-const { isAuthenticated, isAdmin } = require('./middlewares/roles');
+const { attachUser, isAuthenticated, isAdmin } = require('./middlewares/roles');
 const { setFlashMessage } = require('./utils/flash');
 const app = express();
 const methodOverride = require('method-override');
@@ -23,9 +23,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(methodOverride('_method'));
+
 // MongoDB Connection
 connectDB(); // Establish MongoDB connection
-
+app.use(attachUser);
 // Attach GridFSBucket to the request object
 app.use((req, res, next) => {
   req.gridfsBucket = getGridFsBucket();
@@ -49,7 +50,10 @@ app.use((req, res, next) => {
 
 // Serve static files first
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use((req, res, next) => {
+  res.locals.user = req.user; // Pass `user` to all templates
+  next();
+});
 // Utility to set flash messages
 
 // Middleware to make user and role available to all templates
@@ -91,6 +95,7 @@ app.use((req, res) => {
 app.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
   res.render('admin/dashboard', { title: 'Admin Dashboard', user: req.user });
 });
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {

@@ -4,10 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Navbar</title>
-  <link rel="stylesheet" href="navbar.css"> <!-- Link to the CSS file -->
-
-<link href="https://fonts.googleapis.com/css2?family=Montez&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montez&family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/navbar.css"> <!-- Corrected path to CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Montez&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montez&family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Navbar -->
@@ -15,33 +14,39 @@
     <div class="logo">
       <a href="/">Reflections</a>
     </div>
-<ul class="nav-links">
-  <li><a href="/">Home</a></li>
-  <li class="dropdown">
-    <a href="#" class="dropbtn">
-      Explore <span class="dropdown-icon" style="display: inline;">▼</span>
-    </a>
-    <ul class="dropdown-menu">
-      <li><a href="#">Forest</a></li>
-      <li><a href="#">Tree</a></li>
-      <li><a href="#">Travel</a></li>
-      <li><a href="#">Dark</a></li>
-      <li><a href="#">Natural</a></li>
-      <li><a href="#">Summer</a></li>
-      <li><a href="#">HD Wallpapers</a></li>
-      <li><a href="#">Beach</a></li>
-      <li><a href="#">River</a></li>
-      <li><a href="#">Spring</a></li>
+
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropbtn">
+          Explore <span class="dropdown-icon">▼</span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Forest</a></li>
+          <li><a href="#">Tree</a></li>
+          <li><a href="#">Travel</a></li>
+          <li><a href="#">Dark</a></li>
+          <li><a href="#">Natural</a></li>
+          <li><a href="#">Summer</a></li>
+          <li><a href="#">HD Wallpapers</a></li>
+          <li><a href="#">Beach</a></li>
+          <li><a href="#">River</a></li>
+          <li><a href="#">Spring</a></li>
+        </ul>
+      </li>
+
+      <!-- Authentication Links -->
+<% if (user == null) { %> <!-- Check explicitly for null or undefined -->
+  <!-- Links for guests -->
+  <li><a href="/auth/login">Login</a></li>
+  <li><a href="/auth/register">Register</a></li>
+<% } else { %>
+  <!-- Links for logged-in users -->
+  <li><a href="/profile">Profile</a></li>
+  <li><a href="/auth/logout">Logout</a></li>
+<% } %>
+
     </ul>
-      <% if (!user) { %> <!-- Global `user` object is now available -->
-    <li><a href="/auth/login">Login</a></li>
-    <li><a href="/auth/register">Register</a></li>
-  <% } else { %>
-    <li><a href="/auth/profile">Profile</a></li>
-    <li><a href="/auth/logout">Logout</a></li>
-  <% } %>
-  </li>
-</ul>
 
     <div class="hamburger">
       <span></span>
@@ -49,6 +54,8 @@
       <span></span>
     </div>
   </nav>
+
+  <!-- JavaScript -->
   <script>
     // Toggle navigation links for mobile view
     const hamburger = document.querySelector('.hamburger');
@@ -56,6 +63,7 @@
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('active');
     });
+      console.log("User in template:", <%= JSON.stringify(user) %>);
   </script>
 </body>
 </html>
