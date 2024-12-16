@@ -13,7 +13,7 @@ const { isAuthenticated, isAdmin } = require('./middlewares/roles');
 const { setFlashMessage } = require('./utils/flash');
 const app = express();
 const methodOverride = require('method-override');
-const addCommentRoute = require('./routes/addComments');
+const addCommentsRoutes = require('./routes/addComments');
 
 
 // Middleware for parsing JSON and forms
@@ -76,7 +76,7 @@ app.use('/profile', profileRoutes);
 app.use('/', galleryRoutes);
 app.use('/', readerPostRoutes); // Dynamic photo routes
 app.use('/admin', adminRoutes);
-app.use('/', addCommentRoute);
+app.use('/addComments', addCommentsRoutes);
 
 // Catch-all for unmatched routes
 app.use((req, res) => {

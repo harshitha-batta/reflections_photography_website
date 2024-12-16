@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Photo = require('../models/Photo');
-const isAuthenticated = require('../middleware/isAuthenticated'); // Middleware for auth
+const isAuthenticated = require('../middlewares/isAuthenticated'); // Middleware for auth
 
 // POST: Add a new comment
 router.post('/comments/:photoId', isAuthenticated, async (req, res) => {
@@ -36,3 +36,4 @@ router.post('/comments/:photoId', isAuthenticated, async (req, res) => {
   }
 });
 
+module.exports = router;
