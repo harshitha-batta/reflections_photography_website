@@ -67,8 +67,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static files first
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Dynamic routes
 app.use('/auth', authRoutes);

@@ -69,7 +69,7 @@
               </a>
               <p class="photo-title"><%= photo.title %></p>
               <p class="photo-description"><strong>Description: </strong><%= photo.description || 'No description provided.' %></p>
-              <p class="photo-category"><strong>Category:</strong> <%= photo.category %></p>
+              <p class="photo-category"><strong>Category:</strong> <%= photo.category.name %></p>
 
               <!-- Photo Actions: Visible Only for Session User -->
               <% if (locals.user && locals.user.id === user._id.toString()) { %>
