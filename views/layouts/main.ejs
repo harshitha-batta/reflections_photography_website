@@ -36,15 +36,15 @@
       </li>
 
       <!-- Authentication Links -->
-<% if (user == null) { %> <!-- Check explicitly for null or undefined -->
-  <!-- Links for guests -->
+      <% if (typeof user === 'undefined' || user === null) { %>
   <li><a href="/auth/login">Login</a></li>
   <li><a href="/auth/register">Register</a></li>
 <% } else { %>
-  <!-- Links for logged-in users -->
-  <li><a href="/profile">Profile</a></li>
+  <li><a href="/auth/profile">Profile</a></li>
   <li><a href="/auth/logout">Logout</a></li>
 <% } %>
+
+
 
     </ul>
 
@@ -58,12 +58,13 @@
   <!-- JavaScript -->
   <script>
     // Toggle navigation links for mobile view
+    console.log("User in template:", <%= JSON.stringify(user) %>);
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('active');
     });
-      console.log("User in template:", <%= JSON.stringify(user) %>);
+    
   </script>
 </body>
 </html>

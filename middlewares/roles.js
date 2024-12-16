@@ -4,29 +4,40 @@ const { setFlashMessage } = require('../utils/flash');
 
 // Middleware to attach user if token exists (optional authentication)
 async function attachUser(req, res, next) {
+  console.log("Checking for JWT token..."); // Debug log
   const token = req.cookies.jwt;
-  
+  console.log("User being passed to EJS:", req.user || "No user found");
   if (!token) {
     console.log("No JWT token found. User is a guest.");
-    req.user = null; // Explicitly set user to null for guests
+    req.user = null;
+    res.locals.user = null; // Pass null user to templates
     return next();
   }
-    console.log("User passed to templates:", req.user);
 
   try {
     // Verify and decode the token
+    console.log("Token found. Verifying...");
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
     const user = await User.findById(decoded.id);
 
-    req.user = user || null; // Attach user or null if not found
-    console.log("Logged-in user:", req.user);
+    if (user) {
+      console.log("Logged-in user:", user.name);
+      req.user = user;
+      res.locals.user = user; // Pass the user to templates
+    } else {
+      console.log("No user found for token.");
+      req.user = null;
+      res.locals.user = null;
+    }
   } catch (err) {
     console.error("JWT verification error:", err.message);
-    req.user = null; // Treat errors as unauthenticated
+    req.user = null;
+    res.locals.user = null;
   }
 
   next();
 }
+
 
 
 // Middleware to enforce authentication

@@ -26,7 +26,7 @@ app.use(methodOverride('_method'));
 
 // MongoDB Connection
 connectDB(); // Establish MongoDB connection
-app.use(attachUser);
+
 // Attach GridFSBucket to the request object
 app.use((req, res, next) => {
   req.gridfsBucket = getGridFsBucket();
@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 
 // Initialize cookie-parser middleware
 app.use(cookieParser()); // Use cookie-parser middleware
-
+app.use(attachUser);
 // Middleware to set and read flash messages using cookies
 app.use((req, res, next) => {
   res.locals.successMessage = req.cookies.successMessage || null;
