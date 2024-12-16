@@ -4,81 +4,75 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reflections</title>
-  <link rel="stylesheet" href="/navbar.css"> <!-- Navbar styles -->
-  <link rel="stylesheet" href="/gallery.css"> <!-- Home Page styles -->
+  
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="/navbar.css">
+  <link rel="stylesheet" href="/gallery.css">
+  
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montez&family=Pacifico&family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
+  
   <!-- Navbar -->
   <%- include('layouts/main') %>
 
   <!-- Main Content -->
   <main>
-
     <!-- Hero Section -->
     <section class="hero">
       <h1>Discover the Beauty of Reflections</h1>
       <div class="hero-dropdown">
-      <select class="explore-dropdown" id="explore-dropdown" name="explore-dropdown">
-        <option value="" disabled selected>Explore</option>
-        <% categories.forEach(category => { %>
-      <option value="<%= category._id %>"><%= category.name %></option>
-    <% }) %>
-  </select>
-  <label for="explore-dropdown">Breathtaking photos and unleash your creativity.</label>
-</div>
+        <select class="explore-dropdown" id="explore-dropdown" name="explore-dropdown">
+          <option value="" disabled selected>Explore</option>
+          <% categories.forEach(category => { %>
+            <option value="<%= category._id %>"><%= category.name %></option>
+          <% }) %>
+        </select>
+        <label for="explore-dropdown">Breathtaking photos and unleash your creativity.</label>
+      </div>
+    </section>
 
     <!-- Categories Section -->
     <section class="categories">
       <h2>Featured Collections</h2>
       <div class="category-container">
+        <!-- Scroll Buttons -->
         <button class="scroll-left" aria-label="Scroll Left">&larr;</button>
+        
+        <!-- Category Buttons -->
         <div class="category-buttons">
           <% categories.forEach(category => { %>
-            <button onclick="window.location.href='/category/<%= category._id %>'"><%= category.name %></button>
+            <button onclick="window.location.href='/category/<%= category._id %>'">
+              <%= category.name %>
+            </button>
           <% }) %>
         </div>
+        
         <button class="scroll-right" aria-label="Scroll Right">&rarr;</button>
       </div>
     </section>
 
     <!-- Dynamic Featured Collections Section -->
-<section class="featured">
-<!--   <h2>Featured Collections</h2> -->
-  <div class="gallery">
-    <% photos.forEach(photo => { %>
-      <div class="gallery-item">
-        <a href="/readerPost/<%= photo._id %>">
-          <!-- Check if the imagePath is a URL or a local file -->
-          <img 
-            src="<%= photo.imagePath.startsWith('http') ? photo.imagePath : '/profile/photo/' + encodeURIComponent(photo.imagePath) %>" 
-            alt="<%= photo.category %>">
-        </a>
-        <!-- Uncomment these lines if additional photo details are needed -->
-        <!-- <h3><%= photo.title %></h3>
-        <p><%= photo.description %></p>
-        <p>Category: <%= photo.category %></p>
-        <p>Likes: <%= photo.likes.length %></p> -->
-      </div>
-    <% }) %>
-  </div>
-</section>
-
-
-    <!-- Static Featured Collections Section -->
-<!--     <section class="featured">
-      <h2>Featured Collections</h2>
+    <section class="featured">
       <div class="gallery">
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/220051/pexels-photo-220051.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/221166/pexels-photo-221166.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/3734845/pexels-photo-3734845.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/2471458/pexels-photo-2471458.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
+        <% photos.forEach(photo => { %>
+          <div class="gallery-item">
+            <a href="/readerPost/<%= photo._id %>">
+              <img 
+                src="<%= photo.imagePath.startsWith('http') ? photo.imagePath : '/profile/photo/' + encodeURIComponent(photo.imagePath) %>" 
+                alt="<%= photo.category %>"
+              >
+            </a>
+          </div>
+        <% }) %>
       </div>
     </section>
-  </main> -->
+  </main>
 
+  <!-- JavaScript -->
   <script>
     // Scroll Functionality for Categories Section
     const categoryContainer = document.querySelector('.category-buttons');
@@ -116,6 +110,5 @@
       }
     });
   </script>
-      
 </body>
 </html>

@@ -5,18 +5,13 @@ body {
   font-family: "Montez", cursive;
 }
 
+
 /* Hero Section */
 .hero {
   text-align: center;
-  background: url('https://images.pexels.com/photos/772520/pexels-photo-772520.jpeg?auto=compress&cs=tinysrgb&w=800') 
-              no-repeat center center / cover;
-  height: 400px; /* Set a fixed height to make it a banner */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  background: url('https://images.pexels.com/photos/772520/pexels-photo-772520.jpeg?auto=compress&cs=tinysrgb&w=800') no-repeat center center/cover;
+  padding: 300px 20px;
   color: white;
-  position: relative;
 }
 
 .hero h1 {
