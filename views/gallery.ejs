@@ -4,18 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reflections</title>
-  
-  <!-- External Stylesheets -->
-  <link rel="stylesheet" href="/navbar.css">
-  <link rel="stylesheet" href="/gallery.css">
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/navbar.css"> <!-- Navbar styles -->
+  <link rel="stylesheet" href="/gallery.css"> <!-- Home Page styles -->
+  <link rel="stylesheet" href="/footer.css"> <!-- Home Page styles -->
   <link href="https://fonts.googleapis.com/css2?family=Montez&family=Pacifico&family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
-  
   <!-- Navbar -->
   <%- include('layouts/main') %>
 
@@ -25,13 +19,33 @@
     <section class="hero">
       <h1>Discover the Beauty of Reflections</h1>
       <div class="hero-dropdown">
+       
         <select class="explore-dropdown" id="explore-dropdown" name="explore-dropdown">
           <option value="" disabled selected>Explore</option>
-          <% categories.forEach(category => { %>
-            <option value="<%= category._id %>"><%= category.name %></option>
-          <% }) %>
+          <option value="trees" style"color: yellow">Trees</option>
+          <option value="blur">Blur</option>
+          <option value="beautiful">Beautiful</option>
+          <option value="love">Love</option>
+          <option value="daylight">Daylight</option>
+          <option value="wood">Wood</option>
+          <option value="leaf">Leaf</option>
+          <option value="flower">Flower</option>
+          <option value="fall">Fall</option>
+          <option value="city">City</option>
+          <option value="beach">Beach</option>
+          <option value="rain">Rain</option>
+          <option value="autumn">Autumn</option>
+          <option value="mountains">Mountains</option>
+          <option value="nature">Nature</option>
+          <option value="desert">Desert</option>
+          <option value="winter">Winter</option>
+          <option value="travel">Travel</option>
+          <option value="summer">Summer</option>
+          <option value="hd-wallpapers">HD Wallpapers</option>
+          <option value="forest">Forest</option>
+          <option value="spring">Spring</option>
         </select>
-        <label for="explore-dropdown">Breathtaking photos and unleash your creativity.</label>
+         <label for="explore-dropdown"> breathtaking photos and unleash your creativity.</label>
       </div>
     </section>
 
@@ -67,7 +81,6 @@
         <button class="scroll-right" aria-label="Scroll Right">&rarr;</button>
       </div>
     </section>
-          
 
     <!-- Dynamic Featured Collections Section -->
     <section class="featured">
@@ -84,23 +97,29 @@
         <% }) %>
       </div>
     </section>
+
   </main>
 
-  <!-- JavaScript -->
   <script>
     // Scroll Functionality for Categories Section
     const categoryContainer = document.querySelector('.category-buttons');
     const scrollLeftButton = document.querySelector('.scroll-left');
     const scrollRightButton = document.querySelector('.scroll-right');
 
-    function updateScrollButtons() {
-      const scrollLeft = categoryContainer.scrollLeft;
-      const scrollWidth = categoryContainer.scrollWidth;
-      const clientWidth = categoryContainer.clientWidth;
+function updateScrollButtons() {
+  const scrollLeft = categoryContainer.scrollLeft;
+  const scrollWidth = categoryContainer.scrollWidth;
+  const clientWidth = categoryContainer.clientWidth;
 
-      scrollLeftButton.style.display = scrollLeft > 0 ? 'block' : 'none';
-      scrollRightButton.style.display = scrollLeft + clientWidth < scrollWidth ? 'block' : 'none';
-    }
+  console.log("Scroll Left:", scrollLeft);
+  console.log("Scroll Width:", scrollWidth);
+  console.log("Client Width:", clientWidth);
+
+  scrollLeftButton.style.display = scrollLeft > 0 ? "block" : "none";
+  scrollRightButton.style.display =
+    scrollLeft + clientWidth < scrollWidth ? "block" : "none";
+}
+
 
     categoryContainer.addEventListener('scroll', updateScrollButtons);
     window.addEventListener('resize', updateScrollButtons);
@@ -120,9 +139,10 @@
     dropdown.addEventListener('change', (event) => {
       const selectedValue = event.target.value;
       if (selectedValue) {
-        window.location.href = /category/${selectedValue};
+        window.location.href = `/category/${selectedValue}`;
       }
     });
   </script>
+             <%- include('layouts/footer') %>
 </body>
 </html>

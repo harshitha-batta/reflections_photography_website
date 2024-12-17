@@ -9,13 +9,13 @@ body {
 .hero {
   text-align: center;
   background: url('https://images.pexels.com/photos/772520/pexels-photo-772520.jpeg?auto=compress&cs=tinysrgb&w=800') no-repeat center center/cover;
-  padding: 300px 20px;
+  padding: 250px 20px;
   color: white;
 }
 
 .hero h1 {
   font-size: 5em;
-  font-weight: bold;
+    font-family: "Montez", cursive;
 }
 
 .hero-dropdown {
@@ -61,13 +61,13 @@ body {
 
 .hero-dropdown label {
   font-family: "Montez", cursive;
-  font-size: 1.4em;
+  font-size: 1.2em;
   margin-right: 10px;
   color: #E0D2DE; /* Ensure contrast */
 }
 #explore-dropdown {
   padding: 10px 20px;
-  font-size: 1em;
+  font-size: 0.7em;
   border: 1px solid #62445E;
   border-radius: 10px; /* Rounded corners for a softer look */
   background-color: #E0D2DE; /* Default background color */
@@ -108,8 +108,8 @@ body {
 }
 
 .categories h2 {
-  font-size: 4em;
-
+  font-size: 3em;
+    font-family: "Montez", cursive;
   margin-bottom: 20px;
   text-align: center;
   font-weight: lighter;
@@ -143,7 +143,7 @@ body {
   padding: 12px 30px;
   border: 1px solid #62445E;
   background-color: white;
-  font-size: 1.1em;
+  font-size: 0.9em;
   font-family: "Lora", serif;
   cursor: pointer;
   border-radius: 10px;
