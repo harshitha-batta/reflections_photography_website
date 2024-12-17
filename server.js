@@ -97,9 +97,9 @@ app.get('/about', (req, res) => {
 });
 
 
-app.get('/gallery', (req, res) => {
-    res.render('gallery'); // Assuming 'gallery.ejs' is your template file
-});
+// app.get('/gallery', (req, res) => {
+//     res.render('gallery'); 
+// });
 
 // Catch-all for unmatched routes
 app.use((req, res) => {
