@@ -7,6 +7,7 @@ const { attachUser, isAuthenticated } = require("../middlewares/roles");
 const upload = require("../config/multerGridFs"); // Your GridFS multer setup
 const mongoose = require("mongoose");
 let gridfsBucket;
+const Category = require('../models/Category'); // Add this line
 const router = express.Router();
 // Initialize GridFSBucket after MongoDB connection
 mongoose.connection.once("open", () => {
@@ -121,6 +122,8 @@ router.get("/user/:id", async (req, res) => {
     }
 
     const photos = await Photo.find({ uploader: userId });
+    const categories = await Category.find({}); // Fetch categories
+
     console.log(
       "Photos for user:",
       photos.map((photo) => photo.imagePath)
@@ -136,12 +139,14 @@ router.get("/user/:id", async (req, res) => {
       title: `${user.name}'s Profile`,
       user: { ...user, profilePhoto: profilePhotoUrl },
       photos,
+      categories, // Pass categories to the template
     });
   } catch (err) {
     console.error("Error fetching user profile:", err.message);
     res.status(500).send("Server Error");
   }
 });
+
 
 
 // Add a comment to a photo

@@ -244,12 +244,14 @@ router.get('/profile', isAuthenticated, async (req, res) => {
     }
 
     const photos = await Photo.find({ uploader: user._id });
-
-    res.render('profile', {
-      title: 'Your Profile',
-      user,
-      photos,
+    const categories=await Comment.find({ uploader: user._id });
+    res.render("profile", {
+      title: "Your Profile",
+      user: req.user, // Assuming this is the logged-in user
+      photos,     // This could be pre-fetched user photos
+      categories, // Fix: Add an empty array or fetch categories dynamically
     });
+
   } catch (err) {
     console.error('Error fetching photos:', err.message);
     setFlashMessage(res, 'error', 'Unable to fetch profile details.');
