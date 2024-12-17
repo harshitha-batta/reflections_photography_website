@@ -65,8 +65,9 @@
   background-color: #fff; /* White background */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  overflow: hidden;
-  z-index: 1000;
+  max-height: 100px; /* Limit height to enable scrolling */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  z-index: 1000; /* Ensure dropdown appears above other elements */
 }
 
 .dropdown-menu li {
