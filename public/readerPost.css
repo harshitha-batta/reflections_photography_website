@@ -7,11 +7,12 @@ body {
 .post-container {
   max-width: 1000px;
   margin: 0 auto; /* Center the container */
-  padding: 20px; 
+  padding: 30px; 
   background: #fff;
   border-radius: 10px;
+  margin-bottom:50px;
+  margin-top: 120px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding-top:140px;
   background-color: rgba(98, 68, 94, 0.2);
 }
 
@@ -45,8 +46,10 @@ body {
 .uploader-info h2 {
   font-size: 2.2rem;
   color: #333;
-    font-family: "Montez", cursive;
+  font-family: "Montez", cursive;
+  text-decoration: none !important; /* Remove underline */
 }
+
 
 /* Image Section */
 .image-section {
