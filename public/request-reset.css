@@ -1,0 +1,108 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Layout */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full viewport height */
+  font-family: 'Lora', serif;
+  background-color: rgba(245, 235, 224, 0.8);
+}
+
+/* Container for Centered Form */
+.container {
+  margin: auto; /* Center vertically and horizontally */
+  text-align: center;
+  margin-top: 120px;
+  background-color: rgba(170, 136, 81, 0.2);
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 400px;
+}
+
+/* Form Styling */
+h1 {
+  font-family: 'Montez', cursive;
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #aa8851;
+}
+
+label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: 'Lora', serif;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #aa8851;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+    font-family: 'Lora', serif;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #50364B;
+}
+
+/* Error Message */
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+/* Back Link */
+.back-link {
+  display: block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: #aa8851;
+   style=""
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* Footer Styling */
+footer {
+  background-color: #AA8851;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto; /* Pushes footer to bottom */
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
