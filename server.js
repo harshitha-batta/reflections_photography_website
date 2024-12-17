@@ -35,6 +35,10 @@ app.use((req, res, next) => {
   req.gridfsBucket = getGridFsBucket();
   next();
 });
+app.use((req, res, next) => {
+  res.locals.flash = res.locals.flash || {}; // Ensure flash is always defined
+  next();
+});
 
 // Initialize cookie-parser middleware
 app.use(cookieParser()); // Use cookie-parser middleware
@@ -120,6 +124,7 @@ app.use((err, req, res, next) => {
   console.error('Error occurred:', err.stack);
   res.status(500).send('Something went wrong!');
 });
+
 
 
 // Cleanup expired reset tokens every hour
