@@ -129,12 +129,11 @@ router.get("/user/:id", async (req, res) => {
       photos.map((photo) => photo.imagePath)
     ); // Debug log
 
-    const profilePhotoUrl = user.profilePhoto
-      ? user.profilePhoto.startsWith("http")
-        ? user.profilePhoto
-        : `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}`
-      : "/default-profile.png";
-
+const profilePhotoUrl = user.profilePhoto
+  ? user.profilePhoto.startsWith("http")
+    ? user.profilePhoto
+    : `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}`: "/default-profile.png";
+    console.log("pp url", profilePhotoUrl)
     res.render("profile", {
       title: `${user.name}'s Profile`,
       user: { ...user, profilePhoto: profilePhotoUrl },

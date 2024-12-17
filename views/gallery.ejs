@@ -54,16 +54,16 @@
   <div class="hero-dropdown">
     <!-- Dynamic Dropdown for Categories -->
     <select class="explore-dropdown" id="explore-dropdown" name="explore-dropdown">
-      <option value="" disabled selected>Explore</option>
-      <option value="/">All Photos</option> <!-- Option to show all photos -->
+      <option value="all" selected>All Photos</option> <!-- Option to show all photos -->
       <% categories.forEach(category => { %>
-        <option value="/category/<%= category.name.toLowerCase() %>">
+        <option value="<%= category.name.toLowerCase() %>">
           <%= category.name %>
         </option>
       <% }) %>
     </select>
-    <label for="explore-dropdown"> Browse breathtaking photos and unleash your creativity.</label>
+    <label for="explore-dropdown">Browse breathtaking photos and unleash your creativity.</label>
   </div>
+      <p id="current-filter" class="current-filter-text">Showing: All Photos</p>
 </section>
 
 
@@ -99,22 +99,6 @@
         <button class="scroll-right" aria-label="Scroll Right">&rarr;</button>
       </div>
     </section>
-
-    <!-- Dynamic Featured Collections Section -->
-<!--     <section class="featured">
-      <div class="gallery">
-        <% photos.forEach(photo => { %>
-          <div class="gallery-item">
-            <a href="/readerPost/<%= photo._id %>">
-              <img 
-                src="<%= photo.imagePath.startsWith('http') ? photo.imagePath : '/profile/photo/' + encodeURIComponent(photo.imagePath) %>" 
-                alt="<%= photo.category %>"
-              >
-            </a>
-          </div>
-        <% }) %>
-      </div>
-    </section> -->
         
     <section class="featured">
   <div class="gallery">
@@ -130,8 +114,6 @@
     <% }) %>
   </div>
 </section>
-
-
 
   </main>
 
