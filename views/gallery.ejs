@@ -16,7 +16,7 @@
   <!-- Main Content -->
   <main>
     <!-- Hero Section -->
-    <section class="hero">
+<!--     <section class="hero">
       <h1>Discover the Beauty of Reflections</h1>
       <div class="hero-dropdown">
         <select class="explore-dropdown" id="explore-dropdown" name="explore-dropdown">
@@ -46,7 +46,26 @@
         </select>
         <label for="explore-dropdown"> breathtaking photos and unleash your creativity.</label>
       </div>
-    </section>
+    </section> -->
+    
+    <!-- Hero Section -->
+<section class="hero">
+  <h1>Discover the Beauty of Reflections</h1>
+  <div class="hero-dropdown">
+    <!-- Dynamic Dropdown for Categories -->
+    <select class="explore-dropdown" id="explore-dropdown" name="explore-dropdown">
+      <option value="" disabled selected>Explore</option>
+      <option value="/">All Photos</option> <!-- Option to show all photos -->
+      <% categories.forEach(category => { %>
+        <option value="/category/<%= category.name.toLowerCase() %>">
+          <%= category.name %>
+        </option>
+      <% }) %>
+    </select>
+    <label for="explore-dropdown"> Browse breathtaking photos and unleash your creativity.</label>
+  </div>
+</section>
+
 
     <!-- Categories Section -->
     <section class="categories">
