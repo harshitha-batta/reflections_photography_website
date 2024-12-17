@@ -63,7 +63,7 @@ main {
   font-family: 'Montez', cursive;
   color: #62445e;
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 2.5rem;
 }
 
 /* Table Styles */
@@ -79,6 +79,7 @@ table {
 table th, table td {
   padding: 12px;
   text-align: center;
+    font-family: 'Lora', serif;
 }
 
 table thead {
@@ -96,17 +97,18 @@ table tbody tr:hover {
 
 /* Buttons */
 button.remove-btn {
-  background-color: #dc3545;
+  background-color: #ad2831;
   color: white;
   border: none;
   padding: 6px 10px;
   border-radius: 6px;
   cursor: pointer;
+    font-family: 'Lora', serif;
   transition: background-color 0.3s ease;
 }
 
 button.remove-btn:hover {
-  background-color: #c82333;
+  background-color: #6f1d1b;
 }
 
 /* Admin Badge */
