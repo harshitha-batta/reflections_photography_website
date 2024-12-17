@@ -75,9 +75,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// // Serve static files first
-// app.use(express.static(path.join(__dirname, 'public')));
-
 // Dynamic routes
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
@@ -96,10 +93,6 @@ app.get('/about', (req, res) => {
   res.render('AboutUs'); 
 });
 
-
-// app.get('/gallery', (req, res) => {
-//     res.render('gallery'); 
-// });
 
 // Catch-all for unmatched routes
 app.use((req, res) => {
