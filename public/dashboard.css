@@ -15,7 +15,7 @@ body {
 
 /* Header Styles */
 header {
-  background-color: #62445e;
+  background-color: #aa8851;
   color: white;
   padding: 20px;
   padding-top: 120px;
@@ -28,7 +28,7 @@ header {
 
 /* Style specific links in the header */
 header .dashboard-link {
-  color: #62445E;
+  color: #aa8851;
   font-size: 1rem;
   text-decoration: none;
 }
@@ -49,7 +49,7 @@ main {
 
 /* Section Cards */
 .section-card {
-  background: rgba(240, 186, 192, 0.1);
+  background: rgba(245, 235, 224, 0.8);
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -60,7 +60,7 @@ main {
 .section-card h2 {
   margin-top: 0;
   font-family: 'Montez', cursive;
-  color: #62445e;
+  color: #aa8851;
   text-align: center;
   font-size: 2.5rem;
 }
@@ -72,7 +72,7 @@ table {
   margin-top: 20px;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 table th, table td {
@@ -82,7 +82,7 @@ table th, table td {
 }
 
 table thead {
-  background-color: #62445e;
+  background-color: #aa8851;
   color: white;
 }
 
@@ -91,12 +91,12 @@ table tbody tr:nth-child(even) {
 }
 
 table tbody tr:hover {
-  background-color: #e8e8e8;
+  background-color: #aa8851;
 }
 
 /* Buttons */
 button.remove-btn {
-  background-color: #ad2831;
+  background-color: #aa8851;
   color: white;
   border: none;
   padding: 6px 10px;
