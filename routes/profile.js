@@ -225,9 +225,9 @@ router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req
 
 
 
-// Edit a photo
 router.patch('/photo/:id', isAuthenticated, upload.single('photo'), async (req, res) => {
-  console.log('PATCH request received for photo ID:', req.params.id);
+  console.log('PATCH route triggered for photo ID:', req.params.id);
+
   try {
     const photoId = req.params.id;
     const { title, description, category } = req.body;
@@ -238,44 +238,33 @@ router.patch('/photo/:id', isAuthenticated, upload.single('photo'), async (req, 
       return res.status(403).send('You are not authorized to edit this photo.');
     }
 
-    // Resolve category to ObjectId if provided
+    // Resolve and update category
     if (category) {
       const categoryDoc = await Category.findOne({ name: category });
       if (!categoryDoc) {
-        setFlashMessage(res, 'error', 'Invalid category selected.');
-        return res.redirect('/profile');
+        return res.status(400).send('Invalid category selected.');
       }
-      photo.category = categoryDoc._id; // Use resolved ObjectId
+      photo.category = categoryDoc._id;
     }
 
-    // Update other fields
-    if (title) photo.title = title;
-    if (description) photo.description = description;
+    // Update fields
+    photo.title = title || photo.title;
+    photo.description = description || photo.description;
 
-    // If a new photo file is uploaded, update the imagePath
+    // Handle new photo upload
     if (req.file) {
-      // Delete the old GridFS file
-      if (photo.imagePath) {
-        try {
-          await gridfsBucket.delete(new mongoose.Types.ObjectId(photo.imagePath));
-        } catch (err) {
-          console.error('Error deleting old GridFS file:', err);
-        }
-      }
-
-      // Update the imagePath with the new file's ID
       photo.imagePath = req.file.filename;
     }
 
     await photo.save();
-    console.log('Photo updated:', photo);
-
-    res.redirect('/profile');
+    console.log('Photo successfully updated:', photo);
+    res.redirect('/profile'); // Redirect back to the profile page
   } catch (err) {
     console.error('Error updating photo:', err.message);
     res.status(500).send('Failed to update photo.');
   }
 });
+
 
 
 // Render upload page with categories

@@ -174,7 +174,7 @@ a {
 background: rgba(245, 235, 224, 0.8); /* Softer purple background */
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 1400px;
+  max-width: 1200px;
 }
 
 .uploaded-photos-section h2 {
