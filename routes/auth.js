@@ -72,7 +72,7 @@ router.post('/register', async (req, res) => {
   }
 });
 router.get('/reset-password', (req, res) => {
-  res.render('requestResetPassword', { title: 'Reset Password' });
+  res.render('resetPassword', { title: 'Reset Password' });
 });
 
 // Route to request password reset

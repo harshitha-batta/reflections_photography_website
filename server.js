@@ -20,7 +20,7 @@ const addCommentsRoutes = require('./routes/addComments');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname)));
+// app.use(express.static(path.join(__dirname)));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(methodOverride('_method'));
@@ -85,10 +85,6 @@ app.use('/', galleryRoutes);
 app.use('/', readerPostRoutes); // Dynamic photo routes
 app.use('/admin', adminRoutes);
 app.use('/addComments', addCommentsRoutes);
-// Catch-all for unmatched routes
-app.use((req, res) => {
-  res.status(404).render('404', { title: 'Page Not Found' });
-});
 
 
 // Admin-only route for the admin dashboard
@@ -100,8 +96,14 @@ app.get('/about', (req, res) => {
   res.render('AboutUs'); 
 });
 
+
 app.get('/gallery', (req, res) => {
     res.render('gallery'); // Assuming 'gallery.ejs' is your template file
+});
+
+// Catch-all for unmatched routes
+app.use((req, res) => {
+  res.status(404).render('404', { title: 'Page Not Found' });
 });
 
 
