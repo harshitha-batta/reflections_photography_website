@@ -20,10 +20,18 @@ mongoose.connection.once('open', () => {
 });
 
 // Fetch profile and photos
+// Fetch profile, photos, and categories
 router.get('/', isAuthenticated, async (req, res) => {
   try {
     const photos = await Photo.find({ uploader: req.user._id }).populate('category');
-    res.render('profile', { title: 'Your Profile', user: req.user, photos });
+    const categories = await Category.find({}); // Fetch all categories
+
+    res.render('profile', {
+      title: 'Your Profile',
+      user: req.user,
+      photos,
+      categories, // Pass categories to the template
+    });
   } catch (err) {
     console.error('Error fetching profile data:', err);
     res.status(500).send('Error fetching profile data');
@@ -167,39 +175,49 @@ router.get('/profile-photo/:filename', async (req, res) => {
 // Upload photo with metadata
 router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req, res) => {
   try {
+    console.log('File uploaded:', req.file); // Debugging uploaded file
+    console.log('Form Data:', req.body);     // Debugging form inputs
+
     if (!req.file) {
+      console.error('No file uploaded.');
       setFlashMessage(res, 'error', 'No file uploaded.');
       return res.redirect('/profile');
     }
 
     const { title, description, category, tags } = req.body;
 
-    // Find the category by name
+    // Check if category exists
     const categoryDoc = await Category.findOne({ name: category });
     if (!categoryDoc) {
+      console.error('Category not found:', category);
       setFlashMessage(res, 'error', 'Invalid category selected.');
       return res.redirect('/profile');
     }
 
+    console.log('Resolved Category:', categoryDoc);
+
+    // Save the new photo to the database
     const newPhoto = new Photo({
       title,
       description,
-      category: categoryDoc._id, // Use the resolved ObjectId
-      tags: tags ? tags.split(',').map((tag) => tag.trim()) : [],
-      imagePath: req.file.filename,
+      category: categoryDoc._id,
+      imagePath: req.file.filename, // GridFS file reference
       uploader: req.user._id,
+      tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
     });
 
-    await newPhoto.save();
+    const savedPhoto = await newPhoto.save();
+    console.log('Photo Saved:', savedPhoto);
 
+    // Update user with the new photo
     await User.findByIdAndUpdate(req.user._id, {
-      $push: { uploadedPhotos: newPhoto._id },
+      $push: { uploadedPhotos: savedPhoto._id },
     });
 
     setFlashMessage(res, 'success', 'Photo uploaded successfully!');
     res.redirect('/profile');
   } catch (err) {
-    console.error('Error uploading photo:', err);
+    console.error('Error during photo upload:', err);
     setFlashMessage(res, 'error', 'Failed to upload photo.');
     res.redirect('/profile');
   }
@@ -260,13 +278,22 @@ router.patch('/photo/:id', isAuthenticated, upload.single('photo'), async (req, 
 });
 
 
-// Render upload page
-router.get('/upload', isAuthenticated, (req, res) => {
-  res.render('upload', {
-    title: 'Upload Photo',
-    user: req.user,
-  });
+// Render upload page with categories
+router.get('/upload', isAuthenticated, async (req, res) => {
+  try {
+    // Fetch all categories from the database
+    const categories = await Category.find({});
+    res.render('upload', {
+      title: 'Upload Photo',
+      user: req.user,
+      categories, // Pass categories to the template
+    });
+  } catch (err) {
+    console.error('Error fetching categories for upload page:', err.message);
+    res.status(500).send('Failed to load upload page.');
+  }
 });
+
 
 module.exports = router;
 
