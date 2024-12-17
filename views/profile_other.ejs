@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Profile</title>
+  <link rel="stylesheet" href="/profile.css">
+  <link rel="stylesheet" href="/navbar.css">
+ <link rel="stylesheet" href="/footer_prelogin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montez&family=Pacifico&family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <%- include('./layouts/main', { title: 'Your Profile' }) %>
+<!-- profile_other.ejs -->
+<div class="profile-header">
+  <div class="profile-photo-container">
+    <% if (user.profilePhoto) { %>
+      <img src="<%= user.profilePhoto %>" alt="Profile Photo" class="profile-photo">
+    <% } else { %>
+      <img src="https://ui-avatars.com/api/?name=<%= encodeURIComponent(user.name) %>&background=random&color=fff&size=250"
+           alt="Default Profile Photo" class="profile-photo">
+    <% } %>
+  </div>
+</div>
+</div>
+
+
+      <div class="profile-info">
+        <h1 class="profile-name">Hello, <%= user.name %>!</h1>
+        <p><%= user.bio || 'No bio added yet!' %></p>
+      </div>
+
+      <!-- Action Buttons: Visible Only for Session User -->
+      <% if (locals.user && locals.user.id === user._id.toString()) { %>
+        <div class="button-row">
+          <button class="edit-profile-btn" onclick="openProfileModal()">✏️ Edit Profile</button>
+          <!-- Upload Photo Button -->
+          <button type="button" class="upload-photo-btn" onclick="openUploadModal()">📷 Upload Photo</button>
+
+        </div>
+      <% } %>
+    </div>
+
+    <% if (locals.user && locals.user.role === 'admin') { %>
+      <div class="admin-dashboard-buttons">
+        <center><a href="/admin/dashboard" class="btn">Admin Dashboard</a></center>
+      </div>
+    <% } %>
+
+    <!-- Uploaded Photos Section -->
+    <div class="uploaded-photos-section">
+      <h2>Photos</h2>
+      <% if (photos && photos.length > 0) { %>
+        <div class="photos-grid">
+          <% photos.forEach(photo => { %>
+            <div class="photo-card">
+              <!-- Photo Image -->
+              <a href="/readerPost/<%= photo._id %>">
+                <img src="<%= photo.imagePath.startsWith('http') ? photo.imagePath : '/profile/photo/' + encodeURIComponent(photo.imagePath) %>" 
+                     alt="<%= photo.title || 'Photo' %>" class="uploaded-photo">
+              </a>
+              <p class="photo-title"><%= photo.title %></p>
+              <p class="photo-description"><strong>Description: </strong><%= photo.description || 'No description provided.' %></p>
+              <p class="photo-category"><strong>Category:</strong> <%= photo.category.name || 'Other' %></p>
+
+              <!-- Photo Actions: Visible Only for Session User -->
+              <% if (locals.user && locals.user.id === user._id.toString()) { %>
+                <div class="photo-actions">
+                <button class="edit-photo-btn" 
+  onclick="openEditModal('<%= photo._id %>', '<%= photo.title %>', '<%= photo.description %>', '<%= photo.category.name %>')">
+  ✏️ Edit
+</button>
+
+                  <form action="/profile/photo/<%= photo._id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit" class="delete-photo-btn">🗑️ Delete</button>
+                  </form>
+                </div>
+              <% } %>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <p class="no-photos-message">You haven't uploaded any photos yet.</p>
+      <% } %>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="logout">
+<!--       <a href="/auth/logout" class="logout-btn">Logout</a> -->
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <!-- Edit Profile Modal -->
+  <div id="profile-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeProfileModal()">×</span>
+      <h2>Edit Profile</h2>
+      <form action="/profile/upload-profile-photo" method="POST" enctype="multipart/form-data">
+        <label for="profilePhoto">Change Photo:</label>
+        <input type="file" id="profilePhoto" name="profilePhoto" required>
+        <button type="submit" class="btn">Upload Photo</button>
+      </form>
+      <form action="/profile/update-bio" method="POST">
+        <label for="bio">Edit Bio:</label>
+        <textarea id="bio" name="bio" placeholder="Write a short bio..."><%= user.bio || '' %></textarea>
+        <button type="submit" class="btn">Save Bio</button>
+      </form>
+    </div>
+  </div>
+
+<!-- Edit Photo Modal -->
+<div id="edit-photo-modal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeEditModal()">×</span>
+    <h3>Edit Photo</h3>
+    <form id="edit-photo-form" action="" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_method" value="PATCH">
+
+      <label for="edit-title">Title</label>
+      <input type="text" id="edit-title" name="title" required>
+
+      <label for="edit-description">Description</label>
+      <textarea id="edit-description" name="description"></textarea>
+
+      <label for="edit-category">Category</label>
+      <select id="edit-category" name="category" required>
+        <% categories.forEach(category => { %>
+          <option value="<%= category.name %>"><%= category.name %></option>
+        <% }) %>
+      </select>
+
+      <label for="edit-photo">New Photo (optional)</label>
+      <input type="file" id="edit-photo" name="photo">
+      
+      <button type="submit" class="save-edit-btn">Save Changes</button>
+    </form>
+  </div>
+</div>
+
+
+  <!-- Upload Photo Modal -->
+<div id="upload-photo-modal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeUploadModal()">×</span>
+    <h3>Upload New Photo</h3>
+    <form action="/profile/upload-photo" method="POST" enctype="multipart/form-data">
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description" rows="2"></textarea>
+
+      <!-- Dynamic Category Select -->
+      <label for="category">Category</label>
+      <select id="category" name="category" required>
+        <% categories.forEach(category => { %>
+          <option value="<%= category.name %>"><%= category.name %></option>
+        <% }) %>
+      </select>
+
+      <label for="photo">Photo</label>
+      <input type="file" id="photo" name="photo" required>
+
+      <div class="modal-buttons">
+        <button type="submit" class="btn upload-btn">Upload</button>
+        <button type="button" class="btn cancel-btn" onclick="closeUploadModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <!-- JavaScript -->
+  <script>
+    function openProfileModal() {
+        console.log("Upload Modal Triggered!"); // Debugging
+      document.getElementById('profile-modal').classList.remove('hidden');
+    }
+    function closeProfileModal() {
+      document.getElementById('profile-modal').classList.add('hidden');
+    }
+    function openEditModal(photoId, title, description, category) {
+  const modal = document.getElementById('edit-photo-modal');
+  modal.classList.remove('hidden');
+
+  document.getElementById('edit-title').value = title || '';
+  document.getElementById('edit-description').value = description || '';
+  document.getElementById('edit-category').value = category || 'Other';
+
+  const form = document.getElementById('edit-photo-form');
+  form.action = `/profile/photo/${photoId}?_method=PATCH`; // Ensure correct URL
+}
+
+    function closeEditModal() {
+      document.getElementById('edit-photo-modal').classList.add('hidden');
+    }
+    function openUploadModal() {
+      console.log("Upload Modal Triggered!"); // Debugging
+      document.getElementById('upload-photo-modal').classList.remove('hidden');
+    }
+    function closeUploadModal() {
+      document.getElementById('upload-photo-modal').classList.add('hidden');
+    }
+  </script>
+
+</body>
+  <%- include('layouts/footer_prelogin') %>
+</html>

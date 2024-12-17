@@ -115,9 +115,7 @@ router.get('/user/:id', isAuthenticated, async (req, res) => {
     }
 
     const user = await User.findById(userId).lean();
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
+    if (!user) return res.status(404).send('User not found');
 
     const photos = await Photo.find({ uploader: userId }).populate('category');
     const categories = await Category.find();
@@ -126,18 +124,18 @@ router.get('/user/:id', isAuthenticated, async (req, res) => {
       ? `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}`
       : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff&size=250`;
 
-    res.render('profile', {
+    res.render('profile_other', {
       title: `${user.name}'s Profile`,
       user: { ...user, profilePhoto: profilePhotoUrl },
       photos,
       categories,
-      isCurrentUser: req.user._id.toString() === userId, // Add this flag for comparison
     });
   } catch (err) {
     console.error('Error fetching user profile:', err.message);
     res.status(500).send('Server Error');
   }
 });
+
 
 
 // Add a comment to a photo
