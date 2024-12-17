@@ -11,20 +11,20 @@
 
 /* Main Content Panel */
 .content-panel {
-  background-color: rgba(245, 235, 224, 0.8); /* Semi-transparent background */
+  background-color: rgba(245, 235, 224, 0.9); /* Semi-transparent background */
   padding: 40px;
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   width: 90%;
   max-width: 500px;
- color: #7f5539; /* Text color for visibility */
+ color: #aa8851; /* Text color for visibility */
 }
 
 .content-panel h1 {
   font-size: 3em;
   font-weight: bold;
-  color: #7f5539; /* Theme color for heading */
+  color: #aa8851; /* Theme color for heading */
   margin-bottom: 20px;
 }
 
@@ -43,7 +43,7 @@
   margin-bottom: 5px;
   font-size: 1.2em;
   font-weight: bold;
- color: #7f5539;
+ color: #aa8851;
 }
 
 .content-panel form input {
@@ -52,7 +52,7 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 1em;
-   color: #7f5539;
+   color: #aa8851;
 }
 
 .content-panel form input:focus {
@@ -64,7 +64,7 @@
   padding: 12px 30px;
   border: none;
   border-radius: 20px;
-  background-color: #7f5539;
+  background-color: #aa8851;
   color: white;
   font-size: 1em; /* Adjusted font size */
 
@@ -78,7 +78,7 @@
 
 .content-panel .btn:hover {
   background-color: white;
-  color: #616F23;
+  color: #aa8851;
 }
 
 .content-panel .forgot-link{
@@ -86,7 +86,8 @@
   display: block;
   text-decoration: none;
   font-size: 1.2em;
-  color: #7f5539;
+  color: #aa8851;
+  transition: all 0.3s ease;
 }
 
 .content-panel .forgot-link:hover{
@@ -98,10 +99,9 @@
   margin-top: 15px;
   display: inline-block; /* Makes it behave like a button */
   text-decoration: none;
-  font-size: 1.2em;
-  font-weight: bold;
+
   color: white;
-  background-color: #c38e70; /* Same background color as the login button */
+  background-color: #aa8851; /* Same background color as the login button */
   padding: 12px 30px;
   border-radius: 20px; /* Rounded corners */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a button-like shadow */
@@ -110,6 +110,6 @@
 
 .content-panel .register-link:hover {
   background-color: white; /* Highlight background on hover */
-  color: #c38e70; /* Text color on hover */
+  color: #aa8851; /* Text color on hover */
   text-decoration: none; /* Ensures no underline */
 }
