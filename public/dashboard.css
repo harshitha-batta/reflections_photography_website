@@ -91,7 +91,7 @@ table tbody tr:nth-child(even) {
 }
 
 table tbody tr:hover {
-  background-color: #aa8851;
+  background-color: rgba(170, 136, 81, 0.2);
 }
 
 /* Buttons */
@@ -107,7 +107,8 @@ button.remove-btn {
 }
 
 button.remove-btn:hover {
-  background-color: #6f1d1b;
+  background-color: white;
+  color: #aa8851;
 }
 
 /* Admin Badge */

@@ -39,13 +39,13 @@ a {
   height: 250px;
   border-radius: 50%;
   object-fit: cover;
-  border: 5px solid #62445e;
+  border: 5px solid #aa8851;
   margin-bottom: 15px;
 }
 
 .profile-info h1 {
   font-size: 3rem;
-  color: #62445e;
+  color: #aa8851;
   margin: 10px 0;
   text-align: center;
    font-family: "Montez", cursive;
@@ -60,7 +60,7 @@ a {
 }
 
 .edit-profile-btn {
-  background-color: #62445e;
+  background-color: #aa8851;
   color: white;
   font-size: 1.2rem;
   padding: 10px 20px;
@@ -103,7 +103,7 @@ a {
 
 .modal-content h2 {
   font-size: 1.8rem;
-  color: #62445e;
+  color: #aa8851;
   margin-bottom: 20px;
 }
 
@@ -140,16 +140,16 @@ a {
   right: 15px;
   font-size: 1.5rem;
   font-weight: bold;
-  color: #62445e;
+  color: #aa8851;
   cursor: pointer;
 }
 
 .close-btn:hover {
-  color: #50364b;
+  color: rgba(245, 235, 224, 0.8);
 }
 
 .btn {
-  background-color: #62445e;
+  background-color: #aa8851;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -169,7 +169,7 @@ a {
 .uploaded-photos-section {
   margin: 30px auto;
   padding: 20px;
-  background: rgba(240, 186, 192, 0.4); /* Softer purple background */
+background: rgba(245, 235, 224, 0.8); /* Softer purple background */
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-width: 1400px;
@@ -177,7 +177,7 @@ a {
 
 .uploaded-photos-section h2 {
   font-size: 2.5rem;
-  color: #62445e;
+  color: #aa8851;
   text-align: center;
      font-family: "Montez", cursive;
 }
@@ -225,7 +225,7 @@ a {
 
 .photo-card .photo-title {
   font-size: 1.3rem;
-  color: #62445e;
+  color: #aa8851;
   margin: 10px 0 5px;
 }
 
@@ -249,7 +249,7 @@ a {
 .photo-title {
   font-weight: bold;
   font-size: 1.3rem; /* Larger title size */
-  color: #62445e;
+  color: #aa8851;
 }
 
 .photo-description,
@@ -266,7 +266,7 @@ a {
 }
 
 .upload-photo-btn {
-  background-color: #62445e;
+  background-color: #aa8851;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -303,7 +303,7 @@ a {
 }
 
 .photo-actions button {
-  background-color: #62445e;
+  background-color: #aa8851;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -321,7 +321,7 @@ a {
 
 .edit-photo-btn,
 .delete-photo-btn {
-  background-color: #62445e;
+  background-color: #aa8851;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -366,7 +366,7 @@ a {
 .modal-content h3 {
   font-family: "Lora", serif;
   font-size: 1.6rem;
-  color: #62445e;
+  color: #aa8851;
   margin-bottom: 15px;
 }
 
@@ -403,7 +403,7 @@ a {
 
 .modal-form input:focus,
 .modal-form textarea:focus {
-  border-color: #62445e;
+  border-color: #aa8851;
   box-shadow: 0 0 4px rgba(98, 68, 94, 0.4);
   outline: none;
 }
@@ -451,7 +451,7 @@ a {
 }
 
 .close-modal:hover {
-  color: #62445e;
+  color: #aa8851;
 }
 
 /* Button Row Container */
@@ -464,7 +464,7 @@ a {
 }
 
 .button-row button {
-  background-color: #62445e;
+  background-color: #aa8851;
   color: white;
   padding: 10px 20px;
   font-family: "Lora", serif;

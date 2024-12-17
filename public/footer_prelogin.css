@@ -1,7 +1,7 @@
 /* Footer General Styling */
 .footer {
   font-family: "Lora", serif; /* Footer-specific font */
-  background-color: #7f5539;
+  background-color: #aa8851;
   color: #fff;
   padding: 40px 20px;
   font-size: 0.9em;
@@ -60,7 +60,7 @@
 
 .footer-tag {
   background: #f5ebe0;
-  color: #7f5539;
+  color: #aa8851;
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 0.8em;
@@ -68,7 +68,7 @@
 }
 
 .footer-tag:hover {
-  background: #7f5539;
+  background: #aa8851;
   color: white;
   cursor: pointer;
 }
@@ -99,7 +99,7 @@
 
 .app-btn {
   background: #f5ebe0;
-  color: #7f5539;
+  color: #aa8851;
   border: none;
   padding: 8px 15px;
   border-radius: 5px;
@@ -109,7 +109,7 @@
 }
 
 .app-btn:hover {
-  background: #7f5539;
+  background: #aa8851;
   color: #f5ebe0;
 }
 
