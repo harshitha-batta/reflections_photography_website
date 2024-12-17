@@ -37,7 +37,7 @@ The **Reflections - A Photo Gallery Application** is a dynamic and interactive p
 Our team consists of the following members:
 
 - **Anusha**
-- **Harshita**
+- **Harshitha**
 - **Neha**
 
 The project focuses on building a **Reflections - A Photo Gallery Application** with user authentication, category-based image organization, and interactive features. The application leverages modern web development technologies, including **MongoDB, Express.js, Node.js, and EJS templates**, to provide a user-friendly and functional platform for uploading, managing, and viewing images.
