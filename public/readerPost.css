@@ -45,6 +45,7 @@ body {
 .uploader-info h2 {
   font-size: 2.2rem;
   color: #333;
+    font-family: "Montez", cursive;
 }
 
 /* Image Section */
@@ -132,9 +133,10 @@ body {
 }
 
 .comments-section h3 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 15px;
   color: #333;
+    font-family: "Montez", cursive;
 }
 
 .comments-list {
