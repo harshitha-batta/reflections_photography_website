@@ -53,6 +53,7 @@
               <em>Admin</em>
               <% } %>
             </td>
+            
           </tr>
           <% }) %>
         </tbody>
@@ -85,6 +86,35 @@
         </tbody>
       </table>
     </section>
+    <!-- Comments Section -->
+<section class="section-card">
+  <h2>Comments</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Text</th>
+        <th>User</th>
+        <th>Photo</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% comments.forEach(comment => { %>
+        <tr>
+          <td><%= comment.text %></td>
+          <td><%= comment.user ? comment.user.name : 'Unknown User' %></td>
+          <td><%= comment.photo ? comment.photo.title : 'Deleted Photo' %></td>
+          <td>
+            <form method="POST" action="/admin/comment/<%= comment._id %>?_method=DELETE">
+              <button type="submit" class="remove-btn">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>
+
   </main>
 </body>
 </html>

@@ -4,6 +4,8 @@ const User = require('../models/User');
 const Photo = require('../models/Photo');
 const { isAuthenticated, isAdmin } = require('../middlewares/roles');
 const { setFlashMessage } = require('../utils/flash');
+const Comment = require('../models/Comment'); // Add this line
+
 const router = express.Router();
 
 let gridfsBucket;
@@ -140,5 +142,6 @@ router.get('/dashboard', isAuthenticated, isAdmin, async (req, res) => {
     res.status(500).send('Error fetching admin data');
   }
 });
+
 
 module.exports = router;

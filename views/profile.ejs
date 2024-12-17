@@ -21,9 +21,10 @@
   <img src="/profile/profile-photo/<%= encodeURIComponent(user.profilePhoto) %>" 
        alt="Profile Photo" class="profile-photo">
 <% } else { %>
-  <img src="https://ui-avatars.com/api/?name=<%= encodeURIComponent(user.name || 'User') %>&background=random&color=fff&size=250" 
+  <img src="https://ui-avatars.com/api/?name=<%= user.name ? encodeURIComponent(user.name) : 'User' %>&background=random&color=fff&size=250" 
        alt="Default Profile Photo" class="profile-photo">
 <% } %>
+
 
 </div>
 
