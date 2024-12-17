@@ -24,9 +24,6 @@ function generateToken(user) {
 router.get('/register', (req, res) => {
   res.render('register', { title: 'Register' });
 });
-router.get('/request-reset', (req, res) => {
-  res.render('resetPassword', { title: 'Request Password Reset' });
-});
 
 // Show Login Page
 router.get('/login', (req, res) => {
@@ -165,11 +162,13 @@ router.get('/profile', isAuthenticated, async (req, res) => {
     res.redirect('/auth/login');
   }
 });
+
 // Handle Logout
 router.get('/logout', (req, res) => {
   res.clearCookie('jwt');
   setFlashMessage(res, 'success', 'You have been logged out.');
   res.redirect('/auth/login');
 });
+
 
 module.exports = router;
