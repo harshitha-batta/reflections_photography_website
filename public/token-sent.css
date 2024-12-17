@@ -19,6 +19,7 @@ body {
 .container {
   margin: auto;
   margin-top: 180px;
+  margin-bottom: 100px;
   text-align: center;
   background-color: rgba(170, 136, 81, 0.2);
   padding: 30px 40px;
@@ -45,11 +46,14 @@ a.link {
   color: #aa8851;
   text-decoration: none;
   font-weight: bold;
+  text-decoration:underline;
+  
 }
 
 a.link:hover {
 
-  text-decoration:underline;
+  text-decoration:none;
+  font-weight: lighter;
 }
 
 .back-link {

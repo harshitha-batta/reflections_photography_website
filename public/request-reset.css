@@ -19,6 +19,7 @@ body {
   margin: auto; /* Center vertically and horizontally */
   text-align: center;
   margin-top: 180px;
+  margin-bottom: 100px;
   background-color: rgba(170, 136, 81, 0.2);
   padding: 20px 30px;
   border-radius: 8px;
