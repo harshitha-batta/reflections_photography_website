@@ -1,3 +1,4 @@
+gallery.css:
 /* General Page Styling */
 body {
   margin: 0;
@@ -19,46 +20,8 @@ body {
   font-weight: bold;
 }
 
-/* Hero Slider Section */
-.hero-slider {
-  position: relative;
-  overflow: hidden;
-  height: 100vh; /* Full viewport height */
-7
-
-.slider {
-  display: flex;
-  transition: transform 1s ease-in-out;
-}
-
-.slide {
-  min-width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.hero-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: white;
-}
-
-.hero-text h1 {
-    font-family: "Montez", cursive;
-  font-size: 52em;
-  font-weight: bold;
-}
-
 .hero-dropdown {
+  font-size: 1.5em;
   margin-top: 20px;
   display: flex;
   align-items: center;
@@ -148,7 +111,7 @@ body {
 
 .categories h2 {
   font-size: 4em;
-  font-family: "Montez", cursive;
+
   margin-bottom: 20px;
   text-align: center;
   font-weight: lighter;

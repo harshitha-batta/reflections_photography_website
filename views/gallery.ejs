@@ -8,7 +8,6 @@
   <!-- External Stylesheets -->
   <link rel="stylesheet" href="/navbar.css">
   <link rel="stylesheet" href="/gallery.css">
-        <link rel="stylesheet" href="/footer.css">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,26 +21,17 @@
 
   <!-- Main Content -->
   <main>
-    <!-- Hero Section with Multiple Photos -->
-    <section class="hero-slider">
-      <div class="slider">
-        <% heroPhotos.forEach(photo => { %>
-          <div class="slide">
-            <img src="<%= photo.imagePath %>" alt="Hero Image">
-            <div class="hero-text">
-              <h1>Discover the Beauty of Reflections</h1>
-              <div class="hero-dropdown">
-                <select class="explore-dropdown" id="explore-dropdown" name="explore-dropdown">
-                  <option value="" disabled selected>Explore</option>
-                  <% categories.forEach(category => { %>
-                    <option value="<%= category._id %>"><%= category.name %></option>
-                  <% }) %>
-                </select>
-                <label for="explore-dropdown">Breathtaking photos and unleash your creativity.</label>
-              </div>
-            </div>
-          </div>
-        <% }) %>
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>Discover the Beauty of Reflections</h1>
+      <div class="hero-dropdown">
+        <select class="explore-dropdown" id="explore-dropdown" name="explore-dropdown">
+          <option value="" disabled selected>Explore</option>
+          <% categories.forEach(category => { %>
+            <option value="<%= category._id %>"><%= category.name %></option>
+          <% }) %>
+        </select>
+        <label for="explore-dropdown">Breathtaking photos and unleash your creativity.</label>
       </div>
     </section>
 
@@ -84,18 +74,6 @@
 
   <!-- JavaScript -->
   <script>
-    // Hero Slider Functionality
-    const slider = document.querySelector('.slider');
-    const slides = document.querySelectorAll('.slide');
-    let currentIndex = 0;
-
-    function showNextSlide() {
-      currentIndex = (currentIndex + 1) % slides.length;
-      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-    }
-
-    setInterval(showNextSlide, 5000); // Change slide every 5 seconds
-
     // Scroll Functionality for Categories Section
     const categoryContainer = document.querySelector('.category-buttons');
     const scrollLeftButton = document.querySelector('.scroll-left');
@@ -128,11 +106,9 @@
     dropdown.addEventListener('change', (event) => {
       const selectedValue = event.target.value;
       if (selectedValue) {
-        window.location.href = `/category/${selectedValue}`;
+        window.location.href = /category/${selectedValue};
       }
     });
   </script>
-      <%- include('layouts/footer') %>
-        
 </body>
 </html>
