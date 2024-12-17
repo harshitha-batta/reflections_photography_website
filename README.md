@@ -1,44 +1,51 @@
-# Hello Node!
+Project Report
 
-This project includes a Node.js server script and a web page that connects to it. The front-end page presents a form the visitor can use to submit a color name, sending the submitted value to the back-end API running on the server. The server returns info to the page that allows it to update the display with the chosen color. 🎨
+Introduction
 
-[Node.js](https://nodejs.org/en/about/) is a popular runtime that lets you run server-side JavaScript. This project uses the [Fastify](https://www.fastify.io/) framework and explores basic templating with [Handlebars](https://handlebarsjs.com/).
+Our team consists of the following members:
 
-_Last updated: 14 August 2023_
+Anusha
+Harshita
+Neha
 
-## Prerequisites
+The project focuses on building a Photo Gallery Application with user authentication, category-based image organization, and interactive features. The application leverages modern web development technologies, including MongoDB, Express.js, Node.js, and EJS templates, to provide a user-friendly and functional platform for uploading, managing, and viewing images.
 
-You'll get best use out of this project if you're familiar with basic JavaScript. If you've written JavaScript for client-side web pages this is a little different because it uses server-side JS, but the syntax is the same!
+Objective
 
-## What's in this project?
+The primary goal of the project was to develop a dynamic and interactive photo gallery application where users can:
 
-← `README.md`: That’s this file, where you can tell people what your cool website does and how you built it.
+Upload and Manage Photos: Users can upload images with details such as titles, categories, and descriptions.
 
-← `public/style.css`: The styling rules for the pages in your site.
+User Authentication: Implement user registration and login systems with role-based access controls.
 
-← `server.js`: The **Node.js** server script for your new site. The JavaScript defines the endpoints in the site back-end, one to return the homepage and one to update with the submitted color. Each one sends data to a Handlebars template which builds these parameter values into the web page the visitor sees.
+Categorization: Photos are organized into categories for better navigation and searchability.
 
-← `package.json`: The NPM packages for your project's dependencies.
+Interactivity: Users can interact with images by adding comments and exploring posts by others.
 
-← `src/`: This folder holds the site template along with some basic data files.
+Problems Addressed
 
-← `src/pages/index.hbs`: This is the main page template for your site. The template receives parameters from the server script, which it includes in the page HTML. The page sends the user submitted color value in the body of a request, or as a query parameter to choose a random color.
+We aimed to address the following problems:
 
-← `src/colors.json`: A collection of CSS color names. We use this in the server script to pick a random color, and to match searches against color names.
+Building a platform where users can organize and manage photos efficiently.
 
-← `src/seo.json`: When you're ready to share your new site or add a custom domain, change SEO/meta settings in here.
+Implementing secure authentication to ensure user data privacy.
 
-## Try this next 🏗️
+Enabling seamless categorization and search features for better user experience.
 
-Take a look in `TODO.md` for next steps you can try out in your new site!
+Providing admin capabilities to manage users and photo categories.
 
-___Want a minimal version of this project to build your own Node.js app? Check out [Blank Node](https://glitch.com/edit/#!/remix/glitch-blank-node)!___
+Additional Features
 
-![Glitch](https://cdn.glitch.com/a9975ea6-8949-4bab-addb-8a95021dc2da%2FLogo_Color.svg?v=1602781328576)
+Beyond the listed assignment requirements, we implemented the following features:
 
-## You built this with Glitch!
+Commenting System: Users can leave comments on photos to foster interaction.
 
-[Glitch](https://glitch.com) is a friendly community where millions of people come together to build web apps and websites.
+Photo Migration Tool: A utility script (migratePhotoCategories.js) was developed to assist in reorganizing photo categories.
 
-- Need more help? [Check out our Help Center](https://help.glitch.com/) for answers to any common questions.
-- Ready to make it official? [Become a paid Glitch member](https://glitch.com/pricing) to boost your app with private sharing, more storage and memory, domains and more.
+Admin Promotions: Admins can promote standard users to admin roles using a utility script (promoToAdmin.js).
+
+Data Cleanup: Added functionality to identify and clean orphaned data with the cleanupOrphanedData.js script.
+
+Flash Notifications: Implemented feedback notifications using the flash.js utility for a smoother user experience.
+
+Responsive Design: Ensured the application is responsive by designing modular CSS files for key pages like login, gallery, and profile views.
