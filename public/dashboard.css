@@ -1,0 +1,117 @@
+/* General Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Lora', serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* Removed global link styles */
+/* a {
+  text-decoration: none;
+  color: #62445e;
+  font-weight: bold;
+} */
+
+/* Header Styles */
+header {
+  background-color: #62445e;
+  color: white;
+  padding: 20px;
+  padding-top: 120px;
+  text-align: center;
+  font-family: 'Montez', cursive;
+  font-size: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Style specific links in the header */
+header .dashboard-link {
+  color: #f8f9fa;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+header .dashboard-link:hover {
+  text-decoration: underline;
+}
+
+/* Main Content */
+main {
+  max-width: 1200px;
+  margin: 100px auto 20px; /* Adjusted top margin */
+  padding: 20px;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+/* Section Cards */
+.section-card {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section-card h2 {
+  margin-top: 0;
+  font-family: 'Montez', cursive;
+  color: #62445e;
+  text-align: center;
+  font-size: 1.8rem;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: center;
+}
+
+table thead {
+  background-color: #62445e;
+  color: white;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+table tbody tr:hover {
+  background-color: #e8e8e8;
+}
+
+/* Buttons */
+button.remove-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.remove-btn:hover {
+  background-color: #c82333;
+}
+
+/* Admin Badge */
+.admin-badge {
+  font-style: italic;
+  color: #28a745;
+  font-weight: bold;
+}
