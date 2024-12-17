@@ -53,25 +53,56 @@ router.get('/readerPost/:id', attachUser, async (req, res) => {
 
 
 // GET Like Count
-router.post("/like/:id", async (req, res) => {
+// router.post("/like/:id", async (req, res) => {
+//   try {
+//     const photoId = req.params.id;
+//     const userId = req.user._id;
+
+//     const photo = await Photo.findById(photoId);
+//     if (!photo) return res.status(404).send("Photo not found");
+
+//     if (!photo.likes.includes(userId)) {
+//       photo.likes.push(userId); 
+//       await photo.save();
+//     }
+
+//     res.redirect(`/readerPost/${photoId}`);
+//   } catch (err) {
+//     console.error("Error liking photo:", err.message);
+//     res.status(500).send("Server Error");
+//   }
+// });
+
+router.post("/like/:id", attachUser, isAuthenticated, async (req, res) => {
   try {
     const photoId = req.params.id;
-    const userId = req.user._id; // Replace with the authenticated user's ID
+    const userId = req.user._id;
 
     const photo = await Photo.findById(photoId);
-    if (!photo) return res.status(404).send("Photo not found");
+    if (!photo) return res.status(404).json({ message: "Photo not found" });
 
-    if (!photo.likes.includes(userId)) {
-      photo.likes.push(userId); // Add user to likes array
-      await photo.save();
+    let liked = false;
+
+    // Check if user already liked the photo
+    const likeIndex = photo.likes.indexOf(userId);
+    if (likeIndex > -1) {
+      // Unlike the photo
+      photo.likes.splice(likeIndex, 1);
+    } else {
+      // Like the photo
+      photo.likes.push(userId);
+      liked = true;
     }
 
-    res.redirect(`/readerPost/${photoId}`);
+    await photo.save();
+
+    res.json({ liked, likesCount: photo.likes.length });
   } catch (err) {
-    console.error("Error liking photo:", err.message);
-    res.status(500).send("Server Error");
+    console.error("Error toggling like:", err.message);
+    res.status(500).json({ message: "Server Error" });
   }
 });
+
 
 // Regex to ensure the ID is a valid MongoDB ObjectId
 router.get("/user/:id", async (req, res) => {

@@ -90,6 +90,12 @@ body {
   transition: color 0.3s ease;
 }
 
+/* Liked heart style */
+.like-box.liked i {
+  color: #dc3545; /* Solid red heart when liked */
+  -webkit-text-stroke: 0px; /* Remove border */
+}
+
 /* Comments Section */
 .comments-section {
   background: #f9f9f9;
