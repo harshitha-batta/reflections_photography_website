@@ -24,6 +24,9 @@ function generateToken(user) {
 router.get('/register', (req, res) => {
   res.render('register', { title: 'Register' });
 });
+router.get('/request-reset', (req, res) => {
+  res.render('resetPassword', { title: 'Request Password Reset' });
+});
 
 // Show Login Page
 router.get('/login', (req, res) => {
