@@ -311,3 +311,119 @@ body {
   z-index: 5;
   text-align: center;
 }
+
+
+
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 120px 10px; /* Reduce padding on smaller screens */
+  }
+  .hero h1 {
+    font-size: 2.5em; /* Smaller font size for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 100px 10px;
+  }
+  .hero h1 {
+    font-size: 2em;
+  }
+}
+
+/* Categories Section */
+.categories h2 {
+  font-size: 2.5em;
+}
+
+.category-buttons button {
+  padding: 8px 15px; /* Smaller padding for mobile */
+  font-size: 0.8em;
+}
+
+@media (max-width: 768px) {
+  .categories h2 {
+    font-size: 2em;
+  }
+  .category-buttons {
+    gap: 5px; /* Reduce spacing */
+  }
+}
+
+@media (max-width: 480px) {
+  .category-buttons {
+    flex-wrap: wrap; /* Wrap buttons on smaller screens */
+    justify-content: center;
+  }
+  .category-buttons button {
+    flex: 0 0 45%; /* Fit two buttons per row */
+    margin: 5px 0;
+  }
+}
+
+/* Featured Gallery */
+.featured h2 {
+  font-size: 2em;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(150px, 1fr)); /* Dynamic grid */
+  gap: 15px;
+  padding: 0 10px;
+}
+
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(150px, 1fr)); /* Two columns for tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    grid-template-columns: 1fr; /* Single column for small screens */
+  }
+}
+
+/* Hero Slider Section */
+.slider-container {
+  max-height: 500px;
+}
+
+.slider img {
+  height: auto; /* Adjust image height for smaller screens */
+}
+
+@media (max-width: 768px) {
+  .slider-text {
+    font-size: 2.5rem; /* Smaller overlay text */
+  }
+}
+
+@media (max-width: 480px) {
+  .slider-button {
+    width: 40px; /* Smaller slider buttons */
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  .slider-text {
+    font-size: 2rem; /* Smaller overlay text */
+  }
+}
+
+/* Scroll Buttons */
+.scroll-left,
+.scroll-right {
+  width: 30px; /* Smaller size for small devices */
+  height: 30px;
+  font-size: 1.2em;
+}
+
+@media (max-width: 480px) {
+  .scroll-left,
+  .scroll-right {
+    display: none; /* Hide arrows on very small screens */
+  }
+}

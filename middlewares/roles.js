@@ -30,7 +30,6 @@ async function attachUser(req, res, next) {
 
 
 
-
 // Middleware to enforce authentication
 async function isAuthenticated(req, res, next) {
   const token = req.cookies.jwt;
