@@ -44,13 +44,6 @@
     </section>
 
     <!-- Likes Section -->
-<!--     <section class="likes-section">
-      <div class="like-box">
-        <i class="bi bi-heart-fill"></i>
-        <span>Like <%= photo.likes.length %></span>
-      </div>
-    </section> -->
-      
       <section class="likes-section">
   <div 
     class="like-box <%= user && photo.likes.includes(user._id) ? 'liked' : '' %>"

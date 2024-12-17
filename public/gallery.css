@@ -9,7 +9,7 @@ body {
 .hero {
   text-align: center;
   background: url('https://images.pexels.com/photos/772520/pexels-photo-772520.jpeg?auto=compress&cs=tinysrgb&w=800') no-repeat center center/cover;
-  padding: 250px 20px;
+  padding: 230px 20px;
   color: white;
 }
 
@@ -164,8 +164,8 @@ body {
   color: rgba(255, 255, 255, 0.8);
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   font-size: 1.5em;
   cursor: pointer;
   position: absolute;

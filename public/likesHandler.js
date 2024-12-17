@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
           likeBox.classList.toggle("liked", result.liked);
           likeCount.textContent = result.likesCount;
         } else {
-          alert("You need to log in to like this photo. 🧡\nPlease sign in and try again!");
+          alert("Join Reflections to like this photo!");
         }
       } catch (err) {
         console.error("Uh-oh! An unexpected error occurred. Please check your connection and try again. 🌐", err);
