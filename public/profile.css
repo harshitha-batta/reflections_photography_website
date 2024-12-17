@@ -196,6 +196,7 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
 .photo-card {
   background: #ffffff;
   border-radius: 15px;
+  padding: 30px;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* Softer shadow */
   overflow: hidden;
   transition: all 0.3s ease;
@@ -364,7 +365,7 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
 }
 
 .modal-content h3 {
-  font-family: "Lora", serif;
+   font-family: "Montez", cursive;
   font-size: 1.6rem;
   color: #aa8851;
   margin-bottom: 15px;
