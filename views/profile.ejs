@@ -37,7 +37,9 @@
       <% if (locals.user && locals.user.id === user._id.toString()) { %>
         <div class="button-row">
           <button class="edit-profile-btn" onclick="openProfileModal()">✏️ Edit Profile</button>
-          <button class="upload-photo-btn" onclick="openUploadModal()">📷 Upload Photo</button>
+          <!-- Upload Photo Button -->
+          <button type="button" class="upload-photo-btn" onclick="openUploadModal()">📷 Upload Photo</button>
+
         </div>
       <% } %>
     </div>

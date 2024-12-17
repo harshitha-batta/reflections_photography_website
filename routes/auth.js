@@ -140,7 +140,28 @@ router.post('/login', async (req, res) => {
     res.redirect('/auth/login');
   }
 });
+// Get Profile Page
+router.get('/profile', isAuthenticated, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      setFlashMessage(res, 'error', 'User not found.');
+      return res.redirect('/auth/login');
+    }
 
+    const photos = await Photo.find({ uploader: user._id });
+
+    res.render('profile', {
+      title: 'Your Profile',
+      user,
+      photos,
+    });
+  } catch (err) {
+    console.error('Error fetching photos:', err.message);
+    setFlashMessage(res, 'error', 'Unable to fetch profile details.');
+    res.redirect('/auth/login');
+  }
+});
 // Handle Logout
 router.get('/logout', (req, res) => {
   res.clearCookie('jwt');
