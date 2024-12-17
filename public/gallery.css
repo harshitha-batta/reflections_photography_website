@@ -24,7 +24,7 @@ body {
   position: relative;
   overflow: hidden;
   height: 100vh; /* Full viewport height */
-}
+7
 
 .slider {
   display: flex;
@@ -54,7 +54,7 @@ body {
 
 .hero-text h1 {
     font-family: "Montez", cursive;
-  font-size: 5em;
+  font-size: 52em;
   font-weight: bold;
 }
 

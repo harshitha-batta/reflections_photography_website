@@ -6,26 +6,26 @@
 The **Reflections - A Photo Gallery Application** is a dynamic and interactive platform where users can upload, manage, categorize, and interact with photos. It provides a secure environment for user authentication, admin capabilities, and enhanced user experience through responsive design and interactive features.
 
 ## Table of Contents
-
 1. Introduction
 2. Objective
-3. Problems Addressed
-4. Additional Features
-5. Project Functionality
+3. Team Introduction
+4. Problems Addressed
+5. Additional Features
+6. Project Functionality
    - Frontend
    - Backend
    - Admin Features
-6. Technical Architecture
+7. Technical Architecture
    - Libraries, Frameworks, and Tools
-7. MVC Model Implementation
+8. MVC Model Implementation
    - Models
    - Views
    - Controllers
-8. Challenges
-9. Future Work
-10. Conclusion
-11. Resources
-12. Testing Instructions
+9. Challenges
+10. Future Work
+11. Conclusion
+12. Resources
+13. Testing Instructions
 
 ---
 
@@ -34,7 +34,9 @@ The **Reflections - A Photo Gallery Application** is a dynamic and interactive p
 Our team consists of the following members:
 
 
-The Reflections - A Photo Gallery Application is a full-stack web platform designed to allow users to upload, manage, categorize, and interact with photos. The application ensures secure user authentication, role-based access control for admins, and interactive features like commenting on images. Built with modern technologies such as Node.js, Express.js, MongoDB, and EJS templates, the application offers a seamless and responsive user experience across devices.
+**The Reflections - A Photo Gallery Application** is a full-stack web platform designed to allow users to upload, manage, categorize, and interact with photos. The application ensures secure user authentication, role-based access control for admins, and interactive features like commenting on images. Built with modern technologies such as Node.js, Express.js, MongoDB, and EJS templates, the application offers a seamless and responsive user experience across devices.
+
+
 ---
 
 ## Objective
@@ -45,6 +47,18 @@ The primary goal of the project was to develop a dynamic and interactive photo g
 - **User Authentication**: Implement user registration and login systems with role-based access controls.
 - **Categorization**: Photos are organized into categories for better navigation and searchability.
 - **Interactivity**: Users can interact with images by adding comments and exploring posts by others.
+
+---
+
+## Team Introduction
+
+Our team collaborated closely to ensure the project was developed efficiently with a clear division of responsibilities:
+
+- **Anusha Shiva Kumar**: Focused on the **frontend design**, creating intuitive and responsive user interfaces. She ensured the pages were user-friendly, visually appealing, and optimized for all devices.
+- **Harshitha Batta**: Led the **backend development** by building the core server logic, APIs, and admin tools. Her contributions included implementing robust authentication and admin functionalities.
+- **Neha Navarkar**: Served as the **database architect**, designing and managing the data models and database schema. She also contributed to backend development, ensuring data integrity and seamless integration.
+
+Together, the team engaged in thoughtful discussions and collaborative problem-solving to deliver a feature-rich application.
 
 ---
 
