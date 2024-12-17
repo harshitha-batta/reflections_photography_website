@@ -1,4 +1,3 @@
-
 # Reflections - A Photo Gallery Application
 
 ## Project Overview
@@ -6,6 +5,7 @@
 The **Reflections - A Photo Gallery Application** is a dynamic and interactive platform where users can upload, manage, categorize, and interact with photos. It provides a secure environment for user authentication, admin capabilities, and enhanced user experience through responsive design and interactive features.
 
 ## Table of Contents
+
 1. Introduction
 2. Objective
 3. Team Introduction
@@ -33,9 +33,7 @@ The **Reflections - A Photo Gallery Application** is a dynamic and interactive p
 
 Our team consists of the following members:
 
-
 **The Reflections - A Photo Gallery Application** is a full-stack web platform designed to allow users to upload, manage, categorize, and interact with photos. The application ensures secure user authentication, role-based access control for admins, and interactive features like commenting on images. Built with modern technologies such as Node.js, Express.js, MongoDB, and EJS templates, the application offers a seamless and responsive user experience across devices.
-
 
 ---
 
@@ -83,6 +81,7 @@ Beyond the listed assignment requirements, we implemented the following features
 4. **Data Cleanup**: Added functionality to identify and clean orphaned data with the `cleanupOrphanedData.js` script.
 5. **Flash Notifications**: Implemented feedback notifications using the `flash.js` utility for a smoother user experience.
 6. **Responsive Design**: Ensured the application is responsive by designing modular **CSS files** for key pages like **login**, **gallery**, and **profile views**.
+7. **Like Functionality**: Users can like or unlike photos with a single click, featuring real-time updates to the like count. Non-logged-in users are shown a smooth popup notification for 3 seconds to sign in if they wish to like the photo.
 
 ---
 
@@ -202,6 +201,7 @@ The **Controllers** handle user actions and communication between Models and Vie
 ---
 
 ### 2. Persistent Data Storage (MongoDB with Atlas)
+
 - **MongoDB Atlas** is used as the database to store user, photo, and comment data.
 - **GridFS** is implemented for persistent storage of uploaded photos.
 - Data models are created using **Mongoose** to define schemas for `User`, `Photo`, `Comment`, and `Category`.
@@ -210,6 +210,7 @@ The **Controllers** handle user actions and communication between Models and Vie
 ---
 
 ### 3. Log-in and Sign-up Functions
+
 - **Secure Authentication** is implemented using **Passport.js** with username and password authentication.
 - Passwords are hashed using **bcrypt** for security.
 - **Session Management** is enabled with **express-session** and stored securely in MongoDB using **connect-mongo**.
@@ -218,69 +219,76 @@ The **Controllers** handle user actions and communication between Models and Vie
 ---
 
 ### 4. Admin Capabilities for Advanced Functions
+
 - Admin-specific functionalities include:
-   - **Promoting Users**: Admins can promote standard users to admin roles using `promoToAdmin.js`.
-   - **Data Management**: Admins can clean up orphaned data using `cleanupOrphanedData.js`.
-   - **User and Photo Management**: Admins can delete unwanted users and photos from the **dashboard** (`dashboard.ejs`).
+  - **Promoting Users**: Admins can promote standard users to admin roles using `promoToAdmin.js`.
+  - **Data Management**: Admins can clean up orphaned data using `cleanupOrphanedData.js`.
+  - **User and Photo Management**: Admins can delete unwanted users and photos from the **dashboard** (`dashboard.ejs`).
 - Admin dashboard provides an overview of all photos and user accounts.
 
 ---
 
 ### 5. RESTful Web Service API with CRUD Operations
+
 - **CRUD Operations** are implemented for key resources like Photos, Users, and Comments:
-   - **Create**: Upload photos and add comments.
-   - **Read**: View photos, comments, and profiles.
-   - **Update**: Edit user profile and photo details.
-   - **Delete**: Remove photos, comments, or users (admin-only functionality).
+  - **Create**: Upload photos and add comments.
+  - **Read**: View photos, comments, and profiles.
+  - **Update**: Edit user profile and photo details.
+  - **Delete**: Remove photos, comments, or users (admin-only functionality).
 - Secure endpoints are protected with **authentication middleware** to manage access.
 
 ---
 
 ### 6. Application Properly Validates and Handles Errors
+
 - **Validation**:
-   - User input is validated during registration and login.
-   - Proper error messages are displayed for invalid input.
+  - User input is validated during registration and login.
+  - Proper error messages are displayed for invalid input.
 - **Error Handling**:
-   - **404 Page**: A custom `404.ejs` is displayed for invalid routes.
-   - Restricted access for unauthorized users using `isAuthenticated.js` middleware.
-   - Proper HTTP error codes are sent in case of failed operations.
+  - **404 Page**: A custom `404.ejs` is displayed for invalid routes.
+  - Restricted access for unauthorized users using `isAuthenticated.js` middleware.
+  - Proper HTTP error codes are sent in case of failed operations.
 
 ---
 
 ### 7. Customized Interface for Different Users
+
 - **Admin View**:
-   - Admins access a dedicated dashboard (`dashboard.ejs`) to manage photos, users, and comments.
-   - Advanced functionalities like promoting users, data cleanup, and content moderation.
+  - Admins access a dedicated dashboard (`dashboard.ejs`) to manage photos, users, and comments.
+  - Advanced functionalities like promoting users, data cleanup, and content moderation.
 - **Regular User View**:
-   - Users can upload, view, and interact with photos.
-   - Profile view allows managing uploaded photos and updating personal details.
+  - Users can upload, view, and interact with photos.
+  - Profile view allows managing uploaded photos and updating personal details.
 
 ---
 
 ### 8. Web Forms for Signup, Login, and Profile Editing
+
 - **Forms Implemented**:
-   - Signup Form: `register.ejs` with validation for username, email, and password.
-   - Login Form: `login.ejs` with session handling.
-   - Profile Edit: Editable fields for user details and photo management in `profile.ejs`.
+  - Signup Form: `register.ejs` with validation for username, email, and password.
+  - Login Form: `login.ejs` with session handling.
+  - Profile Edit: Editable fields for user details and photo management in `profile.ejs`.
 - Form validation is implemented using server-side checks and feedback messages.
 
 ---
 
 ### 9. Enhanced Frontend Interactions with JavaScript
+
 - **Interactivity** is implemented using **vanilla JavaScript**:
-   - Comment Section: Users can interact with the photos by adding comments dynamically.
-   - Like Section: Allows users to like or unlike photos. The like count updates in real-time, and the heart icon toggles between outlined and filled states. A popup notification appears to prompt users to log in if they attempt to like a photo while unauthenticated.
-   - Modal Popups: Used for confirmation dialogs and profile editing.
-   - Flash Notifications: Provide user feedback using the `flash.js` utility.
-   - Dynamic photo preview on upload pages using JavaScript.
+  - Comment Section: Users can interact with the photos by adding comments dynamically.
+  - Like Section: Allows users to like or unlike photos. The like count updates in real-time, and the heart icon toggles between outlined and filled states. A 3 second popup notification appears to prompt users to log in if they attempt to like a photo while unauthenticated.
+  - Modal Popups: Used for confirmation dialogs and profile editing.
+  - Flash Notifications: Provide user feedback using the `flash.js` utility.
+  - Dynamic photo preview on upload pages using JavaScript.
 
 ---
 
 ### 10. Polished Responsive and Consistent Design Using CSS
+
 - **CSS** ensures a clean, responsive, and consistent UI:
-   - Modular CSS files are created for `navbar.css`, `gallery.css`, `profile.css`, and `login.css`.
-   - Responsive design ensures the application works seamlessly across devices (mobile, tablet, desktop).
-   - Consistent styles for buttons, forms, galleries, and modals.
+  - Modular CSS files are created for `navbar.css`, `gallery.css`, `profile.css`, and `login.css`.
+  - Responsive design ensures the application works seamlessly across devices (mobile, tablet, desktop).
+  - Consistent styles for buttons, forms, galleries, and modals.
 
 ## Challenges
 
@@ -336,18 +344,19 @@ The following resources were instrumental in building this project:
 ---
 
 ### Application Goes Above and Beyond the Requirements
+
 - **Additional Features Implemented**:
-   1. **Commenting System**: Allows users to interact with photos through comments.
-   2. **Photo Migration Tool**: Reorganize categories using `migratePhotoCategories.js`.
-   3. **Admin Promotions**: Admins can promote standard users to admins using scripts.
-   4. **Orphaned Data Cleanup**: Identify and remove unnecessary database entries.
-   5. **Flash Notifications**: User-friendly notifications for successful or failed actions.
+  1.  **Commenting System**: Allows users to interact with photos through comments.
+  2.  **Photo Migration Tool**: Reorganize categories using `migratePhotoCategories.js`.
+  3.  **Admin Promotions**: Admins can promote standard users to admins using scripts.
+  4.  **Orphaned Data Cleanup**: Identify and remove unnecessary database entries.
+  5.  **Flash Notifications**: User-friendly notifications for successful or failed actions.
 - Thoughtful group discussions ensured a robust design framework for the application.
 
-
 ### Submitted by
-Anusha Shiva Kumar - [ans797@pitt.edu](mailto\:ans797@pitt.edu)
 
-Harshita Batta - [hab213@pitt.edu](mailto\:hab213@pitt.edu)
+Anusha Shiva Kumar - [ans797@pitt.edu](mailto:ans797@pitt.edu)
 
-Neha Navarkar - [nen28@pitt.edu](mailto\:nen28\@pitt.edu)
+Harshitha Batta - [hab213@pitt.edu](mailto:hab213@pitt.edu)
+
+Neha Navarkar - [nen28@pitt.edu](mailto:nen28@pitt.edu)
