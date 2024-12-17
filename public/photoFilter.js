@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Get the dropdown and all gallery items
   const dropdown = document.getElementById("explore-dropdown");
   const galleryItems = document.querySelectorAll(".gallery-item");
 
@@ -14,6 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
         item.style.display = "none"; // Hide non-matching items
       }
     });
+
+    // Set dropdown value to the selected category
+    dropdown.value = selectedCategory;
   }
 
   // Event listener for dropdown selection
