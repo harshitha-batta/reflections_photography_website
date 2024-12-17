@@ -53,8 +53,9 @@ a {
 .profile-info p {
   font-size: 1.1rem;
   color: #666;
-    font-family: "Lora", serif;
+  font-family: "Lora", serif;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .edit-profile-btn {
@@ -478,3 +479,9 @@ a {
   transform: translateY(-2px);
 }
 
+
+.no-photos-message {
+    text-align: center;
+    font-size: 1.2rem;
+    font-family: "Lora", serif;
+}
