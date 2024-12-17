@@ -237,19 +237,16 @@ router.post('/login', async (req, res) => {
 });
 router.get('/profile', isAuthenticated, async (req, res) => {
   try {
+    // Fetch photos uploaded by the authenticated user
     const photos = await Photo.find({ uploader: req.user._id }).populate('category');
-    const categories = await Category.find();
 
-    const profilePhotoUrl = req.user.profilePhoto
-      ? `/profile/profile-photo/${encodeURIComponent(req.user.profilePhoto)}`
-      : `https://ui-avatars.com/api/?name=${encodeURIComponent(req.user.name)}&background=random&color=fff&size=250`;
+    const categories = await Category.find({}); // Fetch categories for dropdown
 
     res.render('profile', {
       title: 'Your Profile',
-      user: { ...req.user, profilePhoto: profilePhotoUrl },
-      photos,
-      categories,
-      isCurrentUser: true, // Add this flag
+      user: req.user,
+      photos,        // Pass photos to the template
+      categories,    // Pass categories to the template
     });
   } catch (err) {
     console.error('Error fetching profile data:', err.message);
@@ -257,6 +254,13 @@ router.get('/profile', isAuthenticated, async (req, res) => {
   }
 });
 
+
+// Handle Logout
+router.get('/logout', (req, res) => {
+  res.clearCookie('jwt');
+  setFlashMessage(res, 'success', 'You have been logged out.');
+  res.redirect('/auth/login');
+});
 
 
 module.exports = router;
