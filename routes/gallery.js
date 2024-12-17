@@ -21,24 +21,32 @@ router.get("/", async (req, res) => {
 });
 
 // Route to display photos by category
-router.get("/category/:categoryId", async (req, res) => {
+router.get("/category/:categoryName", async (req, res) => {
   try {
-    const categoryId = req.params.categoryId;
-    const categories = await Category.find(); 
-    const photos = await Photo.find({ category: categoryId }).populate(
-      "category"
-    ); 
+    const categoryName = req.params.categoryName;
+
+    // Fetch the category by name (case-insensitive)
+    const category = await Category.findOne({ name: new RegExp(`^${categoryName}$`, "i") });
+
+    if (!category) {
+      return res.status(404).send("Category not found");
+    }
+
+    // Find photos associated with the category's ObjectId
+    const photos = await Photo.find({ category: category._id }).populate("category", "name");
+    const categories = await Category.find(); // Fetch all categories for dropdown
 
     res.render("gallery", {
-      title: "Gallery - Filtered by Category",
+      title: `Gallery - ${category.name}`,
       photos,
-      categories, 
+      categories
     });
   } catch (err) {
     console.error("Error fetching category photos:", err.message);
     res.status(500).send("Server Error");
   }
 });
+
 
 module.exports = router;
 
