@@ -69,8 +69,11 @@
               <!-- Photo Actions: Visible Only for Session User -->
               <% if (locals.user && locals.user.id === user._id.toString()) { %>
                 <div class="photo-actions">
-                  <button class="edit-photo-btn" 
-                          onclick="openEditModal('<%= photo._id %>', '<%= photo.title %>', '<%= photo.description %>', '<%= photo.category %>')">✏️ Edit</button>
+                <button class="edit-photo-btn" onclick="openEditModal('12345', 'Sample Title', 'Sample Description', 'Landscapes')">
+  ✏️ Edit
+</button>
+
+
                   <form action="/profile/photo/<%= photo._id %>?_method=DELETE" method="POST" style="display:inline;">
                     <button type="submit" class="delete-photo-btn">🗑️ Delete</button>
                   </form>
@@ -114,24 +117,27 @@
   <div class="modal-content">
     <span class="close-btn" onclick="closeEditModal()">×</span>
     <h3>Edit Photo</h3>
-    <form id="edit-photo-form" action="" method="POST">
-      <input type="hidden" name="_method" value="PATCH">
-      <label for="title">Title</label>
-      <input type="text" id="edit-title" name="title" required>
+<form id="edit-photo-form" action="" method="POST" enctype="multipart/form-data">
+  <input type="hidden" name="_method" value="PATCH">
 
-      <label for="description">Description</label>
-      <textarea id="edit-description" name="description"></textarea>
+  <label for="title">Title</label>
+  <input type="text" id="edit-title" name="title" required>
 
-      <label for="category">Category</label>
-      <select id="edit-category" name="category">
-        <option value="Landscapes">Landscapes</option>
-        <option value="Portraits">Portraits</option>
-        <option value="Abstract">Abstract</option>
-        <option value="Other">Other</option>
-      </select>
+  <label for="description">Description</label>
+  <textarea id="edit-description" name="description"></textarea>
 
-      <button type="submit" class="save-edit-btn">Save Changes</button>
-    </form>
+  <label for="category">Category</label>
+  <select id="edit-category" name="category">
+    <option value="Landscapes">Landscapes</option>
+    <option value="Portraits">Portraits</option>
+    <option value="Abstract">Abstract</option>
+    <option value="Other">Other</option>
+  </select>
+  <label for="photo">New Photo (optional)</label>
+  <input type="file" id="edit-photo" name="photo">
+  <button type="submit" class="save-edit-btn">Save Changes</button>
+</form>
+
   </div>
 </div>
 
@@ -178,7 +184,7 @@
   function openEditModal(photoId, title, description, category) {
     const modal = document.getElementById('edit-photo-modal');
     modal.classList.remove('hidden');
-
+      console.log('Opening Edit Modal:', { photoId, title, description, category });
     document.getElementById('edit-title').value = title;
     document.getElementById('edit-description').value = description;
     document.getElementById('edit-category').value = category;
