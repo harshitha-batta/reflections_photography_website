@@ -96,6 +96,33 @@ body {
   -webkit-text-stroke: 0px; /* Remove border */
 }
 
+
+/* Like Notification Box */
+.like-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff6b6b; /* Soft red */
+  color: #fff; /* White text */
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-family: "Lora", serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* Show class to make the notification visible */
+.like-notification.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+
 /* Comments Section */
 .comments-section {
   background: #f9f9f9;
