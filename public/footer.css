@@ -1,127 +1,129 @@
-/* Footer General Styles */
+/* Footer General Styling */
 .footer {
-  background-color: #000; /* Black background */
+  font-family: "Lora", serif; /* Footer-specific font */
+  background-color: #333;
   color: #fff;
   padding: 40px 20px;
-  line-height: 1.6;
+  font-size: 0.9em;
 }
 
 .footer-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Footer Sections */
-.footer-section {
-  flex: 1 1 250px;
-  margin: 20px;
+/* Footer Titles and Headings */
+.footer-title, .footer-heading {
+  font-family: "Montez", cursive;
+  font-size: 2em;
+  margin-bottom: 15px;
 }
 
-.footer-section h3, 
-.footer-section h4 {
-  margin-bottom: 15px;
-  font-size: 1.3em;
+.footer-heading {
+  font-size: 1.6em;
+  margin-bottom: 10px;
   color: #E0D2DE;
 }
 
-.footer-section p {
-  margin-bottom: 10px;
-  font-size: 0.9em;
+/* Footer Text */
+.footer-text, .footer-list li {
+  font-family: "Lora", serif;
+  color: #ccc;
+  line-height: 1.5;
 }
 
-.footer-section ul {
+/* Footer Lists */
+.footer-list {
   list-style: none;
   padding: 0;
 }
 
-.footer-section ul li {
+.footer-list li {
   margin-bottom: 8px;
-  font-size: 0.9em;
-  color: #aaa;
-  cursor: pointer;
-  transition: color 0.3s;
+  transition: color 0.3s ease;
 }
 
-.footer-section ul li:hover {
-  color: #fff;
-}
-
-/* App Buttons */
-.app-buttons {
-  margin: 10px 0;
-}
-
-.app-btn {
-  background-color: #333;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  margin-right: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.app-btn:hover {
-  background-color: #62445E;
-}
-
-/* Social Icons */
-.social-icons {
-  margin-top: 10px;
-}
-
-.social-icons i {
-  font-size: 1.2em;
-  margin-right: 10px;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.social-icons i:hover {
+.footer-list li:hover {
   color: #E0D2DE;
+  cursor: pointer;
 }
 
-/* Tags/Labels */
+/* Footer Tags */
 .tag-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.tag-list span {
-  background-color: #333;
-  color: #E0D2DE;
-  padding: 6px 12px;
-  border-radius: 20px;
+.footer-tag {
+  background: #444;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
   font-size: 0.8em;
-  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.tag-list span:hover {
-  background-color: #62445E;
+.footer-tag:hover {
+  background: #62445E;
+  cursor: pointer;
 }
 
 /* Footer Bottom */
 .footer-bottom {
   text-align: center;
-  margin-top: 30px;
-  border-top: 1px solid #333;
+  margin-top: 20px;
+  border-top: 1px solid #555;
   padding-top: 15px;
 }
 
-.footer-bottom p {
-  font-size: 0.9em;
-  color: #aaa;
-}
-
-.footer-bottom a {
+.footer-link {
   color: #E0D2DE;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-.footer-bottom a:hover {
+.footer-link:hover {
+  color: #fff;
   text-decoration: underline;
+}
+
+/* App Buttons */
+.app-buttons {
+  margin-top: 15px;
+}
+
+.app-btn {
+  background: #62445E;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.app-btn:hover {
+  background: #50364B;
+}
+
+/* Social Icons */
+.social-icons {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.social-icons i {
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.social-icons i:hover {
+  color: #E0D2DE;
 }

@@ -53,6 +53,7 @@ body {
 }
 
 .hero-text h1 {
+    font-family: "Montez", cursive;
   font-size: 5em;
   font-weight: bold;
 }
@@ -147,7 +148,7 @@ body {
 
 .categories h2 {
   font-size: 4em;
-
+  font-family: "Montez", cursive;
   margin-bottom: 20px;
   text-align: center;
   font-weight: lighter;
