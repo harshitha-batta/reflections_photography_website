@@ -106,44 +106,38 @@ router.post("/like/:id", attachUser, isAuthenticated, async (req, res) => {
 
 
 // Regex to ensure the ID is a valid MongoDB ObjectId
-router.get('/user/:id', async (req, res) => {
+router.get('/user/:id', isAuthenticated, async (req, res) => {
   try {
     const userId = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
-      console.error(`Invalid User ID: ${userId}`);
       return res.status(400).send('Invalid User ID');
     }
 
     const user = await User.findById(userId).lean();
     if (!user) {
-      console.error(`User not found for ID: ${userId}`);
       return res.status(404).send('User not found');
     }
 
-    const photos = await Photo.find({ uploader: userId });
-    const categories = await Category.find({}); // Fetch categories for dropdown
+    const photos = await Photo.find({ uploader: userId }).populate('category');
+    const categories = await Category.find();
 
     const profilePhotoUrl = user.profilePhoto
       ? `/profile/profile-photo/${encodeURIComponent(user.profilePhoto)}`
       : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff&size=250`;
 
-    console.log('Profile Photo URL:', profilePhotoUrl);
-
     res.render('profile', {
       title: `${user.name}'s Profile`,
-      user: { ...user, profilePhoto: profilePhotoUrl }, // Override photo path
+      user: { ...user, profilePhoto: profilePhotoUrl },
       photos,
       categories,
-      locals: { user: req.user }, // Session user for permissions
+      isCurrentUser: req.user._id.toString() === userId, // Add this flag for comparison
     });
   } catch (err) {
     console.error('Error fetching user profile:', err.message);
     res.status(500).send('Server Error');
   }
 });
-
-
 
 
 // Add a comment to a photo
