@@ -97,6 +97,22 @@
         <% }) %>
       </div>
     </section>
+        
+    <section class="featured">
+  <div class="gallery">
+    <% photos.forEach(photo => { %>
+      <div class="gallery-item" data-category="<%= photo.category %>">
+        <a href="/readerPost/<%= photo._id %>">
+          <img 
+            src="<%= photo.imagePath.startsWith('http') ? photo.imagePath : '/profile/photo/' + encodeURIComponent(photo.imagePath) %>" 
+            alt="<%= photo.category %>"
+          >
+        </a>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
 
   </main>
 
@@ -144,5 +160,7 @@ function updateScrollButtons() {
     });
   </script>
 <%- include('layouts/footer_prelogin') %>
+  
+  <script src="/photoFilter.js"></script>
 </body>
 </html>
