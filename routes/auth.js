@@ -8,6 +8,7 @@ const Photo = require('../models/Photo');
 const { setFlashMessage } = require('../utils/flash'); // Correct import
 const crypto = require('crypto');
 const PasswordReset = require('../models/PasswordReset');
+const Category = require('../models/Category');
 // JWT Generation Function
 function generateToken(user) {
   const payload = {
@@ -234,30 +235,25 @@ router.post('/login', async (req, res) => {
     res.redirect('/auth/login');
   }
 });
-// Get Profile Page
 router.get('/profile', isAuthenticated, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
-    if (!user) {
-      setFlashMessage(res, 'error', 'User not found.');
-      return res.redirect('/auth/login');
-    }
+    // Fetch photos uploaded by the authenticated user
+    const photos = await Photo.find({ uploader: req.user._id }).populate('category');
 
-    const photos = await Photo.find({ uploader: user._id });
-    const categories=await Comment.find({ uploader: user._id });
-    res.render("profile", {
-      title: "Your Profile",
-      user: req.user, // Assuming this is the logged-in user
-      photos,     // This could be pre-fetched user photos
-      categories, // Fix: Add an empty array or fetch categories dynamically
+    const categories = await Category.find({}); // Fetch categories for dropdown
+
+    res.render('profile', {
+      title: 'Your Profile',
+      user: req.user,
+      photos,        // Pass photos to the template
+      categories,    // Pass categories to the template
     });
-
   } catch (err) {
-    console.error('Error fetching photos:', err.message);
-    setFlashMessage(res, 'error', 'Unable to fetch profile details.');
-    res.redirect('/auth/login');
+    console.error('Error fetching profile data:', err.message);
+    res.status(500).send('Error fetching profile data.');
   }
 });
+
 
 // Handle Logout
 router.get('/logout', (req, res) => {
