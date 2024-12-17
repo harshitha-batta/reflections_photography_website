@@ -1,7 +1,7 @@
 /* Footer General Styling */
 .footer {
   font-family: "Lora", serif; /* Footer-specific font */
-  background-color: #333;
+  background-color: #62445E;
   color: #fff;
   padding: 40px 20px;
   font-size: 0.9em;
@@ -59,8 +59,8 @@
 }
 
 .footer-tag {
-  background: #444;
-  color: #fff;
+  background: white;
+  color: #62445E;
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 0.8em;
@@ -69,6 +69,7 @@
 
 .footer-tag:hover {
   background: #62445E;
+  color: white;
   cursor: pointer;
 }
 
