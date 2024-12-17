@@ -10,7 +10,7 @@
     <h1>Request Password Reset</h1>
 
     <% if (message) { %>
-      <p style="color: green;"><%= message %></p>
+      <p style="color: red;"><%= message %></p>
     <% } %>
 
     <form action="/auth/request-reset" method="POST">
