@@ -167,43 +167,34 @@ router.get('/profile-photo/:filename', async (req, res) => {
 // Upload photo with metadata
 router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req, res) => {
   try {
-    console.log('Upload request received.');
-    console.log('File received:', req.file);
-
     if (!req.file) {
       setFlashMessage(res, 'error', 'No file uploaded.');
-      console.error('No file was uploaded.');
       return res.redirect('/profile');
     }
 
     const { title, description, category, tags } = req.body;
 
-    // Log the form fields
-    console.log('Form Data:', { title, description, category, tags });
-
-    // Find the category (optional)
-    let categoryDoc = null;
-    if (category) {
-      categoryDoc = await Category.findOne({ name: category });
-      if (!categoryDoc) {
-        setFlashMessage(res, 'error', 'Invalid category selected.');
-        console.error('Invalid category:', category);
-        return res.redirect('/profile');
-      }
+    // Find the category by name
+    const categoryDoc = await Category.findOne({ name: category });
+    if (!categoryDoc) {
+      setFlashMessage(res, 'error', 'Invalid category selected.');
+      return res.redirect('/profile');
     }
 
-    // Save the photo metadata to the database
     const newPhoto = new Photo({
       title,
       description,
-      category: categoryDoc ? categoryDoc._id : null,
+      category: categoryDoc._id, // Use the resolved ObjectId
       tags: tags ? tags.split(',').map((tag) => tag.trim()) : [],
       imagePath: req.file.filename,
       uploader: req.user._id,
     });
 
     await newPhoto.save();
-    console.log('Photo uploaded successfully:', newPhoto);
+
+    await User.findByIdAndUpdate(req.user._id, {
+      $push: { uploadedPhotos: newPhoto._id },
+    });
 
     setFlashMessage(res, 'success', 'Photo uploaded successfully!');
     res.redirect('/profile');
@@ -213,7 +204,6 @@ router.post('/upload-photo', isAuthenticated, upload.single('photo'), async (req
     res.redirect('/profile');
   }
 });
-
 
 
 
