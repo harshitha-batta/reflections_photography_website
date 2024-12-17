@@ -96,6 +96,14 @@ app.get('/admin/dashboard', isAuthenticated, isAdmin, (req, res) => {
   res.render('admin/dashboard', { title: 'Admin Dashboard', user: req.user });
 });
 
+app.get('/about', (req, res) => {
+  res.render('AboutUs'); 
+});
+
+app.get('/gallery', (req, res) => {
+    res.render('gallery'); // Assuming 'gallery.ejs' is your template file
+});
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {
