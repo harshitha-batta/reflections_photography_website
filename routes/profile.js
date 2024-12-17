@@ -259,9 +259,6 @@ router.patch('/photo/:id', isAuthenticated, upload.single('photo'), async (req, 
 });
 
 
-
-
-
 // Render upload page
 router.get('/upload', isAuthenticated, (req, res) => {
   res.render('upload', {
