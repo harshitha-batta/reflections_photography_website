@@ -63,23 +63,36 @@ router.post('/register', async (req, res) => {
   }
 });
 // Render Request Reset Page
+// Render Request Reset Page
 router.get('/request-reset', (req, res) => {
-  res.render('requestReset', { title: 'Request Password Reset' });
+  res.render('requestReset', { title: 'Request Password Reset', message: '' });
 });
 
+
+// Handle Request Reset Token
 // Handle Request Reset Token
 router.post('/request-reset', async (req, res) => {
   const { email } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) return res.status(404).send('User not found.');
 
-  const resetToken = crypto.randomBytes(3).toString('hex').toUpperCase();
-  const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-  user.passwordResetToken = hashedToken;
-  user.passwordResetExpires = Date.now() + 10 * 60 * 1000;
-  await user.save();
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      setFlashMessage(res, 'error', 'Email not found.');
+      return res.redirect('/auth/request-reset');
+    }
 
-  res.send(`Your reset token is: ${resetToken}`);
+    const resetToken = crypto.randomBytes(3).toString('hex').toUpperCase();
+    const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+    user.passwordResetToken = hashedToken;
+    user.passwordResetExpires = Date.now() + 10 * 60 * 1000; // Token expires in 10 minutes
+    await user.save();
+
+    // Render confirmation page with the token
+    res.render('tokenSent', { title: 'Token Sent', resetToken });
+  } catch (err) {
+    setFlashMessage(res, 'error', 'An error occurred while generating the reset token.');
+    res.redirect('/auth/request-reset');
+  }
 });
 
 // Render Submit Token Page
@@ -90,17 +103,28 @@ router.get('/submit-token', (req, res) => {
 // Verify Token and Render Reset Password Page
 router.post('/verify-token', async (req, res) => {
   const { email, token } = req.body;
-  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-  const user = await User.findOne({
-    email,
-    passwordResetToken: hashedToken,
-    passwordResetExpires: { $gt: Date.now() },
-  });
 
-  if (!user) return res.status(400).send('Invalid or expired token.');
+  try {
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+    const user = await User.findOne({
+      email,
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
 
-  res.redirect('/auth/reset-password'); // Proceed to reset password
+    if (!user) {
+      setFlashMessage(res, 'error', 'Invalid or expired reset token.');
+      return res.redirect('/auth/submit-token');
+    }
+
+    // Token verified, proceed to reset password
+    res.render('resetPassword', { title: 'Reset Password', email });
+  } catch (err) {
+    setFlashMessage(res, 'error', 'An error occurred during token verification.');
+    res.redirect('/auth/submit-token');
+  }
 });
+
 
 // Render Reset Password Page
 router.get('/reset-password', (req, res) => {
