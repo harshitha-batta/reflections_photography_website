@@ -14,6 +14,8 @@ const { setFlashMessage } = require('./utils/flash');
 const app = express();
 const methodOverride = require('method-override');
 const addCommentsRoutes = require('./routes/addComments');
+const Category = require('./models/Category'); 
+const Photo = require('./models/Photo'); 
 
 
 // Middleware for parsing JSON and forms
@@ -93,6 +95,19 @@ app.get('/about', (req, res) => {
   res.render('AboutUs'); 
 });
 
+app.get('/gallery', async (req, res) => {
+  try {
+    // Fetch categories and photos from MongoDB
+    const categories = await Category.find(); // Fetch all categories
+    const photos = await Photo.find(); // Fetch all photos
+
+    // Pass fetched data to gallery.ejs
+    res.render('gallery', { categories, photos, heroPhotos: photos.slice(0, 3) }); // First 3 photos as heroPhotos
+  } catch (err) {
+    console.error('Error fetching data:', err.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 // Catch-all for unmatched routes
 app.use((req, res) => {
