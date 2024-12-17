@@ -152,9 +152,9 @@ The project follows a **three-tier architecture** combined with the **MVC (Model
 
 ---
 
-## MVC Model Implementation
+### 1. MVC Model Implementation
 
-### Models
+#### Models
 
 The **Models** define the database schema and interact with MongoDB:
 
@@ -171,7 +171,7 @@ The **Models** define the database schema and interact with MongoDB:
    - Fields: `name`, `description`.
    - Purpose: Defines categories for organizing photos.
 
-### Views
+#### Views
 
 The **Views** are the EJS templates that render the UI for users and admins:
 
@@ -182,7 +182,7 @@ The **Views** are the EJS templates that render the UI for users and admins:
 - `readerPost.ejs`: Single photo view with commenting functionality.
 - `dashboard.ejs`: Admin dashboard.
 
-### Controllers
+#### Controllers
 
 The **Controllers** handle user actions and communication between Models and Views:
 
@@ -192,6 +192,86 @@ The **Controllers** handle user actions and communication between Models and Vie
 4. **Admin Controller**: Handles admin functionalities such as promoting users and data cleanup.
 
 ---
+
+### 2. Persistent Data Storage (MongoDB with Atlas)
+- **MongoDB Atlas** is used as the database to store user, photo, and comment data.
+- **GridFS** is implemented for persistent storage of uploaded photos.
+- Data models are created using **Mongoose** to define schemas for `User`, `Photo`, `Comment`, and `Category`.
+- Additional scripts like `cleanupOrphanedData.js` ensure data integrity by identifying and removing orphaned entries.
+
+---
+
+### 3. Log-in and Sign-up Functions
+- **Secure Authentication** is implemented using **Passport.js** with username and password authentication.
+- Passwords are hashed using **bcrypt** for security.
+- **Session Management** is enabled with **express-session** and stored securely in MongoDB using **connect-mongo**.
+- Users can register, log in, and log out with proper session handling.
+
+---
+
+### 4. Admin Capabilities for Advanced Functions
+- Admin-specific functionalities include:
+   - **Promoting Users**: Admins can promote standard users to admin roles using `promoToAdmin.js`.
+   - **Data Management**: Admins can clean up orphaned data using `cleanupOrphanedData.js`.
+   - **User and Photo Management**: Admins can delete unwanted users and photos from the **dashboard** (`dashboard.ejs`).
+- Admin dashboard provides an overview of all photos and user accounts.
+
+---
+
+### 5. RESTful Web Service API with CRUD Operations
+- **CRUD Operations** are implemented for key resources like Photos, Users, and Comments:
+   - **Create**: Upload photos and add comments.
+   - **Read**: View photos, comments, and profiles.
+   - **Update**: Edit user profile and photo details.
+   - **Delete**: Remove photos, comments, or users (admin-only functionality).
+- Secure endpoints are protected with **authentication middleware** to manage access.
+
+---
+
+### 6. Application Properly Validates and Handles Errors
+- **Validation**:
+   - User input is validated during registration and login.
+   - Proper error messages are displayed for invalid input.
+- **Error Handling**:
+   - **404 Page**: A custom `404.ejs` is displayed for invalid routes.
+   - Restricted access for unauthorized users using `isAuthenticated.js` middleware.
+   - Proper HTTP error codes are sent in case of failed operations.
+
+---
+
+### 7. Customized Interface for Different Users
+- **Admin View**:
+   - Admins access a dedicated dashboard (`dashboard.ejs`) to manage photos, users, and comments.
+   - Advanced functionalities like promoting users, data cleanup, and content moderation.
+- **Regular User View**:
+   - Users can upload, view, and interact with photos.
+   - Profile view allows managing uploaded photos and updating personal details.
+
+---
+
+### 8. Web Forms for Signup, Login, and Profile Editing
+- **Forms Implemented**:
+   - Signup Form: `register.ejs` with validation for username, email, and password.
+   - Login Form: `login.ejs` with session handling.
+   - Profile Edit: Editable fields for user details and photo management in `profile.ejs`.
+- Form validation is implemented using server-side checks and feedback messages.
+
+---
+
+### 9. Enhanced Frontend Interactions with JavaScript
+- **Interactivity** is implemented using **vanilla JavaScript**:
+   - Comment Section: Users can interact with the photos by adding comments dynamically.
+   - Modal Popups: Used for confirmation dialogs and profile editing.
+   - Flash Notifications: Provide user feedback using the `flash.js` utility.
+   - Dynamic photo preview on upload pages using JavaScript.
+
+---
+
+### 10. Polished Responsive and Consistent Design Using CSS
+- **CSS** ensures a clean, responsive, and consistent UI:
+   - Modular CSS files are created for `navbar.css`, `gallery.css`, `profile.css`, and `login.css`.
+   - Responsive design ensures the application works seamlessly across devices (mobile, tablet, desktop).
+   - Consistent styles for buttons, forms, galleries, and modals.
 
 ## Challenges
 
