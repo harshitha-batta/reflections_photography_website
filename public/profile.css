@@ -480,7 +480,7 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
 
 .button-row button:hover {
   background: rgba(170, 136, 81, 0.2);
-  color: #50364b;
+  color: #aa8851;
   transform: translateY(-2px);
 }
 

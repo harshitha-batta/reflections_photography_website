@@ -18,7 +18,7 @@ body {
 .container {
   margin: auto; /* Center vertically and horizontally */
   text-align: center;
-  margin-top: 140px;
+  margin-top: 180px;
   background-color: rgba(170, 136, 81, 0.2);
   padding: 20px 30px;
   border-radius: 8px;
@@ -67,7 +67,7 @@ input[type="email"] {
 }
 
 .btn:hover {
-  background-color: white;
+  background: rgba(170, 136, 81, 0.2);
   color: #aa8851;
 }
 
