@@ -116,13 +116,13 @@ body {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(245, 235, 224, 0.8) /* #aa8851; #ff6b6b Soft red */
-  color: #fff; /* White text */
+  background-color: rgba(245, 235, 224, 0.8); 
+  color: #aa8851; 
   padding: 12px 20px;
   border-radius: 8px;
   font-size: 1.1rem;
   font-family: "Lora", serif;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px ;
   z-index: 1000;
   opacity: 0;
   visibility: hidden;

@@ -269,6 +269,7 @@ The **Controllers** handle user actions and communication between Models and Vie
 ### 9. Enhanced Frontend Interactions with JavaScript
 - **Interactivity** is implemented using **vanilla JavaScript**:
    - Comment Section: Users can interact with the photos by adding comments dynamically.
+   - Like Section: Allows users to like or unlike photos. The like count updates in real-time, and the heart icon toggles between outlined and filled states. A popup notification appears to prompt users to log in if they attempt to like a photo while unauthenticated.
    - Modal Popups: Used for confirmation dialogs and profile editing.
    - Flash Notifications: Provide user feedback using the `flash.js` utility.
    - Dynamic photo preview on upload pages using JavaScript.
