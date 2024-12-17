@@ -50,6 +50,15 @@ body {
   text-decoration: none !important; /* Remove underline */
 }
 
+.uploader-info a {
+  text-decoration: none !important; /* Remove underline from links */
+  color: inherit; /* Inherit text color from parent */
+}
+
+.uploader-info a h2 {
+  margin: 0; /* Optional: Ensure consistent spacing */
+}
+
 
 /* Image Section */
 .image-section {

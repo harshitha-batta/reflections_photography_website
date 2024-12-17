@@ -3,7 +3,6 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Lora', serif;
-  background-color: #62445E;
   color: #333;
 }
 
@@ -44,13 +43,13 @@ main {
   margin: 100px auto 20px; /* Adjusted top margin */
   padding: 20px;
   background: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/*   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);/ */
   border-radius: 12px;
 }
 
 /* Section Cards */
 .section-card {
-  background-color: #f9f9f9;
+  background: rgba(240, 186, 192, 0.1);
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -88,7 +87,7 @@ table thead {
 }
 
 table tbody tr:nth-child(even) {
-  background-color: #62445E;
+/*   background-color: #62445E; */
 }
 
 table tbody tr:hover {
