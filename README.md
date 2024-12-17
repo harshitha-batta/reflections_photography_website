@@ -245,3 +245,12 @@ The following resources were instrumental in building this project:
 5. [EJS Template Engine](https://ejs.co/)
 
 ---
+
+### Application Goes Above and Beyond the Requirements
+- **Additional Features Implemented**:
+   1. **Commenting System**: Allows users to interact with photos through comments.
+   2. **Photo Migration Tool**: Reorganize categories using `migratePhotoCategories.js`.
+   3. **Admin Promotions**: Admins can promote standard users to admins using scripts.
+   4. **Orphaned Data Cleanup**: Identify and remove unnecessary database entries.
+   5. **Flash Notifications**: User-friendly notifications for successful or failed actions.
+- Thoughtful group discussions ensured a robust design framework for the application.

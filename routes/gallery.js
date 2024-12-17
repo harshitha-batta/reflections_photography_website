@@ -6,17 +6,22 @@ const Category = require("../models/Category"); // Category model
 // Route to render the gallery page
 router.get("/", async (req, res) => {
   try {
-    const categories = await Category.find(); // Fetch all categories
-    const photos = await Photo.find(); // Fetch all photos
+    const categories = await Category.find().lean(); // Fetch all categories
+    const photos = await Photo.find().lean(); // Fetch all photos
+    const heroPhotos = await Photo.find().limit(5).lean(); // Fetch 5 hero photos for the slider
 
     res.render("gallery", {
       title: "Gallery",
+      heroPhotos, // Pass hero photos for the hero slider
       photos,
-      categories, // Pass categories to the template
+      categories, // Pass categories for the dropdown
     });
   } catch (err) {
-    console.error("Error fetching photos or categories:", err.message);
-    res.status(500).send("Server Error");
+    console.error("Error fetching gallery data:", err.message);
+    res.status(500).render("error", {
+      title: "Error",
+      message: "Unable to load the gallery at this time. Please try again later.",
+    });
   }
 });
 
@@ -24,24 +29,31 @@ router.get("/", async (req, res) => {
 router.get("/category/:categoryId", async (req, res) => {
   try {
     const categoryId = req.params.categoryId;
-    const categories = await Category.find(); // Fetch all categories for the dropdown
-    const photos = await Photo.find({ category: categoryId }).populate(
-      "category"
-    ); // Fetch photos for the selected category
+
+    // Fetch all categories for the dropdown
+    const categories = await Category.find().lean();
+
+    // Fetch photos for the selected category and populate the category field
+    const photos = await Photo.find({ category: categoryId })
+      .populate("category")
+      .lean();
+
+    // Fetch hero photos (can still be general or filtered)
+    const heroPhotos = await Photo.find().limit(5).lean();
 
     res.render("gallery", {
-      title: "Gallery - Filtered by Category",
+      title: `Gallery - ${categories.find(cat => cat._id.toString() === categoryId)?.name || 'Category'}`,
+      heroPhotos,
       photos,
-      categories, // Pass categories to the template for the dropdown
+      categories, // Pass categories for dropdown
     });
   } catch (err) {
     console.error("Error fetching category photos:", err.message);
-    res.status(500).send("Server Error");
+    res.status(500).render("error", {
+      title: "Error",
+      message: "Unable to load photos for this category. Please try again later.",
+    });
   }
 });
 
 module.exports = router;
-
-module.exports = router;
-
-
