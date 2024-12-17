@@ -83,7 +83,9 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Subtle shadow */
   cursor: pointer;
   position: relative; 
-  z-index: 10;
+  max-height: 250px; /* Limit height to enable scrolling */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  z-index: 1000; /* Ensure dropdown appears above other elements */
 }
 
 #explore-dropdown:hover {
@@ -100,11 +102,6 @@ body {
   box-shadow: 0 0 10px rgba(170, 136, 81, 0.2); /* Focus glow */
   background-color: white; /* Keep background consistent on focus */
   color: #aa8851; /* Text color on focus */
-}
-
-select.explore-dropdown {
-  overflow-y: auto; /* Enable scrolling if there are many options */
-  max-height: 300px; /* Adjust the height limit */
 }
 
 
