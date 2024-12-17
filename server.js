@@ -84,7 +84,6 @@ app.use('/', galleryRoutes);
 app.use('/', readerPostRoutes); // Dynamic photo routes
 app.use('/admin', adminRoutes);
 app.use('/addComments', addCommentsRoutes);
-
 // Catch-all for unmatched routes
 app.use((req, res) => {
   res.status(404).render('404', { title: 'Page Not Found' });
