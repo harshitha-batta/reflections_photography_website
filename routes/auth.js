@@ -62,53 +62,66 @@ router.post('/register', async (req, res) => {
     res.redirect('/auth/register');
   }
 });
+// Render Request Reset Page
+router.get('/request-reset', (req, res) => {
+  res.render('requestReset', { title: 'Request Password Reset' });
+});
 
-// Request Password Reset Token (Using Email)
+// Handle Request Reset Token
 router.post('/request-reset', async (req, res) => {
   const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) return res.status(404).send('User not found.');
 
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(404).send('User not found.');
+  const resetToken = crypto.randomBytes(3).toString('hex').toUpperCase();
+  const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  user.passwordResetToken = hashedToken;
+  user.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  await user.save();
 
-    const resetToken = crypto.randomBytes(3).toString('hex').toUpperCase();
-    const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-    const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes expiry
-
-    user.passwordResetToken = hashedToken;
-    user.passwordResetExpires = expiresAt;
-    await user.save();
-
-    res.send({ message: 'Your reset token:', resetToken });
-  } catch (err) {
-    res.status(500).send('Error processing reset token.');
-  }
+  res.send(`Your reset token is: ${resetToken}`);
 });
 
-// Reset Password Using Token
-router.post('/reset-password-with-token', async (req, res) => {
-  const { email, token, newPassword } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(404).send('User not found.');
-
-    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-    if (user.passwordResetToken !== hashedToken || Date.now() > user.passwordResetExpires) {
-      return res.status(400).send('Invalid or expired reset token.');
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(newPassword, salt);
-    user.passwordResetToken = undefined;
-    user.passwordResetExpires = undefined;
-    await user.save();
-
-    res.send('Password reset successful. You can now log in.');
-  } catch (err) {
-    res.status(500).send('Error resetting password.');
-  }
+// Render Submit Token Page
+router.get('/submit-token', (req, res) => {
+  res.render('submitToken', { title: 'Submit Reset Token' });
 });
+
+// Verify Token and Render Reset Password Page
+router.post('/verify-token', async (req, res) => {
+  const { email, token } = req.body;
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+  const user = await User.findOne({
+    email,
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  if (!user) return res.status(400).send('Invalid or expired token.');
+
+  res.redirect('/auth/reset-password'); // Proceed to reset password
+});
+
+// Render Reset Password Page
+router.get('/reset-password', (req, res) => {
+  res.render('resetPassword', { title: 'Reset Password' });
+});
+
+// Handle Password Reset
+router.post('/reset-password', async (req, res) => {
+  const { email, newPassword } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) return res.status(404).send('User not found.');
+
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(newPassword, salt);
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+
+  res.send('Password reset successful. You can now log in.');
+});
+
 
 // Handle Login Form Submission
 router.post('/login', async (req, res) => {

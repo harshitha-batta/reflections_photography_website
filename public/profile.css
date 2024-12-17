@@ -104,14 +104,16 @@ a {
 .modal-content h2 {
   font-size: 1.8rem;
   color: #aa8851;
+  font-family: "Montez", cursive;
   margin-bottom: 20px;
 }
 
 .modal-content label {
   font-weight: bold;
+     font-family: "Montez", cursive;
   display: block;
   margin-bottom: 5px;
-  color: #333;
+  color: #aa8851;
   font-size: 1.3rem;
   text-align: left;
 }
@@ -366,7 +368,7 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
 
 .modal-content h3 {
    font-family: "Montez", cursive;
-  font-size: 1.6rem;
+  font-size: 2.5rem;
   color: #aa8851;
   margin-bottom: 15px;
 }
@@ -422,23 +424,23 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
 }
 
 .upload-btn {
-  background-color: #62445e;
+  background-color: #aa8851;
   color: white;
 }
 
 .upload-btn:hover {
   background: rgba(170, 136, 81, 0.2);
-  color: rgba(245, 235, 224, 0.8);
+  color: #aa8851;
 }
 
 .cancel-btn {
   background: rgba(170, 136, 81, 0.2);
-  color: rgba(245, 235, 224, 0.8);
+  color: #aa8851;
 }
 
 .cancel-btn:hover {
   color: white;
-  background: #50364b;
+  background: #aa8851;
 }
 
 /* Close Icon */
