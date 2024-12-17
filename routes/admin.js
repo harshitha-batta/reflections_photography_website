@@ -14,6 +14,40 @@ mongoose.connection.once('open', () => {
     bucketName: 'photos',
   });
 });
+// Remove a comment by ID
+router.delete('/comment/:id', isAuthenticated, isAdmin, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      setFlashMessage(res, 'error', 'Invalid comment ID.');
+      return res.redirect('/admin/dashboard');
+    }
+
+    // Find the comment
+    const comment = await Comment.findById(id);
+    if (!comment) {
+      setFlashMessage(res, 'error', 'Comment not found.');
+      return res.redirect('/admin/dashboard');
+    }
+
+    // Remove the comment from the associated photo
+    await Photo.findByIdAndUpdate(comment.photo, {
+      $pull: { comments: id },
+    });
+
+    // Delete the comment
+    await comment.deleteOne();
+
+    setFlashMessage(res, 'success', 'Comment removed successfully.');
+    res.redirect('/admin/dashboard');
+  } catch (err) {
+    console.error('Error while deleting comment:', err.message);
+    setFlashMessage(res, 'error', 'Failed to remove comment.');
+    res.redirect('/admin/dashboard');
+  }
+});
 
 // Remove a photo by ID or filename
 router.delete('/photo/:id', isAuthenticated, isAdmin, async (req, res) => {
@@ -89,12 +123,17 @@ router.get('/dashboard', isAuthenticated, isAdmin, async (req, res) => {
   try {
     const users = await User.find(); // Fetch all users
     const photos = await Photo.find(); // Fetch all photos
+    const comments = await Comment.find()
+      .populate('user', 'name email') // Fetch user details
+      .populate('photo', 'title')     // Fetch associated photo details
+      .lean();
 
     res.render('admin/dashboard', {
       title: 'Admin Dashboard',
       user: req.user,
       users,
       photos,
+      comments, // Pass comments to the view
     });
   } catch (err) {
     console.error('Error fetching admin data:', err);
