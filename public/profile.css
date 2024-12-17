@@ -323,7 +323,7 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
 
 
 .edit-photo-btn,
-.delete-photo-btn {
+.delete-photo-btn, .save-edit-btn {
   background-color: #aa8851;
   color: white;
   border: none;
@@ -339,6 +339,11 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
   background: rgba(245, 235, 224, 0.8);
   color: #50364b;
   transform: translateY(-2px);
+}
+
+.save-edit-btn:hover {
+    background: rgba(245, 235, 224, 0.8);
+  color: #aa8851;
 }
 
 .delete-photo-btn:hover {
