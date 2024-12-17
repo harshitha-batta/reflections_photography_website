@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Lora', serif;
-  background-color: #f8f9fa;
+  background-color: #62445E;
   color: #333;
 }
 
@@ -29,7 +29,7 @@ header {
 
 /* Style specific links in the header */
 header .dashboard-link {
-  color: #f8f9fa;
+  color: #62445E;
   font-size: 1rem;
   text-decoration: none;
 }
@@ -88,7 +88,7 @@ table thead {
 }
 
 table tbody tr:nth-child(even) {
-  background-color: #f8f9fa;
+  background-color: #62445E;
 }
 
 table tbody tr:hover {

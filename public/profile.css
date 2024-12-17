@@ -45,9 +45,10 @@ a {
 
 .profile-info h1 {
   font-size: 3rem;
-  color: #333;
+  color: #62445e;
   margin: 10px 0;
   text-align: center;
+   font-family: "Montez", cursive;
 }
 
 .profile-info p {
@@ -178,6 +179,7 @@ a {
   font-size: 2.5rem;
   color: #62445e;
   text-align: center;
+     font-family: "Montez", cursive;
 }
 
 /* Photos Grid with Larger Cards */
