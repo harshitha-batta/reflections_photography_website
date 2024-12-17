@@ -6,8 +6,7 @@
   <title>Reflections</title>
   <link rel="stylesheet" href="/navbar.css"> <!-- Navbar styles -->
   <link rel="stylesheet" href="/gallery.css"> <!-- Home Page styles -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link rel="stylesheet" href="/footer_prelogin.css">
   <link href="https://fonts.googleapis.com/css2?family=Montez&family=Pacifico&family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -80,43 +79,26 @@
           <button>Spring</button>
         </div>
         <button class="scroll-right" aria-label="Scroll Right">&rarr;</button>
-      </div>a
+      </div>
     </section>
 
     <!-- Dynamic Featured Collections Section -->
-<section class="featured">
-<!--   <h2>Featured Collections</h2> -->
-  <div class="gallery">
-    <% photos.forEach(photo => { %>
-      <div class="gallery-item">
-        <a href="/readerPost/<%= photo._id %>">
-          <!-- Check if the imagePath is a URL or a local file -->
-          <img 
-            src="<%= photo.imagePath.startsWith('http') ? photo.imagePath : '/profile/photo/' + encodeURIComponent(photo.imagePath) %>" 
-            alt="<%= photo.category %>">
-        </a>
-        <!-- Uncomment these lines if additional photo details are needed -->
-        <!-- <h3><%= photo.title %></h3>
-        <p><%= photo.description %></p>
-        <p>Category: <%= photo.category %></p>
-        <p>Likes: <%= photo.likes.length %></p> -->
-      </div>
-    <% }) %>
-  </div>
-</section>
-
-
-    <!-- Static Featured Collections Section -->
-<!--     <section class="featured">
-      <h2>Featured Collections</h2>
+    <section class="featured">
       <div class="gallery">
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/220051/pexels-photo-220051.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/221166/pexels-photo-221166.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/3734845/pexels-photo-3734845.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
-        <div class="gallery-item"><img src="https://images.pexels.com/photos/2471458/pexels-photo-2471458.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Placeholder"></div>
+        <% photos.forEach(photo => { %>
+          <div class="gallery-item">
+            <a href="/readerPost/<%= photo._id %>">
+              <img 
+                src="<%= photo.imagePath.startsWith('http') ? photo.imagePath : '/profile/photo/' + encodeURIComponent(photo.imagePath) %>" 
+                alt="<%= photo.category %>"
+              >
+            </a>
+          </div>
+        <% }) %>
       </div>
     </section>
-  </main> -->
+
+  </main>
 
   <script>
     // Scroll Functionality for Categories Section
@@ -124,14 +106,20 @@
     const scrollLeftButton = document.querySelector('.scroll-left');
     const scrollRightButton = document.querySelector('.scroll-right');
 
-    function updateScrollButtons() {
-      const scrollLeft = categoryContainer.scrollLeft;
-      const scrollWidth = categoryContainer.scrollWidth;
-      const clientWidth = categoryContainer.clientWidth;
+function updateScrollButtons() {
+  const scrollLeft = categoryContainer.scrollLeft;
+  const scrollWidth = categoryContainer.scrollWidth;
+  const clientWidth = categoryContainer.clientWidth;
 
-      scrollLeftButton.style.display = scrollLeft > 0 ? 'block' : 'none';
-      scrollRightButton.style.display = scrollLeft + clientWidth < scrollWidth ? 'block' : 'none';
-    }
+  console.log("Scroll Left:", scrollLeft);
+  console.log("Scroll Width:", scrollWidth);
+  console.log("Client Width:", clientWidth);
+
+  scrollLeftButton.style.display = scrollLeft > 0 ? "block" : "none";
+  scrollRightButton.style.display =
+    scrollLeft + clientWidth < scrollWidth ? "block" : "none";
+}
+
 
     categoryContainer.addEventListener('scroll', updateScrollButtons);
     window.addEventListener('resize', updateScrollButtons);
@@ -155,6 +143,6 @@
       }
     });
   </script>
-      
+<%- include('layouts/footer_prelogin') %>
 </body>
 </html>

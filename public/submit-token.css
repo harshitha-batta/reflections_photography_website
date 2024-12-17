@@ -11,80 +11,70 @@ body {
   flex-direction: column;
   min-height: 100vh;
   font-family: 'Lora', serif;
-  background-color: rgba(245, 235, 224, 0.8); /* Soft beige */
+  background-color: rgba(245, 235, 224, 0.8); /* Soft beige background */
   color: #333;
 }
 
-/* Container Styling */
+/* Main Container */
 .container {
+ 
   margin: auto;
-  margin-top: 180px;
-  margin-bottom: 100px;
   text-align: center;
   background-color: rgba(170, 136, 81, 0.2); /* Light brown background */
   padding: 30px 40px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   width: 90%;
-  max-width: 450px;
+  max-width: 500px;
+   margin-top: 180px;
 }
 
-/* Header Styling */
+/* Typography */
 h1 {
   font-family: 'Montez', cursive;
   font-size: 2.5rem;
+  color: #aa8851; /* Primary brown color */
   margin-bottom: 20px;
-  color: #aa8851;
 }
 
-/* Success Message */
 p {
-  color: green;
-  margin-bottom: 10px;
   font-size: 1.1rem;
+  color: red;
+  margin-bottom: 15px;
 }
 
-/* Form Styling */
-form {
-  display: flex;
-  flex-direction: column;
-}
-
+/* Form Elements */
 label {
+  display: block;
   text-align: left;
   margin-bottom: 5px;
-  font-family: 'Montez', cursive;
-  color: #aa8851;
   font-size: 1rem;
+  color: #aa8851;
+  font-family: 'Montez', cursive;
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="text"] {
   width: 100%;
   padding: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
   font-family: 'Lora', serif;
 }
 
-input[readonly] {
-  background-color: #f5f5f5;
-  color: #555;
-}
-
-/* Button Styling */
 button {
-  background-color: #aa8851;
+  display: inline-block;
+  background-color: #aa8851; /* Primary brown */
   color: white;
   border: none;
-  padding: 10px 15px;
+  padding: 10px 20px;
   font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
   font-family: 'Lora', serif;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 button:hover {
@@ -95,25 +85,23 @@ button:hover {
 /* Back Link */
 a {
   display: inline-block;
-  margin-top: 10px;
-  text-decoration: none;
+  margin-top: 15px;
   color: #aa8851;
+  text-decoration: none;
   font-size: 1rem;
-  transition: color 0.3s ease;
 }
 
 a:hover {
   text-decoration: underline;
-  color: #333;
 }
 
 /* Footer Styling */
 footer {
-  background-color: #aa8851;
+  background-color: #AA8851; /* Footer background color */
   color: white;
   text-align: center;
   padding: 20px;
-  margin-top: auto; /* Sticks footer to the bottom */
+  margin-top: auto; /* Pushes footer to the bottom */
   font-size: 0.9rem;
 }
 
@@ -125,6 +113,6 @@ footer a {
 }
 
 footer a:hover {
-  color: rgba(245, 235, 224, 0.8);
+  color: rgba(245, 235, 224, 0.8); /* Light beige on hover */
   text-decoration: underline;
 }
