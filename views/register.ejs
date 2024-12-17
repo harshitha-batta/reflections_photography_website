@@ -6,6 +6,7 @@
   <title>Register</title>
   <link rel="stylesheet" href="/navbar.css"> <!-- Navbar styles -->
   <link rel="stylesheet" href="/register.css"> <!-- Register page styles -->
+    <link rel="stylesheet" href="/footer.css">
   <div class="flash-messages">
   <% if (successMessage) { %>
     <div class="alert alert-success"><%= successMessage %></div>
@@ -53,7 +54,7 @@
     <div class="alert alert-danger"><%= errorMessage %></div>
   <% } %>
 </div>
-      <%- include('layouts/footer') %>
+            <%- include('layouts/footer_prelogin') %>
 </body>
 </html>
 
