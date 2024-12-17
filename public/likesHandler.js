@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
           likeBox.classList.toggle("liked", result.liked);
           likeCount.textContent = result.likesCount;
         } else {
-          showLikeNotification("Join Reflections to like this photo! 🧡");
+          showLikeNotification("Join Reflections to like this photo! 💛");
         }
       } catch (err) {
         console.error("Unexpected error:", err);

@@ -43,6 +43,7 @@
 
 .footer-list li {
   margin-bottom: 8px;
+  color: white;
   transition: color 0.3s ease;
 }
 

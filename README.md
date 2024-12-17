@@ -196,7 +196,8 @@ The **Controllers** handle user actions and communication between Models and Vie
 1. **Authentication Controller** (`auth.js`): Handles login, registration, and user sessions.
 2. **Photo Controller** (`gallery.js`, `upload.ejs`): Manages photo uploads, deletions, and retrievals.
 3. **Comment Controller** (`addComments.js`): Processes user comments on photos.
-4. **Admin Controller**: Handles admin functionalities such as promoting users and data cleanup.
+4. **Like Controller** (`likes.js`): Manages photo likes functionality. Users can like or unlike a photo, with real-time updates to the like count. Ensures that only authenticated users can interact with the like feature.
+5. **Admin Controller**: Handles admin functionalities such as promoting users and data cleanup.
 
 ---
 
