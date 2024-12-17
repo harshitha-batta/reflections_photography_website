@@ -30,10 +30,10 @@ body {
 .hero-dropdown select {
   padding: 10px 20px;
   font-size: 1em;
-  border: 1px solid #62445E;
+  border: 1px solid #aa8851;
   border-radius: 20px; /* Rounded corners for a softer look */
   background-color: rgba(255, 255, 255, 0.9);
-  color: #62445E;
+  color: #aa8851;
   font-family: "Lora", serif;
   outline: none;
   transition: all 0.3s ease;
@@ -46,7 +46,7 @@ body {
 }
 
 .hero-dropdown select:hover {
-  background-color: #62445E;
+  background-color: #aa8851;
   color: white;
   border: 1px solid #fff;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' fill='%23FFFFFF'/%3E%3C/svg%3E");
@@ -56,22 +56,22 @@ body {
 
 .hero-dropdown select:focus {
   border: 1px solid #fff;
-  box-shadow: 0 0 10px rgba(98, 68, 94, 0.5); /* Glow effect */
+  box-shadow: 0 0 10px rgba(170, 136, 81, 0.2); /* Glow effect */
 }
 
 .hero-dropdown label {
   font-family: "Montez", cursive;
   font-size: 1.2em;
   margin-right: 10px;
-  color: #E0D2DE; /* Ensure contrast */
+  color: white; /* Ensure contrast */
 }
 #explore-dropdown {
   padding: 10px 20px;
   font-size: 0.7em;
-  border: 1px solid #62445E;
+  border: 1px solid #aa8851;
   border-radius: 10px; /* Rounded corners for a softer look */
-  background-color: #E0D2DE; /* Default background color */
-  color: #62445E; /* Default text color */
+  background-color: white; /* Default background color */
+  color: #aa8851; /* Default text color */
   font-family: "Lora", serif;
   outline: none;
   transition: all 0.3s ease;
@@ -85,7 +85,7 @@ body {
 }
 
 #explore-dropdown:hover {
-  background-color: #62445E; /* Hover background color */
+  background-color: #aa8851; /* Hover background color */
   color: #FFFFFF; /* Hover text color */
   border: 1px solid #FFFFFF; /* Hover border color */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' fill='%23FFFFFF'/%3E%3C/svg%3E");
@@ -95,9 +95,9 @@ body {
 
 #explore-dropdown:focus {
   border: 2px solid #FFFFFF; /* Focus border */
-  box-shadow: 0 0 10px rgba(98, 68, 94, 0.5); /* Focus glow */
-  background-color: #E0D2DE; /* Keep background consistent on focus */
-  color: #62445E; /* Text color on focus */
+  box-shadow: 0 0 10px rgba(170, 136, 81, 0.2); /* Focus glow */
+  background-color: white; /* Keep background consistent on focus */
+  color: #aa8851; /* Text color on focus */
 }
 
 
@@ -113,7 +113,7 @@ body {
   margin-bottom: 20px;
   text-align: center;
   font-weight: lighter;
-  color: #62445E;
+  color: #aa8851;
   padding-left: 10px;
 }
 
@@ -141,7 +141,7 @@ body {
 
 .category-buttons button {
   padding: 12px 30px;
-  border: 1px solid #62445E;
+  border: 1px solid #aa8851;
   background-color: white;
   font-size: 0.9em;
   font-family: "Lora", serif;
@@ -152,7 +152,7 @@ body {
 }
 
 .category-buttons button:hover {
-  background-color: #62445E;
+  background-color: #aa8851;
   color: white;
 }
 
@@ -160,7 +160,7 @@ body {
 .scroll-left,
 .scroll-right {
   display: none; /* Initially hide the buttons */
-  background-color: rgba(98, 68, 94, 0.9);
+  background-color: rgba(245, 235, 224, 0.8);
   color: rgba(255, 255, 255, 0.8);
   border: none;
   border-radius: 50%;
@@ -176,8 +176,8 @@ body {
 
 .scroll-left:hover,
 .scroll-right:hover {
-  background-color: #E0D2DE;
-  color: #62445E;
+  background-color: rgba(170, 136, 81, 1);
+  color: white;
 }
 
 .scroll-left {
@@ -198,7 +198,7 @@ body {
 .featured h2 {
   font-size: 2.5em;
   margin-bottom: 30px;
-  color: #62445E;
+  color: #aa8851;
 }
 
 .gallery {
@@ -235,7 +235,7 @@ body {
 
 .gallery-item h3 {
   font-size: 1.2em;
-  color: #62445E;
+  color: #aa8851;
   margin-top: 10px;
 }
 

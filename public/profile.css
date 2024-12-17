@@ -161,7 +161,7 @@ a {
 }
 
 .btn:hover {
-  background: rgba(98, 68, 94, 0.2);
+  background: rgba(245, 235, 224, 0.8);
   color: #50364b;
 }
 
@@ -277,7 +277,7 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
 }
 
 .upload-photo-btn:hover {
-  background-color: #50364b;
+  background-color: rgba(245, 235, 224, 0.8);
   transform: translateY(-2px);
 }
 
@@ -314,7 +314,7 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
 }
 
 .photo-actions button:hover {
-  background-color: #50364b;
+  background-color: rgba(245, 235, 224, 0.8);
   transform: translateY(-2px);
 }
 
@@ -333,7 +333,7 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
 }
 
 .edit-photo-btn:hover {
-  background: rgba(98, 68, 94, 0.2);
+  background: rgba(245, 235, 224, 0.8);
   color: #50364b;
   transform: translateY(-2px);
 }
@@ -404,7 +404,7 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
 .modal-form input:focus,
 .modal-form textarea:focus {
   border-color: #aa8851;
-  box-shadow: 0 0 4px rgba(98, 68, 94, 0.4);
+  box-shadow: 0 0 4px rgba(170, 136, 81, 0.4);
   outline: none;
 }
 
@@ -426,13 +426,13 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
 }
 
 .upload-btn:hover {
-  background: rgba(98, 68, 94, 0.2);
-  color: #50364b;
+  background: rgba(170, 136, 81, 0.2);
+  color: rgba(245, 235, 224, 0.8);
 }
 
 .cancel-btn {
-  background: rgba(98, 68, 94, 0.2);
-  color: #50364b;
+  background: rgba(170, 136, 81, 0.2);
+  color: rgba(245, 235, 224, 0.8);
 }
 
 .cancel-btn:hover {
@@ -476,7 +476,7 @@ background: rgba(245, 235, 224, 0.8); /* Softer purple background */
 }
 
 .button-row button:hover {
-  background: rgba(98, 68, 94, 0.2);
+  background: rgba(170, 136, 81, 0.2);
   color: #50364b;
   transform: translateY(-2px);
 }
