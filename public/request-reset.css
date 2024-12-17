@@ -18,7 +18,7 @@ body {
 .container {
   margin: auto; /* Center vertically and horizontally */
   text-align: center;
-  margin-top: 120px;
+  margin-top: 140px;
   background-color: rgba(170, 136, 81, 0.2);
   padding: 20px 30px;
   border-radius: 8px;
@@ -37,9 +37,11 @@ h1 {
 
 label {
   display: block;
-  font-size: 1rem;
+  font-size: 1.2rem;
   margin-bottom: 5px;
-  color: #333;
+  color: #aa8851;
+      text-align: left;
+    font-family: 'Montez', cursive;
 }
 
 input[type="email"] {
@@ -65,7 +67,8 @@ input[type="email"] {
 }
 
 .btn:hover {
-  background-color: #50364B;
+  background-color: white;
+  color: #aa8851;
 }
 
 /* Error Message */
@@ -80,7 +83,7 @@ input[type="email"] {
   margin-top: 10px;
   text-decoration: none;
   color: #aa8851;
-   style=""
+  
 }
 
 .back-link:hover {

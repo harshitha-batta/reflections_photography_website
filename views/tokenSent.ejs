@@ -4,13 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Token Sent</title>
+  <link rel="stylesheet" href="/css/token-sent.css">
+    <link rel="stylesheet" href="/navbar.css">
+   <link rel="stylesheet" href="/footer_prelogin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montez&family=Lora:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Navbar -->
+  <%- include('layouts/main') %>
+
+  <!-- Main Content -->
   <div class="container">
     <h1>Reset Token Sent</h1>
     <p>Your reset token is: <strong><%= resetToken %></strong></p>
-    <p>Please copy this token and proceed to <a href="/auth/submit-token">Submit Token</a> to reset your password.</p>
-    <a href="/auth/request-reset" style="display: block; margin-top: 10px;">Request Token Again</a>
+    <p>Please copy this token and proceed to <a href="/auth/submit-token" class="link">Submit Token</a> to reset your password.</p>
+    <a href="/auth/request-reset" class="back-link">Request Token Again</a>
   </div>
+
+  <!-- Footer -->
+  <%- include('layouts/footer') %>
 </body>
 </html>

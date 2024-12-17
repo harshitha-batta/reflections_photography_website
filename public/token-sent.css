@@ -1,0 +1,80 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure body stretches fully */
+  font-family: 'Lora', serif;
+  background-color: rgba(245, 235, 224, 0.8);
+  color: #333;
+}
+
+/* Main Container Styling */
+.container {
+  max-width: 600px;
+  margin: 50px auto; /* Center the content */
+  padding: 30px 20px;
+  background: rgba(170, 136, 81, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Heading */
+.container h1 {
+  font-family: 'Montez', cursive;
+  font-size: 2.5rem;
+  color: #62445E;
+  margin-bottom: 20px;
+}
+
+/* Paragraph Styling */
+.container p {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 10px 0;
+}
+
+/* Links */
+.container a.link {
+  color: #aa8851;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.container a.link:hover {
+  color: #62445E;
+}
+
+/* Back Link */
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #62445E;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.back-link:hover {
+  background-color: #50364b;
+}
+
+/* Footer */
+footer {
+  margin-top: auto; /* Push the footer to the bottom */
+  background-color: #aa8851;
+  color: #fff;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+}
