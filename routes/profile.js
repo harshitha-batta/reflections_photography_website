@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const User = require('../models/User');
 const Photo = require('../models/Photo');
+const PasswordReset = require('../models/PasswordReset');
 const { isAuthenticated } = require('../middlewares/roles');
 const upload = require('../config/multerGridFs');
 const mongoose = require('mongoose');

@@ -17,7 +17,7 @@ const addCommentsRoutes = require('./routes/addComments');
 const Category = require('./models/Category'); 
 const Photo = require('./models/Photo'); 
 
-
+const PasswordReset = require('./models/PasswordReset');
 // Middleware for parsing JSON and forms
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -120,6 +120,17 @@ app.use((err, req, res, next) => {
   console.error('Error occurred:', err.stack);
   res.status(500).send('Something went wrong!');
 });
+
+
+// Cleanup expired reset tokens every hour
+setInterval(async () => {
+  try {
+    await PasswordReset.deleteMany({ expiresAt: { $lt: Date.now() } });
+    console.log('Expired reset tokens cleaned up.');
+  } catch (err) {
+    console.error('Error cleaning up expired tokens:', err);
+  }
+}, 60 * 60 * 1000); // Runs every hour
 
 // Start the server
 const PORT = process.env.PORT || 3000;

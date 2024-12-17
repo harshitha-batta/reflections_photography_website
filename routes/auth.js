@@ -7,7 +7,7 @@ const User = require('../models/User');
 const Photo = require('../models/Photo');
 const { setFlashMessage } = require('../utils/flash'); // Correct import
 const crypto = require('crypto');
-
+const PasswordReset = require('../models/PasswordReset');
 // JWT Generation Function
 function generateToken(user) {
   const payload = {
@@ -80,23 +80,33 @@ router.post('/request-reset', async (req, res) => {
       return res.redirect('/auth/request-reset');
     }
 
+    // Delete any existing reset request for the email
+    await PasswordReset.deleteOne({ email });
+
     const resetToken = crypto.randomBytes(3).toString('hex').toUpperCase();
     const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-    user.passwordResetToken = hashedToken;
-    user.passwordResetExpires = Date.now() + 10 * 60 * 1000;
-    await user.save();
+
+    // Save reset token to PasswordReset collection
+    await PasswordReset.create({
+      email,
+      resetToken: hashedToken,
+      expiresAt: Date.now() + 10 * 60 * 1000, // 10 minutes expiry
+    });
 
     console.log('Plain Token:', resetToken);
     console.log('Hashed Token:', hashedToken);
 
+    // Inform the user
     res.render('tokenSent', { title: 'Token Sent', resetToken });
   } catch (err) {
+    console.error('Error creating reset token:', err);
     res.render('requestReset', {
       title: 'Request Password Reset',
-      message: 'An error occurred while generating the reset token.',
+      message: 'An error occurred. Please try again.',
     });
   }
 });
+
 
 
 
@@ -162,17 +172,36 @@ router.get('/reset-password', (req, res) => {
 // Handle Password Reset
 router.post('/reset-password', async (req, res) => {
   const { email, newPassword } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) return res.status(404).send('User not found.');
 
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(newPassword, salt);
-  user.passwordResetToken = undefined;
-  user.passwordResetExpires = undefined;
-  await user.save();
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      setFlashMessage(res, 'error', 'User not found.');
+      return res.redirect('/auth/reset-password');
+    }
 
-  res.send('Password reset successful. You can now log in.');
+    // Update the user's password
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+    await user.save();
+
+    // Delete reset token entry
+    await PasswordReset.deleteOne({ email });
+
+    res.render('login', {
+      title: 'Login',
+      message: 'Password reset successful. You can now log in.',
+    });
+  } catch (err) {
+    console.error('Error resetting password:', err);
+    res.render('resetPassword', {
+      title: 'Reset Password',
+      message: 'An error occurred. Please try again.',
+      email: email,
+    });
+  }
 });
+
 
 
 // Handle Login Form Submission
