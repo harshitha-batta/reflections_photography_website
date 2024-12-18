@@ -92,7 +92,6 @@ Beyond the listed assignment requirements, we implemented the following features
 The frontend focuses on providing a user-friendly and responsive interface using **EJS templates** and **CSS** for design:
 
 - **Pages**:
-  - `index.ejs`: Landing page for the application.
   - `login.ejs`: User login form.
   - `register.ejs`: User registration page.
   - `profile.ejs`: Displays user profile with uploaded photos.
@@ -115,7 +114,7 @@ The backend is powered by **Node.js** and **Express.js**, handling routing, auth
   - `server.js`: Main entry point for the server.
 - **Middleware**:
   - `auth.js`: Handles user authentication.
-  - `isAuthenticated.js`: Middleware for verifying logged-in users.
+  - `roles.js`: Middleware for verifying logged-in users.
   - `multerGridFs.js`: Middleware for file uploads using **Multer** and **GridFS**.
 - **APIs and Routes**:
   - `promoToAdmin.js`: Script to promote users to admin roles.
@@ -210,7 +209,7 @@ The **Controllers** handle user actions and communication between Models and Vie
 
 ### 3. Log-in and Sign-up Functions
 
-- **Secure Authentication** is implemented using **Passport.js** with username and password authentication.
+- **Secure Authentication** is implemented using JSON Web Tokens Authentication with username and password authentication.
 - Passwords are hashed using **bcrypt** for security.
 - **Session Management** is enabled with **express-session** and stored securely in MongoDB using **connect-mongo**.
 - Users can register, log in, and log out with proper session handling.
@@ -321,7 +320,7 @@ If more time and resources were available, we would implement the following feat
 
 This project provided hands-on experience with full-stack web development using **Node.js**, **Express.js**, and **MongoDB**. We learned essential web technologies and standards, such as:
 
-- **Secure Authentication** using Passport.js and bcrypt.
+- **Secure Authentication** using JWT and bcrypt.
 - **File Management** with GridFS and Multer.
 - **Database Management** with MongoDB and Mongoose.
 - **Responsive Design** using modular CSS.
@@ -335,7 +334,7 @@ Future iterations of this course could include advanced frontend frameworks like
 The following resources were instrumental in building this project:
 
 1. [Multer GridFS Storage Documentation](https://www.npmjs.com/package/multer-gridfs-storage)
-2. [Passport.js Guide](http://www.passportjs.org/)
+2. [JWT Guide](https://jwt.io/)
 3. [MongoDB GridFS](https://docs.mongodb.com/manual/core/gridfs/)
 4. [Express.js Official Documentation](https://expressjs.com/)
 5. [EJS Template Engine](https://ejs.co/)
@@ -360,3 +359,5 @@ Anusha Shiva Kumar - [ans797@pitt.edu](mailto:ans797@pitt.edu)
 Harshitha Batta - [hab213@pitt.edu](mailto:hab213@pitt.edu)
 
 Neha Navarkar - [nen28@pitt.edu](mailto:nen28@pitt.edu)
+
+To know more [About Us](https://reflections-site.glitch.me/about) click here!
