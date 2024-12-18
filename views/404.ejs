@@ -4,11 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Page Not Found</title>
-    <link rel="stylesheet" href="/styles.css">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Lora', serif;
+            background-color: #fdf0f5;
+            color: #62445E;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 6rem;
+            font-family: 'Pacifico', cursive;
+            color: #D16BA5;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #62445E;
+            line-height: 1.6;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: white;
+            background-color: #D16BA5;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #62445E;
+            transform: scale(1.05);
+            color: #fdf0f5;
+        }
+
+        /* Cute Image */
+        .cute-image {
+            max-width: 300px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>404 - Page Not Found</h1>
-    <p>The page you are looking for does not exist.</p>
-    <a href="/">Go back to Home</a>
+    <img src="https://www.pngall.com/wp-content/uploads/5/Cute-Cat-Transparent.png" alt="Cute Cat" class="cute-image">
+    <h1>404</h1>
+    <p>Oops! The page you are looking for doesn't exist. Maybe the cat stole it 🐾</p>
+    <a href="/">Go Back to Home</a>
 </body>
 </html>

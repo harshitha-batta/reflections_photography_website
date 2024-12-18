@@ -295,7 +295,7 @@ The **Controllers** handle user actions and communication between Models and Vie
 During the development of the Photo Gallery Application, we encountered several challenges:
 
 1. **Design Framework Decisions**: Finalizing the application design framework required significant time and effort during group discussions to align on a unified approach.
-2. **Authentication**: Implementing secure user authentication using **Passport.js** while maintaining session management was initially complex.
+2. **Authentication**: Implementing secure user authentication using **JWT Authetication** while maintaining session management was initially complex.
 3. **Responsive Design**: Ensuring the design was mobile-friendly while keeping the UI visually appealing required significant adjustments to CSS.
 4. **Database Cleanup**: Identifying and cleaning orphaned data entries using scripts like `cleanupOrphanedData.js` presented a learning curve.
 5. **Implementing Comments Section**: Setting up the comments feature, including database relations and dynamic rendering, was technically challenging.
