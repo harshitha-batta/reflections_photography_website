@@ -142,13 +142,12 @@ The project follows a **three-tier architecture** combined with the **MVC (Model
   - **Express.js**: Web framework for routing and middleware.
   - **Mongoose**: ODM for MongoDB to interact with the database.
   - **GridFS**: Storage solution for uploading and managing large files.
-  - **Passport.js**: Authentication middleware for user registration and login.
   - **bcrypt**: Library for hashing passwords.
   - **jsonwebtoken**: Used for creating secure tokens.
   - **dotenv**: Loads environment variables.
 - **Frontend**:
   - **EJS**: Template engine for rendering dynamic HTML pages.
-  - **CSS**: Styling for frontend pages.
+  - **Vanilla CSS, Bootstap**: Styling for frontend pages.
   - **Flash.js**: Displays flash notifications for user feedback.
 - **Database**:
   - **MongoDB**: NoSQL database for storing user, photo, and comment data.
@@ -192,7 +191,7 @@ The **Views** are the EJS templates that render the UI for users and admins:
 
 The **Controllers** handle user actions and communication between Models and Views:
 
-1. **Authentication Controller** (`auth.js`): Handles login, registration, and user sessions.
+1. **Authentication Controller** (`auth.js`): Handles login, registration, and user sessions (JWT Authentication).
 2. **Photo Controller** (`gallery.js`, `upload.ejs`): Manages photo uploads, deletions, and retrievals.
 3. **Comment Controller** (`addComments.js`): Processes user comments on photos.
 4. **Like Controller** (`likes.js`): Manages photo likes functionality. Users can like or unlike a photo, with real-time updates to the like count. Ensures that only authenticated users can interact with the like feature.
@@ -340,6 +339,7 @@ The following resources were instrumental in building this project:
 3. [MongoDB GridFS](https://docs.mongodb.com/manual/core/gridfs/)
 4. [Express.js Official Documentation](https://expressjs.com/)
 5. [EJS Template Engine](https://ejs.co/)
+6. [Pexels Website](https://www.pexels.com)
 
 ---
 
